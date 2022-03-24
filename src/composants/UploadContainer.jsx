@@ -46,7 +46,7 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = "http://localhost:3001/csv";
+            const url = "https://mysterious-scrubland-82531.herokuapp.com/csv";
             reader.onload = async function (event) {
                 const text = event.target.result;
 

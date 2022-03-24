@@ -3,7 +3,7 @@ import { PDFDocument, grayscale, rgb } from "pdf-lib";
 
 export class BTS_NDRC {
     constructor() {
-        this.pdfURL = "http://localhost:3001/data/BTS_NDRC.pdf";
+        this.pdfURL = "https://mysterious-scrubland-82531.herokuapp.com/data/BTS_NDRC.pdf";
     }
 
     // ********************************************
