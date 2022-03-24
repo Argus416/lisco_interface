@@ -3,7 +3,9 @@ import { PDFDocument, rgb } from "pdf-lib";
 
 export class BTS_MCO {
     constructor() {
-        this.pdfURL = "http://localhost:3001/data/BTS_MCO.pdf";
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        this.pdfURL = `${apiUrl}/data/BTS_MCO.pdf`;
     }
 
     // ********************************************

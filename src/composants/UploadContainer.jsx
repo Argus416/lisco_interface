@@ -15,6 +15,9 @@ const UploadContainer = () => {
     // TODO : Add chart line
     // https://devexpress.github.io/devextreme-reactive/react/chart/demos/line/line/
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+    console.log("api url", apiUrl);
+
     const [fileUploaded, setFileUploaded] = useState(false);
     const [fileIsUploaded, setFileIsUploaded] = useState(false);
     const [progressConversion, setProgressConversion] = useState(false);
@@ -46,7 +49,7 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = "https://mysterious-scrubland-82531.herokuapp.com/csv";
+            const url = `${apiUrl}/csv`;
             reader.onload = async function (event) {
                 const text = event.target.result;
 
