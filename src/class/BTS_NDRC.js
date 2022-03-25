@@ -1,73 +1,6 @@
 import axios from "axios";
 import { PDFDocument, grayscale, rgb } from "pdf-lib";
 
-// * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
-function getCoordinateGraph(moyenne, studentIndex) {
-    if (moyenne !== null && moyenne !== NaN) {
-        moyenne = parseFloat(moyenne);
-    }
-
-    const drawLine = {
-        start: {
-            x: 120 + 80 + (studentIndex - 1) * 79.5,
-            y: 107 + 12.7 * moyenne,
-        },
-        // end: { x: 120 + 79.5 * studentIndex, y: 100 + 12.7 * moyenne },
-    };
-
-    // *******
-    if (moyenne < 10 && moyenne > 5) {
-        drawLine.start.y = drawLine.start.y - 4;
-    }
-
-    if (moyenne < 5) {
-        drawLine.start.y = drawLine.start.y - 12;
-    }
-
-    if (moyenne == 0 || moyenne == NaN || moyenne == null) {
-        drawLine.start.y = 85;
-    }
-
-    return drawLine;
-}
-
-const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
-    if (studentIndex + 1 === studentsSecondeYear.length) {
-        arrayPositons.map((position, indexLinePosition) => {
-            if (indexLinePosition + 1 !== arrayPositons.length) {
-                page.drawLine({
-                    start: {
-                        x: position.start.x,
-                        y: position.start.y,
-                    },
-                    end: {
-                        x: arrayPositons[indexLinePosition + 1].start.x,
-                        y: arrayPositons[indexLinePosition + 1].start.y,
-                    },
-                    thickness: 2,
-                    color: colorLine,
-                });
-
-                if (indexLinePosition === 0) {
-                    page.drawCircle({
-                        x: position.start.x,
-                        y: position.start.y,
-                        size: 3,
-                        color: colorLine,
-                    });
-                }
-
-                page.drawCircle({
-                    x: arrayPositons[indexLinePosition + 1].start.x,
-                    y: arrayPositons[indexLinePosition + 1].start.y,
-                    size: 3,
-                    color: colorLine,
-                });
-            }
-        });
-    }
-};
-
 export class BTS_NDRC {
     constructor() {
         const apiUrl = process.env.REACT_APP_API_URL;
@@ -315,3 +248,94 @@ export class BTS_NDRC {
 
     // ********************************************
 }
+
+// * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
+function getCoordinateGraph(moyenne, studentIndex) {
+    if (moyenne !== null && moyenne !== NaN) {
+        moyenne = parseFloat(moyenne);
+    }
+
+    const drawLine = {
+        start: {
+            x: 120 + 80 + (studentIndex - 1) * 79.5,
+            y: 107 + 12.7 * moyenne,
+        },
+        // end: { x: 120 + 79.5 * studentIndex, y: 100 + 12.7 * moyenne },
+    };
+
+    // *******
+    if (moyenne < 10 && moyenne > 5) {
+        drawLine.start.y = drawLine.start.y - 4;
+    }
+
+    if (moyenne < 5) {
+        drawLine.start.y = drawLine.start.y - 12;
+    }
+
+    if (moyenne === NaN || moyenne === null) {
+        drawLine.start.y = 0;
+    } else if (moyenne === 0) {
+        drawLine.start.y = 85;
+    }
+
+    return drawLine;
+}
+
+const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
+    if (studentIndex + 1 === studentsSecondeYear.length) {
+        arrayPositons.map((position, indexLinePosition) => {
+            if (indexLinePosition + 1 !== arrayPositons.length) {
+                // if there is no note
+                if (position.start.y !== 0 && arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                    page.drawLine({
+                        start: {
+                            x: position.start.x,
+                            y: position.start.y,
+                        },
+                        end: {
+                            x: arrayPositons[indexLinePosition + 1].start.x,
+                            y: arrayPositons[indexLinePosition + 1].start.y,
+                        },
+                        thickness: 2,
+                        color: colorLine,
+                    });
+
+                    if (indexLinePosition === 0) {
+                        page.drawCircle({
+                            x: position.start.x,
+                            y: position.start.y,
+                            size: 3,
+                            color: colorLine,
+                        });
+                    }
+
+                    page.drawCircle({
+                        x: arrayPositons[indexLinePosition + 1].start.x,
+                        y: arrayPositons[indexLinePosition + 1].start.y,
+                        size: 3,
+                        color: colorLine,
+                    });
+                }
+
+                // Draw the circle when there is no note
+                if (arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                    if (indexLinePosition === 0) {
+                        page.drawCircle({
+                            x: position.start.x,
+                            y: position.start.y,
+                            size: 3,
+                            color: colorLine,
+                        });
+                    }
+
+                    page.drawCircle({
+                        x: arrayPositons[indexLinePosition + 1].start.x,
+                        y: arrayPositons[indexLinePosition + 1].start.y,
+                        size: 3,
+                        color: colorLine,
+                    });
+                }
+            }
+        });
+    }
+};
