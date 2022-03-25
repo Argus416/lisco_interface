@@ -250,33 +250,31 @@ export class BTS_NDRC {
 }
 
 // * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
+
 function getCoordinateGraph(moyenne, studentIndex) {
     if (moyenne !== null && moyenne !== NaN) {
+        moyenne = moyenne.replace(",", ".");
         moyenne = parseFloat(moyenne);
     }
 
     const drawLine = {
         start: {
             x: 120 + 80 + (studentIndex - 1) * 79.5,
-            y: 107 + 12.7 * moyenne,
+            y: 85 + 14.2 * moyenne,
         },
-        // end: { x: 120 + 79.5 * studentIndex, y: 100 + 12.7 * moyenne },
     };
 
-    // *******
-    if (moyenne < 10 && moyenne > 5) {
-        drawLine.start.y = drawLine.start.y - 4;
-    }
-
-    if (moyenne < 5) {
-        drawLine.start.y = drawLine.start.y - 12;
+    if (moyenne === 20) {
+        console.log("moyenne 20 start x", drawLine.start.x);
+        console.log("moyenne 20 start y", drawLine.start.y);
     }
 
     if (moyenne === NaN || moyenne === null) {
         drawLine.start.y = 0;
-    } else if (moyenne === 0) {
-        drawLine.start.y = 85;
     }
+    // else if (moyenne === 0) {
+    //     // drawLine.start.y = 85;
+    // }
 
     return drawLine;
 }
@@ -285,7 +283,7 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
     if (studentIndex + 1 === studentsSecondeYear.length) {
         arrayPositons.map((position, indexLinePosition) => {
             if (indexLinePosition + 1 !== arrayPositons.length) {
-                // if there is no note
+                // If there is no note
                 if (position.start.y !== 0 && arrayPositons[indexLinePosition + 1].start.y !== 0) {
                     page.drawLine({
                         start: {
@@ -300,6 +298,7 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
                         color: colorLine,
                     });
 
+                    // Draw the circle the very first note
                     if (indexLinePosition === 0) {
                         page.drawCircle({
                             x: position.start.x,
@@ -309,6 +308,7 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
                         });
                     }
 
+                    // Draw the circle for the other notes
                     page.drawCircle({
                         x: arrayPositons[indexLinePosition + 1].start.x,
                         y: arrayPositons[indexLinePosition + 1].start.y,
