@@ -1,11 +1,11 @@
 import axios from "axios";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument, grayscale, rgb } from "pdf-lib";
 
-export class BTS_MCO {
+export class BTS_GPME {
     constructor() {
         const apiUrl = process.env.REACT_APP_API_URL;
 
-        this.pdfURL = `${apiUrl}/data/BTS_NDRC.pdf`;
+        this.pdfURL = `${apiUrl}/data/BTS_GPME.pdf`;
     }
 
     // ********************************************
@@ -66,8 +66,8 @@ export class BTS_MCO {
                                         {
                                             text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
                                             position: {
-                                                x: width / 2 - 40,
-                                                y: height / 2 + 268,
+                                                x: width / 2 - 15,
+                                                y: height / 2 + 353,
                                                 ...configText,
                                             },
                                         },
@@ -76,8 +76,8 @@ export class BTS_MCO {
                                             text:
                                                 secondYear.PRENOM_APPRENANT !== null ? secondYear.PRENOM_APPRENANT : "",
                                             position: {
-                                                x: width / 2 + 140,
-                                                y: height / 2 + 268,
+                                                x: width / 2 - 80,
+                                                y: height / 2 + 330,
                                                 ...configText,
                                             },
                                         },
@@ -89,8 +89,8 @@ export class BTS_MCO {
                                                     : "",
 
                                             position: {
-                                                x: width / 2 - 130,
-                                                y: height / 2 + 163,
+                                                x: width / 2 - 116,
+                                                y: height / 2 + 297,
                                                 ...configText,
                                             },
                                         },
@@ -101,14 +101,15 @@ export class BTS_MCO {
                                                     ? "code apprenant " + secondYear.CODE_APPRENANT
                                                     : "",
                                             position: {
-                                                x: width / 2 + 10,
-                                                y: height / 2 + 163,
+                                                x: width / 2 - 30,
+                                                y: height / 2 + 297,
                                                 size: configText.size,
                                                 // font: configText.font,
                                                 color: configText.color,
                                             },
                                         },
                                     ];
+
                                     Coordonnes.map((coord, coord_index) => {
                                         if (student_index === 1) {
                                             firstPage.drawText(coord.text ?? "", coord.position);

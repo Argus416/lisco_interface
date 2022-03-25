@@ -10,6 +10,7 @@ import { PDFDocument } from "pdf-lib";
 import downloadjs from "downloadjs";
 import { BTS_NDRC } from "../class/BTS_NDRC";
 import { BTS_MCO } from "../class/BTS_MCO";
+import { BTS_GPME } from "../class/BTS_GPME";
 
 const UploadContainer = () => {
     // TODO : Add chart line
@@ -24,8 +25,6 @@ const UploadContainer = () => {
     const [studentPdf, setStudentPdf] = useState([]);
     const [traniningTitle, setTraniningTitle] = useState();
     const [pdfPreview, setPdfPreview] = useState("");
-    const bts_ndrc = new BTS_NDRC();
-    const bts_mco = new BTS_MCO();
 
     const onChange = (e) => {
         if (e.target.value) {
@@ -56,18 +55,28 @@ const UploadContainer = () => {
                     .then(async (resultStudents) => {
                         const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
                         let pdfs = [];
-
+                        console.log(trainingTitleHere);
                         switch (trainingTitleHere) {
                             case "BTS NEGO. DIGITAL. RELATION CLIENT":
                                 setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
                                 setStudents(resultStudents.data);
+                                const bts_ndrc = new BTS_NDRC();
                                 pdfs = await bts_ndrc.generatePdf(resultStudents.data);
                                 break;
 
                             case "BTS MANAGEMENT COMMERCIAL OPERATIONNEL":
                                 setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
                                 setStudents(resultStudents.data);
+                                const bts_mco = new BTS_MCO();
                                 pdfs = await bts_mco.generatePdf(resultStudents.data);
+                                break;
+
+                            case "BTS GESTION DE LA PME":
+                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
+                                setStudents(resultStudents.data);
+                                console.log(resultStudents.data);
+                                const bts_gpme = new BTS_GPME();
+                                pdfs = await bts_gpme.generatePdf(resultStudents.data);
                                 break;
 
                             default:
