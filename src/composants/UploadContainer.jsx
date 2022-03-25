@@ -49,10 +49,9 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = `${apiUrl}/csv`;
+            const url = `${apiUrl}/csv/bts_ndrc`;
             reader.onload = async function (event) {
                 const text = event.target.result;
-
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
