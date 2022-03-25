@@ -16,7 +16,6 @@ const UploadContainer = () => {
     // https://devexpress.github.io/devextreme-reactive/react/chart/demos/line/line/
 
     const apiUrl = process.env.REACT_APP_API_URL;
-    console.log("api url", apiUrl);
 
     const [fileUploaded, setFileUploaded] = useState(false);
     const [fileIsUploaded, setFileIsUploaded] = useState(false);
@@ -49,15 +48,13 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = `${apiUrl}/csv`;
+            const url = `${apiUrl}/csv/bts_ndrc`;
             reader.onload = async function (event) {
                 const text = event.target.result;
-
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
                         const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
-                        console.log(trainingTitleHere);
                         let pdfs = [];
 
                         switch (trainingTitleHere) {
@@ -76,11 +73,9 @@ const UploadContainer = () => {
                             default:
                                 setTraniningTitle("Fichier non reconnu");
                         }
-                        console.log(resultStudents.data);
                         if (pdfs.length) {
                             setProgressConversion(false);
                             setStudentPdf(pdfs);
-                            console.log(pdfs);
 
                             // TO DELETE
                             const pdfPreviewBlob = URL.createObjectURL(

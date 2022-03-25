@@ -45,12 +45,10 @@ const AccordionCus = ({ student, index, pdf }) => {
     };
 
     const downloadPdf = (pdf) => {
-        console.log("pdf", pdf);
         downloadjs(pdf, `${student["2e ANNEE"][0].CODE_APPRENANT}.pdf`);
     };
 
     const viewPdf = (pdf) => {
-        console.log("pdf", pdf);
         const pdfPreview = URL.createObjectURL(new Blob([pdf], { type: "application/pdf" }));
         window.open(pdfPreview, "_blank");
     };

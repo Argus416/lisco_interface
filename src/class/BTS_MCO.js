@@ -58,8 +58,6 @@ export class BTS_MCO {
                             // ! Change year here
                             await Promise.all(
                                 studentsSecondeYear.map(async (secondYear, student_index) => {
-                                    console.log(secondYear.MOYENNE_MAT_GENERALE);
-
                                     moyenneMetierY = moyenneMetierY - 25;
                                     const Coordonnes = [
                                         {

@@ -198,131 +198,33 @@ export class BTS_NDRC {
                                     // ! Graphic
 
                                     // Moyenne d'un eleve
-                                    let moyenne = 0;
-                                    let moyenneGroupMatier = 0;
+                                    let moyenne = secondYear.MOYENNE_MAT_GENERALE;
+                                    let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-                                    if (
-                                        secondYear.MOYENNE_MAT_GENERALE !== null &&
-                                        secondYear.MOYENNE_MAT_GENERALE !== NaN
-                                    ) {
-                                        moyenne = parseFloat(secondYear.MOYENNE_MAT_GENERALE);
-                                    }
+                                    const getDrawLineStudents = getCoordinateGraph(moyenne, student_index);
+                                    const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, student_index);
 
-                                    if (
-                                        secondYear.MOYENNE_MAT_GRPE_ANNUELLE !== null &&
-                                        secondYear.MOYENNE_MAT_GRPE_ANNUELLE !== NaN
-                                    ) {
-                                        moyenneGroupMatier = parseFloat(secondYear.MOYENNE_MAT_GRPE_ANNUELLE);
-                                    }
-
-                                    const drawLine = {
-                                        start: {
-                                            x: 120 + 80 + (student_index - 1) * 79.5,
-                                            y: 107 + 12.7 * moyenne,
-                                        },
-                                        // end: { x: 120 + 79.5 * student_index, y: 100 + 12.7 * moyenne },
-                                    };
-
-                                    const drawLineGroup = {
-                                        start: {
-                                            x: 120 + 80 + (student_index - 1) * 79.5,
-                                            y: 107 + 12.7 * moyenneGroupMatier,
-                                        },
-                                    };
+                                    // positionsLineGraphicStudent.push(drawLine);
+                                    positionsLineGraphicGroup.push(getDrawLineGroup);
+                                    positionsLineGraphicStudent.push(getDrawLineStudents);
                                     // *******
-                                    if (moyenne < 10 && moyenne > 5) {
-                                        drawLine.start.y = drawLine.start.y - 4;
-                                    }
-
-                                    if (moyenne < 5) {
-                                        drawLine.start.y = drawLine.start.y - 12;
-                                    }
-
-                                    if (moyenne == 0 || moyenne == NaN || moyenne == null) {
-                                        drawLine.start.y = 85;
-                                    }
-
-                                    positionsLineGraphicGroup.push(drawLineGroup);
-                                    // *******
-
-                                    if (moyenneGroupMatier < 10 && moyenneGroupMatier > 5) {
-                                        drawLineGroup.start.y = drawLineGroup.start.y - 4;
-                                    }
-
-                                    if (moyenneGroupMatier < 5) {
-                                        drawLineGroup.start.y = drawLineGroup.start.y - 12;
-                                    }
-
-                                    if (moyenneGroupMatier == 0) {
-                                        drawLineGroup.start.y = 85;
-                                    }
-
-                                    positionsLineGraphicStudent.push(drawLine);
-                                    // *******
-
                                     if (student_index + 1 === studentsSecondeYear.length) {
-                                        positionsLineGraphicGroup.map((position, indexLinePosition) => {
-                                            if (indexLinePosition + 1 !== positionsLineGraphicGroup.length) {
-                                                secondePage.drawLine({
-                                                    start: {
-                                                        x: position.start.x,
-                                                        y: position.start.y,
-                                                    },
-                                                    end: {
-                                                        x: positionsLineGraphicGroup[indexLinePosition + 1].start.x,
-                                                        y: positionsLineGraphicGroup[indexLinePosition + 1].start.y,
-                                                    },
-                                                    thickness: 2,
-                                                });
+                                        //drawline group
+                                        printGraphic(
+                                            secondePage,
+                                            positionsLineGraphicGroup,
+                                            student_index,
+                                            studentsSecondeYear
+                                        );
 
-                                                if (indexLinePosition === 0) {
-                                                    secondePage.drawCircle({
-                                                        x: position.start.x,
-                                                        y: position.start.y,
-                                                        size: 3,
-                                                    });
-                                                }
-
-                                                secondePage.drawCircle({
-                                                    x: positionsLineGraphicGroup[indexLinePosition + 1].start.x,
-                                                    y: positionsLineGraphicGroup[indexLinePosition + 1].start.y,
-                                                    size: 3,
-                                                });
-                                            }
-                                        });
-
-                                        positionsLineGraphicStudent.map((position, indexLinePosition) => {
-                                            if (indexLinePosition + 1 !== positionsLineGraphicStudent.length) {
-                                                secondePage.drawLine({
-                                                    start: {
-                                                        x: position.start.x,
-                                                        y: position.start.y,
-                                                    },
-                                                    end: {
-                                                        x: positionsLineGraphicStudent[indexLinePosition + 1].start.x,
-                                                        y: positionsLineGraphicStudent[indexLinePosition + 1].start.y,
-                                                    },
-                                                    thickness: 2,
-                                                    color: rgb(0.75, 0.2, 0.2),
-                                                });
-
-                                                if (indexLinePosition === 0) {
-                                                    secondePage.drawCircle({
-                                                        x: position.start.x,
-                                                        y: position.start.y,
-                                                        size: 3,
-                                                        color: rgb(0.75, 0.2, 0.2),
-                                                    });
-                                                }
-
-                                                secondePage.drawCircle({
-                                                    x: positionsLineGraphicStudent[indexLinePosition + 1].start.x,
-                                                    y: positionsLineGraphicStudent[indexLinePosition + 1].start.y,
-                                                    size: 3,
-                                                    color: rgb(0.75, 0.2, 0.2),
-                                                });
-                                            }
-                                        });
+                                        //drawline student
+                                        printGraphic(
+                                            secondePage,
+                                            positionsLineGraphicStudent,
+                                            student_index,
+                                            studentsSecondeYear,
+                                            rgb(0.75, 0.2, 0.2)
+                                        );
                                     }
 
                                     // ! *********************************************************
@@ -344,7 +246,96 @@ export class BTS_NDRC {
         return allStudentPdf;
     }
 
-    printGraphic() {}
-
     // ********************************************
 }
+
+// * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
+
+function getCoordinateGraph(moyenne, studentIndex) {
+    if (moyenne !== null && moyenne !== NaN) {
+        moyenne = moyenne.replace(",", ".");
+        moyenne = parseFloat(moyenne);
+    }
+
+    const drawLine = {
+        start: {
+            x: 120 + 80 + (studentIndex - 1) * 79.5,
+            y: 85 + 14.2 * moyenne,
+        },
+    };
+
+    if (moyenne === 20) {
+        console.log("moyenne 20 start x", drawLine.start.x);
+        console.log("moyenne 20 start y", drawLine.start.y);
+    }
+
+    if (moyenne === NaN || moyenne === null) {
+        drawLine.start.y = 0;
+    }
+    // else if (moyenne === 0) {
+    //     // drawLine.start.y = 85;
+    // }
+
+    return drawLine;
+}
+
+const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
+    if (studentIndex + 1 === studentsSecondeYear.length) {
+        arrayPositons.map((position, indexLinePosition) => {
+            if (indexLinePosition + 1 !== arrayPositons.length) {
+                // If there is no note
+                if (position.start.y !== 0 && arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                    page.drawLine({
+                        start: {
+                            x: position.start.x,
+                            y: position.start.y,
+                        },
+                        end: {
+                            x: arrayPositons[indexLinePosition + 1].start.x,
+                            y: arrayPositons[indexLinePosition + 1].start.y,
+                        },
+                        thickness: 2,
+                        color: colorLine,
+                    });
+
+                    // Draw the circle the very first note
+                    if (indexLinePosition === 0) {
+                        page.drawCircle({
+                            x: position.start.x,
+                            y: position.start.y,
+                            size: 3,
+                            color: colorLine,
+                        });
+                    }
+
+                    // Draw the circle for the other notes
+                    page.drawCircle({
+                        x: arrayPositons[indexLinePosition + 1].start.x,
+                        y: arrayPositons[indexLinePosition + 1].start.y,
+                        size: 3,
+                        color: colorLine,
+                    });
+                }
+
+                // Draw the circle when there is no note
+                if (arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                    if (indexLinePosition === 0) {
+                        page.drawCircle({
+                            x: position.start.x,
+                            y: position.start.y,
+                            size: 3,
+                            color: colorLine,
+                        });
+                    }
+
+                    page.drawCircle({
+                        x: arrayPositons[indexLinePosition + 1].start.x,
+                        y: arrayPositons[indexLinePosition + 1].start.y,
+                        size: 3,
+                        color: colorLine,
+                    });
+                }
+            }
+        });
+    }
+};
