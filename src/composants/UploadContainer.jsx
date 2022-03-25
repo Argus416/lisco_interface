@@ -47,34 +47,34 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = `${apiUrl}/csv/bts_ndrc`;
+            const url = `${apiUrl}/csv/analyse`;
             reader.onload = async function (event) {
                 const text = event.target.result;
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
+                        const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
                         const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
+
                         let pdfs = [];
-                        console.log(trainingTitleHere);
-                        switch (trainingTitleHere) {
+                        switch (trainingAbreg) {
                             case "BTS NEGO. DIGITAL. RELATION CLIENT":
-                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
+                                setTraniningTitle(trainingTitleHere);
                                 setStudents(resultStudents.data);
                                 const bts_ndrc = new BTS_NDRC();
                                 pdfs = await bts_ndrc.generatePdf(resultStudents.data);
                                 break;
 
                             case "BTS MANAGEMENT COMMERCIAL OPERATIONNEL":
-                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
+                                setTraniningTitle(trainingTitleHere);
                                 setStudents(resultStudents.data);
                                 const bts_mco = new BTS_MCO();
                                 pdfs = await bts_mco.generatePdf(resultStudents.data);
                                 break;
 
-                            case "BTS GESTION DE LA PME":
-                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
+                            case "BTS GPME":
+                                setTraniningTitle(trainingTitleHere);
                                 setStudents(resultStudents.data);
-                                console.log(resultStudents.data);
                                 const bts_gpme = new BTS_GPME();
                                 pdfs = await bts_gpme.generatePdf(resultStudents.data);
                                 break;

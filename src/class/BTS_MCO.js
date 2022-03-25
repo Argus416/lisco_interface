@@ -110,6 +110,7 @@ export class BTS_MCO {
                                         },
                                     ];
                                     Coordonnes.map((coord, coord_index) => {
+                                        // Print only one time
                                         if (student_index === 1) {
                                             firstPage.drawText(coord.text ?? "", coord.position);
                                         }

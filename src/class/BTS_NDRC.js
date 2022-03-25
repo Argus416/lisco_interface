@@ -112,6 +112,7 @@ export class BTS_NDRC {
 
                                     Coordonnes.map((coord, coord_index) => {
                                         if (student_index === 1) {
+                                            // Print only one time
                                             firstPage.drawText(coord.text ?? "", coord.position);
                                         }
                                     });

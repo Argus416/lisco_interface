@@ -52,16 +52,21 @@ export class BTS_GPME {
                             color: rgb(0, 0, 0.5),
                         };
 
-                        let moyenneMetierY = 126;
+                        let moyenneMetierY = 272;
                         // ! Change year here
                         if (studentsSecondeYear.length && studentsSecondeYear !== undefined) {
                             const positionsLineGraphicStudent = [];
                             const positionsLineGraphicGroup = [];
 
+                            let differnceY = 22;
                             // ! Change year here
                             await Promise.all(
                                 studentsSecondeYear.map(async (secondYear, student_index) => {
-                                    moyenneMetierY = moyenneMetierY - 25;
+                                    if (student_index > 2) {
+                                        differnceY = 24;
+                                    }
+                                    moyenneMetierY = moyenneMetierY - differnceY;
+                                    console.log(differnceY);
                                     const Coordonnes = [
                                         {
                                             text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
@@ -111,6 +116,7 @@ export class BTS_GPME {
                                     ];
 
                                     Coordonnes.map((coord, coord_index) => {
+                                        // Print only one time
                                         if (student_index === 1) {
                                             firstPage.drawText(coord.text ?? "", coord.position);
                                         }
@@ -122,78 +128,78 @@ export class BTS_GPME {
                                                 ? ""
                                                 : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
                                         position: {
-                                            x: 70,
+                                            x: width / 2 - 10,
                                             y: height / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
 
-                                    let MoyenneMetierDeuxiemeAnnee = {
-                                        text:
-                                            secondYear.MOYENNE_MAT_GENERALE === null
-                                                ? ""
-                                                : secondYear.MOYENNE_MAT_GENERALE,
-                                        position: {
-                                            x: width / 2 + 70,
-                                            y: height / 2 + moyenneMetierY,
-                                            ...configText,
-                                        },
-                                    };
+                                    // let MoyenneMetierDeuxiemeAnnee = {
+                                    //     text:
+                                    //         secondYear.MOYENNE_MAT_GENERALE === null
+                                    //             ? ""
+                                    //             : secondYear.MOYENNE_MAT_GENERALE,
+                                    //     position: {
+                                    //         x: width / 2 + 70,
+                                    //         y: height / 2 + moyenneMetierY,
+                                    //         ...configText,
+                                    //     },
+                                    // };
 
-                                    let semestreUn = {
-                                        text:
-                                            secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined
-                                                ? secondYear.MOYENNE_1
-                                                : "",
-                                        position: {
-                                            x: width / 2 - 40,
-                                            y: height / 2 + moyenneMetierY,
-                                            ...configText,
-                                        },
-                                    };
+                                    // let semestreUn = {
+                                    //     text:
+                                    //         secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined
+                                    //             ? secondYear.MOYENNE_1
+                                    //             : "",
+                                    //     position: {
+                                    //         x: width / 2 - 40,
+                                    //         y: height / 2 + moyenneMetierY,
+                                    //         ...configText,
+                                    //     },
+                                    // };
 
-                                    let semestreDeux = {
-                                        text:
-                                            secondYear.MOYENNE_2 !== null && secondYear.MOYENNE_2 !== undefined
-                                                ? secondYear.MOYENNE_2
-                                                : "",
-                                        position: {
-                                            x: width / 2 + 15,
-                                            y: height / 2 + moyenneMetierY,
-                                            ...configText,
-                                        },
-                                    };
+                                    // let semestreDeux = {
+                                    //     text:
+                                    //         secondYear.MOYENNE_2 !== null && secondYear.MOYENNE_2 !== undefined
+                                    //             ? secondYear.MOYENNE_2
+                                    //             : "",
+                                    //     position: {
+                                    //         x: width / 2 + 15,
+                                    //         y: height / 2 + moyenneMetierY,
+                                    //         ...configText,
+                                    //     },
+                                    // };
 
-                                    let observationAnnuelleMatier = {
-                                        text:
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
-                                                ? secondYear.OBSERVATION_ANNUELLE_MATIERE
-                                                : "",
-                                        position: {
-                                            x: width / 2 + 120,
-                                            y: height / 2 + moyenneMetierY,
-                                            ...configText,
-                                        },
-                                    };
+                                    // let observationAnnuelleMatier = {
+                                    //     text:
+                                    //         secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
+                                    //         secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
+                                    //             ? secondYear.OBSERVATION_ANNUELLE_MATIERE
+                                    //             : "",
+                                    //     position: {
+                                    //         x: width / 2 + 120,
+                                    //         y: height / 2 + moyenneMetierY,
+                                    //         ...configText,
+                                    //     },
+                                    // };
 
                                     firstPage.drawText(
                                         MoyenneMetierPremiereAnnee.text ?? "",
                                         MoyenneMetierPremiereAnnee.position
                                     );
 
-                                    firstPage.drawText(semestreUn.text, semestreUn.position);
-                                    firstPage.drawText(semestreDeux.text, semestreDeux.position);
+                                    // firstPage.drawText(semestreUn.text, semestreUn.position);
+                                    // firstPage.drawText(semestreDeux.text, semestreDeux.position);
 
-                                    firstPage.drawText(
-                                        MoyenneMetierDeuxiemeAnnee.text,
-                                        MoyenneMetierDeuxiemeAnnee.position
-                                    );
+                                    // firstPage.drawText(
+                                    //     MoyenneMetierDeuxiemeAnnee.text,
+                                    //     MoyenneMetierDeuxiemeAnnee.position
+                                    // );
 
-                                    firstPage.drawText(
-                                        observationAnnuelleMatier.text,
-                                        observationAnnuelleMatier.position
-                                    );
+                                    // firstPage.drawText(
+                                    //     observationAnnuelleMatier.text,
+                                    //     observationAnnuelleMatier.position
+                                    // );
 
                                     // ! Graphic
 
