@@ -48,7 +48,7 @@ const UploadContainer = () => {
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = `${apiUrl}/csv/bts_ndrc`;
+            const url = `${apiUrl}/csv/`;
             reader.onload = async function (event) {
                 const text = event.target.result;
                 axios
