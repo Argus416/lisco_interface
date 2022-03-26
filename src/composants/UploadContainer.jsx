@@ -145,7 +145,7 @@ const UploadContainer = () => {
                 <Alert
                     severity="error"
                     onClose={() => {
-                        setFileUploaded(false);
+                        setIsNotTraining(false);
                     }}
                 >
                     Formation non connu
