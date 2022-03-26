@@ -53,23 +53,16 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
+                        console.log(resultStudents.data);
                         const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
                         const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
-
                         let pdfs = [];
                         switch (trainingAbreg) {
-                            case "BTS NEGO. DIGITAL. RELATION CLIENT":
+                            case "BTS NDRC":
                                 setTraniningTitle(trainingTitleHere);
                                 setStudents(resultStudents.data);
                                 const bts_ndrc = new BTS_NDRC();
                                 pdfs = await bts_ndrc.generatePdf(resultStudents.data);
-                                break;
-
-                            case "BTS MANAGEMENT COMMERCIAL OPERATIONNEL":
-                                setTraniningTitle(trainingTitleHere);
-                                setStudents(resultStudents.data);
-                                const bts_mco = new BTS_MCO();
-                                pdfs = await bts_mco.generatePdf(resultStudents.data);
                                 break;
 
                             case "BTS GPME":
@@ -77,6 +70,13 @@ const UploadContainer = () => {
                                 setStudents(resultStudents.data);
                                 const bts_gpme = new BTS_GPME();
                                 pdfs = await bts_gpme.generatePdf(resultStudents.data);
+                                break;
+
+                            case "BTS MCO":
+                                setTraniningTitle(trainingTitleHere);
+                                setStudents(resultStudents.data);
+                                const bts_mco = new BTS_MCO();
+                                pdfs = await bts_mco.generatePdf(resultStudents.data);
                                 break;
 
                             default:
