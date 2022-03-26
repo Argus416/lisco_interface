@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowUp, faLariSign } from "@fortawesome/free-solid-svg-icons";
 import { Alert, Button, Container, Typography } from "@mui/material";
 import AccordionCus from "./AccordionCus";
 import LinearWithValueLabel from "./LinearWithValueLabel";
@@ -25,6 +25,7 @@ const UploadContainer = () => {
     const [studentPdf, setStudentPdf] = useState([]);
     const [traniningTitle, setTraniningTitle] = useState();
     const [pdfPreview, setPdfPreview] = useState("");
+    const [isNotTraining, setIsNotTraining] = useState(false);
 
     const onChange = (e) => {
         if (e.target.value) {
@@ -40,8 +41,8 @@ const UploadContainer = () => {
         e.preventDefault();
         const uploadedFile = document.querySelector(".csv-file");
         if (uploadedFile.files.length) {
-            setProgressConversion(true);
             setFileIsUploaded(false);
+            setIsNotTraining(false);
             const reader = new FileReader();
             const csvFile = uploadedFile.files[0];
             //read csv file
@@ -54,43 +55,45 @@ const UploadContainer = () => {
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
                         console.log(resultStudents.data);
-                        const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
-                        const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
-                        let pdfs = [];
-                        switch (trainingAbreg) {
-                            case "BTS NDRC":
-                                setTraniningTitle(trainingTitleHere);
-                                setStudents(resultStudents.data);
-                                const bts_ndrc = new BTS_NDRC();
-                                pdfs = await bts_ndrc.generatePdf(resultStudents.data);
-                                break;
+                        if (typeof resultStudents.data === Array) {
+                            setProgressConversion(true);
+                            const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
+                            const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
+                            let pdfs = [];
+                            switch (trainingAbreg) {
+                                case "BTS NDRC":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(resultStudents.data);
+                                    const bts_ndrc = new BTS_NDRC();
+                                    pdfs = await bts_ndrc.generatePdf(resultStudents.data);
+                                    break;
 
-                            case "BTS GPME":
-                                setTraniningTitle(trainingTitleHere);
-                                setStudents(resultStudents.data);
-                                const bts_gpme = new BTS_GPME();
-                                pdfs = await bts_gpme.generatePdf(resultStudents.data);
-                                break;
+                                case "BTS GPME":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(resultStudents.data);
+                                    const bts_gpme = new BTS_GPME();
+                                    pdfs = await bts_gpme.generatePdf(resultStudents.data);
+                                    break;
 
-                            case "BTS MCO":
-                                setTraniningTitle(trainingTitleHere);
-                                setStudents(resultStudents.data);
-                                const bts_mco = new BTS_MCO();
-                                pdfs = await bts_mco.generatePdf(resultStudents.data);
-                                break;
+                                case "BTS MCO":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(resultStudents.data);
+                                    const bts_mco = new BTS_MCO();
+                                    pdfs = await bts_mco.generatePdf(resultStudents.data);
+                                    break;
+                            }
+                            if (pdfs.length) {
+                                setProgressConversion(false);
+                                setStudentPdf(pdfs);
 
-                            default:
-                                setTraniningTitle("Fichier non reconnu");
-                        }
-                        if (pdfs.length) {
-                            setProgressConversion(false);
-                            setStudentPdf(pdfs);
-
-                            // TO DELETE
-                            const pdfPreviewBlob = URL.createObjectURL(
-                                new Blob([pdfs[1]], { type: "application/pdf" })
-                            );
-                            setPdfPreview(pdfPreviewBlob);
+                                // TO DELETE
+                                const pdfPreviewBlob = URL.createObjectURL(
+                                    new Blob([pdfs[1]], { type: "application/pdf" })
+                                );
+                                setPdfPreview(pdfPreviewBlob);
+                            }
+                        } else {
+                            setIsNotTraining(true);
                         }
                     })
                     .catch((err) => console.error(err));
@@ -138,6 +141,17 @@ const UploadContainer = () => {
                 </Alert>
             )}
 
+            {isNotTraining && (
+                <Alert
+                    severity="error"
+                    onClose={() => {
+                        setFileUploaded(false);
+                    }}
+                >
+                    Formation non connu
+                </Alert>
+            )}
+
             <Box component="section" className="droparea">
                 <Box className="content">
                     <FontAwesomeIcon icon={faFileArrowUp} size="5x" />
@@ -165,6 +179,7 @@ const UploadContainer = () => {
                     )}
                 </Box>
             </Box>
+
             {progressConversion && (
                 <Box sx={{ marginTop: "20px " }}>
                     <Typography variant="p">Convertir en pdf...</Typography>
