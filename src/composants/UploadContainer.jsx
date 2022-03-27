@@ -55,6 +55,7 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
+                        console.log(resultStudents.data);
                         if (typeof resultStudents.data === "object") {
                             setProgressConversion(true);
                             const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;

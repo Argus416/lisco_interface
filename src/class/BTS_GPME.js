@@ -1,10 +1,9 @@
 import axios from "axios";
-import { PDFDocument, grayscale, rgb } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 
 export class BTS_GPME {
     constructor() {
         const apiUrl = process.env.REACT_APP_API_URL;
-
         this.pdfURL = `${apiUrl}/data/BTS_GPME.pdf`;
     }
 
@@ -66,7 +65,6 @@ export class BTS_GPME {
                                         differnceY = 24;
                                     }
                                     moyenneMetierY = moyenneMetierY - differnceY;
-                                    console.log(differnceY);
                                     const Coordonnes = [
                                         {
                                             text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
