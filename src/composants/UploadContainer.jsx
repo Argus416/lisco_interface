@@ -55,43 +55,46 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
-                        console.log(resultStudents.data);
                         if (typeof resultStudents.data === "object") {
                             setProgressConversion(true);
-                            const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
-                            const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
+                            const trainingAbreg = resultStudents.data.trainingAbrege;
+                            const trainingTitleHere = resultStudents.data.trainingName;
+                            const { result } = resultStudents.data;
                             let pdfs = [];
                             switch (trainingAbreg) {
                                 case "BTS NDRC":
                                     setTraniningTitle(trainingTitleHere);
-                                    setStudents(resultStudents.data);
+                                    setStudents(result);
                                     const bts_ndrc = new BTS_NDRC();
-                                    pdfs = await bts_ndrc.generatePdf(resultStudents.data);
+                                    pdfs = await bts_ndrc.generatePdf(result);
                                     break;
 
                                 case "BTS GPME":
                                     setTraniningTitle(trainingTitleHere);
-                                    setStudents(resultStudents.data);
-                                    const bts_gpme = new BTS_GPME();
-                                    pdfs = await bts_gpme.generatePdf(resultStudents.data);
+                                    setStudents(result);
+
+                                    console.log(result);
+                                    // const bts_gpme = new BTS_GPME();
+                                    // pdfs = await bts_gpme.generatePdf(result);
                                     break;
 
                                 case "BTS MCO":
                                     setTraniningTitle(trainingTitleHere);
-                                    setStudents(resultStudents.data);
+                                    setStudents(result);
                                     const bts_mco = new BTS_MCO();
-                                    pdfs = await bts_mco.generatePdf(resultStudents.data);
+                                    pdfs = await bts_mco.generatePdf(result);
                                     break;
                             }
                             if (pdfs.length) {
                                 setProgressConversion(false);
                                 setStudentPdf(pdfs);
 
-                                // TO DELETE
+                                // TODO : DELETE
                                 const pdfPreviewBlob = URL.createObjectURL(
                                     new Blob([pdfs[1]], { type: "application/pdf" })
                                 );
                                 setPdfPreview(pdfPreviewBlob);
+                                // END TODO DELETE;
                             }
                         } else {
                             setIsNotTraining(true);
@@ -193,31 +196,26 @@ const UploadContainer = () => {
             )}
             {students && (
                 <>
-                    {!progressConversion && (
-                        <section className="uploaded-files">
-                            <Box component="header" className="header">
-                                <Typography
-                                    sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
-                                    variant="h4"
-                                    component="h3"
-                                >
-                                    {traniningTitle}
-                                </Typography>
-                                <Button
-                                    onClick={downloadAll}
-                                    className="downloadAll"
-                                    color="warning"
-                                    variant="contained"
-                                >
-                                    Télécharger tout
-                                </Button>
-                            </Box>
+                    {/* {!progressConversion && ( */}
+                    <section className="uploaded-files">
+                        <Box component="header" className="header">
+                            <Typography
+                                sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
+                                variant="h4"
+                                component="h3"
+                            >
+                                {traniningTitle}
+                            </Typography>
 
-                            {students.map((student, index) => (
-                                <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-                            ))}
-                        </section>
-                    )}
+                            <Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
+                                Télécharger tout
+                            </Button>
+                        </Box>
+                        {students.map((student, index) => (
+                            <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+                        ))}
+                    </section>
+                    {/* )} */}
                 </>
             )}
         </Container>
