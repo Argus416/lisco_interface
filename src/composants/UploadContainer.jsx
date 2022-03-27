@@ -33,6 +33,7 @@ const UploadContainer = () => {
             setStudents();
             setTimeout(() => {
                 setFileUploaded(false);
+                setIsNotTraining(false);
             }, 3000);
         }
     };
@@ -54,8 +55,7 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
-                        console.log(resultStudents.data);
-                        if (typeof resultStudents.data === Array) {
+                        if (typeof resultStudents.data === "object") {
                             setProgressConversion(true);
                             const trainingAbreg = resultStudents.data[0]["2e ANNEE"][0].ABREGE_FORMATION;
                             const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
@@ -94,6 +94,7 @@ const UploadContainer = () => {
                             }
                         } else {
                             setIsNotTraining(true);
+                            setProgressConversion(false);
                         }
                     })
                     .catch((err) => console.error(err));
@@ -133,6 +134,9 @@ const UploadContainer = () => {
             {fileUploaded && (
                 <Alert
                     className="alert"
+                    sx={{
+                        marginBottom: 1,
+                    }}
                     onClose={() => {
                         setFileUploaded(false);
                     }}
