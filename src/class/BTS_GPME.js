@@ -57,9 +57,12 @@ export class BTS_GPME {
                     // ! Change year here
                     if (studentsSecondeYear.length && studentsSecondeYear !== undefined) {
                         let studentIndex = 0;
+                        let studentIndex2 = 8;
 
                         const positionsLineGraphicStudentCommuns = [];
                         const positionsLineGraphicGroupCommuns = [];
+                        const positionsLineGraphicSubjectsSecondYearStudents = [];
+                        const positionsLineGraphicSubjectsSecondYearGroup = [];
 
                         let differnceY = 25;
 
@@ -266,13 +269,13 @@ export class BTS_GPME {
                                 const getDrawLineStudents = getCoordinateGraph(moyenne, studentIndex);
                                 const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, studentIndex);
 
+                                const getDrawLineStudents2 = getCoordinateGraph(moyenne, studentIndex2);
+                                const getDrawLineGroup2 = getCoordinateGraph(moyenneGroupMatier, studentIndex2);
                                 // positionsLineGraphicStudentCommuns.push(drawLine);
-                                console.log(studentIndex);
                                 // *******
                                 if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
-
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
                                         printGraphic(
@@ -294,6 +297,29 @@ export class BTS_GPME {
                                     studentIndex++;
                                 } else {
                                     // Enseignements de 2ème année
+                                    positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineStudents2);
+                                    positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineGroup2);
+                                    console.log(studentIndex2);
+
+                                    if (positionsLineGraphicSubjectsSecondYearGroup.length === 2) {
+                                        //drawline group
+                                        printGraphic(
+                                            secondePage,
+                                            positionsLineGraphicSubjectsSecondYearStudents,
+                                            0,
+                                            studentsSecondeYear
+                                        );
+
+                                        //drawline student
+                                        printGraphic(
+                                            secondePage,
+                                            positionsLineGraphicSubjectsSecondYearGroup,
+                                            0,
+                                            studentsSecondeYear,
+                                            rgb(0.75, 0.2, 0.2)
+                                        );
+                                    }
+                                    studentIndex2++;
                                 }
 
                                 // ! *********************************************************
@@ -341,13 +367,6 @@ function getCoordinateGraph(moyenne, studentIndex) {
 }
 
 const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
-    page.drawCircle({
-        x: 167 + 52.8 * 5,
-        y: 82,
-        size: 3,
-        color: rgb(0.75, 0.2, 0.2),
-    });
-
     arrayPositons.map((position, indexLinePosition) => {
         if (indexLinePosition + 1 !== arrayPositons.length) {
             // If there is no note
