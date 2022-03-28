@@ -266,14 +266,20 @@ export class BTS_GPME {
                                 let moyenne = secondYear.MOYENNE_MAT_GENERALE;
                                 let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-                                const getDrawLineStudents = getCoordinateGraph(moyenne, studentIndex);
-                                const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, studentIndex);
-
-                                const getDrawLineStudents2 = getCoordinateGraph(moyenne, studentIndex2);
-                                const getDrawLineGroup2 = getCoordinateGraph(moyenneGroupMatier, studentIndex2);
                                 // positionsLineGraphicStudentCommuns.push(drawLine);
                                 // *******
                                 if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
+                                    const getDrawLineStudents = getCoordinateGraph(
+                                        moyenne,
+                                        studentIndex,
+                                        secondYear.ABREGE_MATIERE
+                                    );
+                                    const getDrawLineGroup = getCoordinateGraph(
+                                        moyenneGroupMatier,
+                                        studentIndex,
+                                        secondYear.ABREGE_MATIERE
+                                    );
+
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
                                     if (student_index + 1 === studentsSecondeYear.length) {
@@ -297,11 +303,40 @@ export class BTS_GPME {
                                     studentIndex++;
                                 } else {
                                     // Enseignements de 2ème année
+                                    const getDrawLineStudents2 = getCoordinateGraph(
+                                        moyenne,
+                                        studentIndex2,
+                                        secondYear.ABREGE_MATIERE
+                                    );
+                                    const getDrawLineGroup2 = getCoordinateGraph(
+                                        moyenneGroupMatier,
+                                        studentIndex2,
+                                        secondYear.ABREGE_MATIERE
+                                    );
+
                                     positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineStudents2);
                                     positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineGroup2);
-                                    console.log(studentIndex2);
 
-                                    if (positionsLineGraphicSubjectsSecondYearGroup.length === 2) {
+                                    studentIndex2++;
+                                }
+
+                                if (positionsLineGraphicGroupCommuns.length === 8) {
+                                    if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
+                                        console.log(positionsLineGraphicStudentCommuns);
+
+                                        secondePage.drawLine({
+                                            start: {
+                                                x: positionsLineGraphicStudentCommuns[7].start.x,
+                                                y: positionsLineGraphicStudentCommuns[7].start.y,
+                                            },
+                                            end: {
+                                                x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
+                                                y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
+                                            },
+                                            thickness: 2,
+                                            color: rgb(0.75, 0.2, 0.2),
+                                        });
+
                                         //drawline group
                                         printGraphic(
                                             secondePage,
@@ -319,7 +354,6 @@ export class BTS_GPME {
                                             rgb(0.75, 0.2, 0.2)
                                         );
                                     }
-                                    studentIndex2++;
                                 }
 
                                 // ! *********************************************************
@@ -343,25 +377,40 @@ export class BTS_GPME {
 
 // * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
 
-function getCoordinateGraph(moyenne, studentIndex) {
+function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
     if (moyenne !== null && moyenne !== NaN) {
         moyenne = moyenne.replace(",", ".");
         moyenne = parseFloat(moyenne);
     }
 
+    //Conditions
+    let xDifference = 52.6;
+    let yDifference = 14.2;
+
+    switch (subjectAbrege) {
+        case "GRCF & GRCF EBP":
+            xDifference = 51.6;
+            break;
+
+        case "U51":
+            xDifference = 53.2;
+            break;
+
+        case "U52":
+            xDifference = 53.4;
+            break;
+    }
+
     const drawLine = {
         start: {
-            x: 167 + 52.8 + (studentIndex - 1) * 52.8,
-            y: 82 + 14.2 * moyenne,
+            x: 167 + xDifference + (studentIndex - 1) * xDifference,
+            y: 82 + yDifference * moyenne,
         },
     };
 
     if (moyenne === NaN || moyenne === null) {
         drawLine.start.y = 0;
     }
-    // else if (moyenne === 0) {
-    //     // drawLine.start.y = 85;
-    // }
 
     return drawLine;
 }
