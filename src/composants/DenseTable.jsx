@@ -12,8 +12,6 @@ import Paper from "@mui/material/Paper";
 // import { Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 const DenseTable = ({ student }) => {
-    const subjects = Object.keys(student);
-
     return (
         <>
             {student && (
@@ -32,25 +30,21 @@ const DenseTable = ({ student }) => {
                         </TableHead>
                         <TableBody>
                             {student &&
-                                subjects.map((subject, index) => {
+                                student.map((element, index) => {
                                     return (
                                         <TableRow
                                             key={index}
                                             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {student[subject][0].NUM_ORDRE_MATIERE}
+                                                {element.NUM_ORDRE_MATIERE}
                                             </TableCell>
-                                            <TableCell>{student[subject][0].NOM_MATIERE}</TableCell>
-                                            <TableCell>{student[subject][0].ABREGE_MATIERE}</TableCell>
-                                            {/* {subject == "GRCF-AND-GRCF_EBP" &&
-                                                student[subject].map((subSubject) => (
-                                                    <TableCell>rrrrrrrrrrr</TableCell>
-                                                ))} */}
-                                            <TableCell>{student[subject][0].MOYENNE_1}</TableCell>
-                                            <TableCell>{student[subject][0].MOYENNE_2}</TableCell>
-                                            <TableCell>{student[subject][0].MOYENNE_MAT_GENERALE}</TableCell>
-                                            <TableCell>{student[subject][0].MOYENNE_MAT_GRPE_ANNUELLE}</TableCell>
+                                            <TableCell>{element.NOM_MATIERE}</TableCell>
+                                            <TableCell>{element.ABREGE_MATIERE}</TableCell>
+                                            <TableCell>{element.MOYENNE_1}</TableCell>
+                                            <TableCell>{element.MOYENNE_2}</TableCell>
+                                            <TableCell>{element.MOYENNE_MAT_GENERALE}</TableCell>
+                                            <TableCell>{element.MOYENNE_MAT_GRPE_ANNUELLE}</TableCell>
                                         </TableRow>
                                     );
                                 })}

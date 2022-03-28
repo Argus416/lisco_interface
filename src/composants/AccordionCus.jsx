@@ -60,24 +60,24 @@ const AccordionCus = ({ student, index, pdf }) => {
                 <Box className="header-element-table">
                     <Typography>
                         {`
-                            ${student["2e ANNEE"].U1[0].PRENOM_APPRENANT} 
-                            ${student["2e ANNEE"].U1[0].NOM_APPRENANT} 
-                            ${student["2e ANNEE"].U1[0].CODE_APPRENANT}
+                            ${student["2e ANNEE"][0].PRENOM_APPRENANT} 
+                            ${student["2e ANNEE"][0].NOM_APPRENANT} 
+                            ${student["2e ANNEE"][0].CODE_APPRENANT}
                         `}
                     </Typography>
                     <Box>
-                        {/* <Button
+                        <Button
                             className="downloadPdf"
                             variant="contained"
                             color="success"
                             onClick={() => downloadPdf(pdf[index])}
                         >
                             <FontAwesomeIcon icon={faArrowDown} />
-                        </Button> */}
+                        </Button>
 
-                        {/* <Button className="downloadPdf" variant="contained" onClick={() => viewPdf(pdf[index])}>
+                        <Button className="downloadPdf" variant="contained" onClick={() => viewPdf(pdf[index])}>
                             <FontAwesomeIcon icon={faEye} />
-                        </Button> */}
+                        </Button>
                     </Box>
                 </Box>
             </AccordionSummary>

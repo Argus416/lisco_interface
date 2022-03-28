@@ -55,7 +55,7 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
-                        if (typeof resultStudents.data === "object") {
+                        if (typeof resultStudents.data.result === "object") {
                             setProgressConversion(true);
                             const trainingAbreg = resultStudents.data.trainingAbrege;
                             const trainingTitleHere = resultStudents.data.trainingName;
@@ -72,10 +72,8 @@ const UploadContainer = () => {
                                 case "BTS GPME":
                                     setTraniningTitle(trainingTitleHere);
                                     setStudents(result);
-
-                                    console.log(result);
-                                    // const bts_gpme = new BTS_GPME();
-                                    // pdfs = await bts_gpme.generatePdf(result);
+                                    const bts_gpme = new BTS_GPME();
+                                    pdfs = await bts_gpme.generatePdf(result);
                                     break;
 
                                 case "BTS MCO":
