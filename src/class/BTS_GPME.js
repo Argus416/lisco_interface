@@ -269,7 +269,7 @@ export class BTS_GPME {
                                 // positionsLineGraphicStudentCommuns.push(drawLine);
                                 console.log(studentIndex);
                                 // *******
-                                if (secondYear.ABREGE_MATIERE !== "U51") {
+                                if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
 
