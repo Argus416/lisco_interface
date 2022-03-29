@@ -230,29 +230,6 @@ export class BTS_GPME {
                                 //     },
                                 // };
 
-                                const drawCirelAtelierPro = (moyenne_mat_generale, yPosition) => {
-                                    let coief = 11;
-                                    let tranche = 0;
-                                    for (let i = 1; i <= 4; i++) {
-                                        console.log(moyenne_mat_generale <= tranche);
-                                        console.log({ coief: coief, tranche: tranche });
-
-                                        if (moyenne_mat_generale <= tranche) {
-                                            firstPage.drawCircle({
-                                                x: width / 2 - 92 + coief,
-                                                y: yPosition,
-                                                size: 6,
-                                                borderWidth: 3,
-                                                borderColor: rgb(0, 0, 0.5),
-                                            });
-                                            break;
-                                        } else {
-                                            coief = 11 * i;
-                                            tranche = 5 * i;
-                                        }
-                                    }
-                                };
-
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     if (
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
@@ -260,23 +237,15 @@ export class BTS_GPME {
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== undefined
                                     ) {
                                         if (studentsFirstYear[student_index].ABREGE_MATIERE === "ATELIER PRO") {
-                                            let coief = 0;
-                                            if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 5) {
-                                                coief = 11;
-                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 10) {
-                                                coief = 22;
-                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 15) {
-                                                coief = 33;
-                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 20) {
-                                                coief = 44;
-                                            }
-                                            firstPage.drawCircle({
-                                                x: width / 2 - 92 + coief,
-                                                y: height / 2 + 95,
-                                                size: 6,
-                                                borderWidth: 3,
-                                                borderColor: rgb(0, 0, 0.5),
-                                            });
+                                            // let coief = 0;
+                                            let yPosition = height / 2 + 95;
+
+                                            drawCirelAtelierPro(
+                                                studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+                                                yPosition,
+                                                firstPage,
+                                                width
+                                            );
                                         } else {
                                             firstPage.drawText(
                                                 MoyenneMetierPremiereAnnee.text,
@@ -295,6 +264,8 @@ export class BTS_GPME {
                                     }
                                 }
                                 if (secondYear.ABREGE_MATIERE === "ATELIER PRO") {
+                                    let yPosition2 = height / 2 - 180;
+                                    drawCirelAtelierPro(secondYear.MOYENNE_MAT_GENERALE, yPosition2, firstPage, width);
                                 } else {
                                     firstPage.drawText(semestreUnDeuxiemeAnnee.text, semestreUnDeuxiemeAnnee.position);
                                     firstPage.drawText(
@@ -445,6 +416,32 @@ export class BTS_GPME {
 }
 
 // * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
+
+const drawCirelAtelierPro = (moyenne_mat_generale, yPosition, page, widthPage) => {
+    let coeif = 0;
+    if (moyenne_mat_generale !== null && moyenne_mat_generale !== undefined && moyenne_mat_generale !== "") {
+        moyenne_mat_generale = moyenne_mat_generale.replace(",", ".");
+        moyenne_mat_generale = parseFloat(moyenne_mat_generale);
+
+        for (let i = 1; i <= 4; i++) {
+            if (moyenne_mat_generale <= 5 * i) {
+                coeif = 11 * i;
+                if (5 * i === 20) {
+                    coeif = 10.5 * i;
+                }
+                break;
+            }
+        }
+
+        page.drawCircle({
+            x: widthPage / 2 - 114 + coeif,
+            y: yPosition,
+            size: 6,
+            borderWidth: 2,
+            borderColor: rgb(0, 0, 0.5),
+        });
+    }
+};
 
 function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
     if (moyenne !== null && moyenne !== NaN) {
