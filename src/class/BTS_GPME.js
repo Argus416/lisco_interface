@@ -1,5 +1,6 @@
+import { borderColor } from "@mui/system";
 import axios from "axios";
-import { PDFDocument, rgb } from "pdf-lib";
+import { grayscale, PDFDocument, rgb } from "pdf-lib";
 
 export class BTS_GPME {
     constructor() {
@@ -40,6 +41,7 @@ export class BTS_GPME {
 
                     // Get the width and height of the first page
                     const { width, height } = firstPage.getSize();
+                    const { widthSecondPage, heightSecondPage } = secondePage.getSize();
 
                     // **********************************************
 
@@ -150,6 +152,7 @@ export class BTS_GPME {
                                 let semestreUnPremiereAnnee = {};
                                 let semestreDeuxPremiereAnnee = {};
 
+                                // Because the subjects of the first year are less than the second year
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     MoyenneMetierPremiereAnnee = {
                                         text: studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
@@ -180,7 +183,6 @@ export class BTS_GPME {
                                 }
 
                                 // Second year **************************
-
                                 let MoyenneMetierDeuxiemeAnnee = {
                                     text:
                                         secondYear.MOYENNE_MAT_GENERALE === null ? "" : secondYear.MOYENNE_MAT_GENERALE,
@@ -228,35 +230,49 @@ export class BTS_GPME {
                                 //     },
                                 // };
 
-                                firstPage.drawText(semestreUnDeuxiemeAnnee.text, semestreUnDeuxiemeAnnee.position);
-                                firstPage.drawText(semestreDeuxDeuxiemeAnnee.text, semestreDeuxDeuxiemeAnnee.position);
-
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     if (
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== Boolean &&
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== undefined
                                     ) {
-                                        firstPage.drawText(
-                                            MoyenneMetierPremiereAnnee.text,
-                                            MoyenneMetierPremiereAnnee.position
-                                        );
+                                        if (studentsFirstYear[student_index].ABREGE_MATIERE === "ATELIER PRO") {
+                                            firstPage.drawCircle({
+                                                x: width / 2 - 102,
+                                                y: height / 2 + 95,
+                                                size: 5,
+                                                borderWidth: 3,
+                                            });
+                                        } else {
+                                            firstPage.drawText(
+                                                MoyenneMetierPremiereAnnee.text,
+                                                MoyenneMetierPremiereAnnee.position
+                                            );
 
-                                        firstPage.drawText(
-                                            semestreUnPremiereAnnee.text,
-                                            semestreUnPremiereAnnee.position
-                                        );
-                                        firstPage.drawText(
-                                            semestreDeuxPremiereAnnee.text,
-                                            semestreDeuxPremiereAnnee.position
-                                        );
+                                            firstPage.drawText(
+                                                semestreUnPremiereAnnee.text,
+                                                semestreUnPremiereAnnee.position
+                                            );
+                                            firstPage.drawText(
+                                                semestreDeuxPremiereAnnee.text,
+                                                semestreDeuxPremiereAnnee.position
+                                            );
+                                        }
                                     }
                                 }
+                                if (secondYear.ABREGE_MATIERE === "ATELIER PRO") {
+                                } else {
+                                    firstPage.drawText(semestreUnDeuxiemeAnnee.text, semestreUnDeuxiemeAnnee.position);
+                                    firstPage.drawText(
+                                        semestreDeuxDeuxiemeAnnee.text,
+                                        semestreDeuxDeuxiemeAnnee.position
+                                    );
 
-                                firstPage.drawText(
-                                    MoyenneMetierDeuxiemeAnnee.text,
-                                    MoyenneMetierDeuxiemeAnnee.position
-                                );
+                                    firstPage.drawText(
+                                        MoyenneMetierDeuxiemeAnnee.text,
+                                        MoyenneMetierDeuxiemeAnnee.position
+                                    );
+                                }
 
                                 // firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
 
@@ -322,6 +338,7 @@ export class BTS_GPME {
                                     studentIndex2++;
                                 }
 
+                                // Print graphic subjects second year
                                 if (positionsLineGraphicGroupCommuns.length === 8) {
                                     if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
                                         if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
