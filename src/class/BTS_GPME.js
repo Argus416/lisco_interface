@@ -304,7 +304,7 @@ export class BTS_GPME {
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
                                     if (student_index + 1 === studentsSecondeYear.length) {
-                                        calculateAverage(studentsFirstYear, studentsSecondeYear);
+                                        const test = calculateAverage(studentsFirstYear, studentsSecondeYear);
                                         //drawline group
                                         printGraphic(
                                             secondePage,
@@ -318,7 +318,7 @@ export class BTS_GPME {
                                             secondePage,
                                             positionsLineGraphicStudentCommuns,
                                             studentIndex,
-                                            studentsSecondeYear,
+                                            test,
                                             rgb(0.75, 0.2, 0.2)
                                         );
                                     }
@@ -456,7 +456,8 @@ const calculateAverage = (averageFirstYear, averageSecondeYear) => {
         for (let i = 0; i < averageFirstYear.length; i++) {
             const firstYear = toNumber(averageFirstYear[i].MOYENNE_MAT_GENERALE);
             const secondYear = toNumber(averageSecondeYear[i].MOYENNE_MAT_GENERALE);
-            const resultAverage = numberExistThenCalculate(firstYear, secondYear);
+            let resultAverage = numberExistThenCalculate(firstYear, secondYear);
+            resultAverage = { MOYENNE_MAT_GENERALE: resultAverage };
             result.push(resultAverage);
         }
     }
