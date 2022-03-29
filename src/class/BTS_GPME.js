@@ -59,7 +59,7 @@ export class BTS_GPME {
                     // ! Change year here
                     if (studentsSecondeYear.length && studentsSecondeYear !== undefined) {
                         let studentIndex = 0;
-                        let studentIndex2 = 8;
+                        let studentIndexSubjectSecondYearIndex = 8;
 
                         const positionsLineGraphicStudentCommuns = [];
                         const positionsLineGraphicGroupCommuns = [];
@@ -230,6 +230,7 @@ export class BTS_GPME {
                                 //     },
                                 // };
 
+                                // Print notes of the first year
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     if (
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
@@ -263,6 +264,7 @@ export class BTS_GPME {
                                         }
                                     }
                                 }
+
                                 if (secondYear.ABREGE_MATIERE === "ATELIER PRO") {
                                     let yPosition2 = height / 2 - 180;
                                     drawCirelAtelierPro(secondYear.MOYENNE_MAT_GENERALE, yPosition2, firstPage, width);
@@ -284,10 +286,17 @@ export class BTS_GPME {
                                 // ! Graphic
 
                                 // Moyenne d'un eleve
-                                let moyenne = secondYear.MOYENNE_MAT_GENERALE;
+                                let moyenne = 0;
+                                if (studentsFirstYear[studentIndex] !== undefined) {
+                                    moyenne = calculateAverage(
+                                        studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE,
+                                        secondYear.MOYENNE_MAT_GENERALE
+                                    );
+                                }
+
+                                // let moyenne = secondYear.MOYENNE_MAT_GENERALE;
                                 let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-                                // positionsLineGraphicStudentCommuns.push(drawLine);
                                 // *******
                                 if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
                                     const getDrawLineStudents = getCoordinateGraph(
@@ -295,16 +304,16 @@ export class BTS_GPME {
                                         studentIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
+
                                     const getDrawLineGroup = getCoordinateGraph(
                                         moyenneGroupMatier,
                                         studentIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
-
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
+                                    console.log(positionsLineGraphicStudentCommuns);
                                     if (student_index + 1 === studentsSecondeYear.length) {
-                                        const test = calculateAverage(studentsFirstYear, studentsSecondeYear);
                                         //drawline group
                                         printGraphic(
                                             secondePage,
@@ -318,30 +327,29 @@ export class BTS_GPME {
                                             secondePage,
                                             positionsLineGraphicStudentCommuns,
                                             studentIndex,
-                                            test,
+                                            studentsSecondeYear,
                                             rgb(0.75, 0.2, 0.2)
                                         );
                                     }
                                     studentIndex++;
                                 } else {
                                     // Enseignements de 2ème année
-
                                     const getDrawLineGroup2 = getCoordinateGraph(
                                         moyenneGroupMatier,
-                                        studentIndex2,
+                                        studentIndexSubjectSecondYearIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
 
                                     const getDrawLineStudents2 = getCoordinateGraph(
                                         moyenne,
-                                        studentIndex2,
+                                        studentIndexSubjectSecondYearIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
 
                                     positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineGroup2);
                                     positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineStudents2);
 
-                                    studentIndex2++;
+                                    studentIndexSubjectSecondYearIndex++;
                                 }
 
                                 // Print graphic subjects second year
@@ -445,33 +453,21 @@ const drawCirelAtelierPro = (moyenne_mat_generale, yPosition, page, widthPage) =
 };
 
 const calculateAverage = (averageFirstYear, averageSecondeYear) => {
-    const result = [];
-    averageSecondeYear = averageSecondeYear.filter((subject) => {
-        if (subject.ABREGE_MATIERE !== "U51" && subject.ABREGE_MATIERE !== "U52") {
-            return subject;
-        }
-    });
+    if (averageFirstYear && averageSecondeYear) {
+        let result = "";
 
-    if (averageFirstYear.length !== 0 && averageSecondeYear.length !== 0) {
-        for (let i = 0; i < averageFirstYear.length; i++) {
-            const firstYear = toNumber(averageFirstYear[i].MOYENNE_MAT_GENERALE);
-            const secondYear = toNumber(averageSecondeYear[i].MOYENNE_MAT_GENERALE);
-            let resultAverage = numberExistThenCalculate(firstYear, secondYear);
-            resultAverage = { MOYENNE_MAT_GENERALE: resultAverage };
-            result.push(resultAverage);
-        }
+        const firstYear = toNumber(averageFirstYear);
+        const secondYear = toNumber(averageSecondeYear);
+        result = numberExistThenGetAverage(firstYear, secondYear);
+        // console.log({ result: result, first: averageFirstYear, second: averageSecondeYear });
+
+        return result;
     }
-
-    console.log({ result: result, first: averageFirstYear, second: averageSecondeYear });
-
-    return result;
 };
 
 function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
-    if (moyenne !== null && moyenne !== NaN) {
-        moyenne = moyenne.replace(",", ".");
-        moyenne = parseFloat(moyenne);
-    }
+    console.log(moyenne);
+    moyenne = toNumber(moyenne);
 
     //Conditions
     let xDifference = 52.6;
@@ -564,7 +560,7 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
     });
 };
 
-const numberExistThenCalculate = (checkNumber_1, checkNumber_2) => {
+const numberExistThenGetAverage = (checkNumber_1, checkNumber_2) => {
     const valuesToCheck = [checkNumber_1, checkNumber_2];
     let number = "";
     let i = 0;
@@ -589,7 +585,7 @@ const numberExistThenCalculate = (checkNumber_1, checkNumber_2) => {
 
 const toNumber = (number) => {
     if (number !== null && number !== NaN) {
-        number = number.replace(",", ".");
+        number = typeof number === "string" ? number.toString().replace(",", ".") : number;
         number = parseFloat(number);
     }
 
