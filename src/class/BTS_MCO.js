@@ -5,7 +5,7 @@ export class BTS_MCO {
     constructor() {
         const apiUrl = process.env.REACT_APP_API_URL;
 
-        this.pdfURL = `${apiUrl}/data/BTS_NDRC.pdf`;
+        this.pdfURL = `${apiUrl}/data/BTS_MCO.pdf`;
     }
 
     // ********************************************

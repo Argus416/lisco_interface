@@ -55,6 +55,7 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
+                        console.log(resultStudents.data);
                         if (typeof resultStudents.data.result === "object") {
                             setProgressConversion(true);
                             const trainingAbreg = resultStudents.data.trainingAbrege;
@@ -121,7 +122,7 @@ const UploadContainer = () => {
             );
 
             const docSave = await doc.save();
-            downloadjs(docSave, "gg.pdf");
+            downloadjs(docSave, `${traniningTitle}.pdf`);
         }
     };
 

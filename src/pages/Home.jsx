@@ -4,8 +4,8 @@ import "../style/style.scss";
 
 const Home = () => {
     return (
-        <main>
-            <Navbar />
+        <main class="Home">
+            {/* <Navbar /> */}
             <UploadContainer />
         </main>
     );
