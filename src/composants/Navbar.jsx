@@ -10,7 +10,7 @@ const Navbar = () => {
             <Container component="header">
                 <Toolbar disableGutters>
                     <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-                        Lisco
+                        LiSco, votre temps est précieux, économisez-le !
                     </Typography>
                     <Typography
                         variant="h6"
@@ -18,7 +18,7 @@ const Navbar = () => {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
                     >
-                        Lisco
+                        LiSco, votre temps est précieux, économisez-le !
                     </Typography>
                 </Toolbar>
             </Container>
