@@ -304,6 +304,7 @@ export class BTS_GPME {
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
                                     if (student_index + 1 === studentsSecondeYear.length) {
+                                        calculateAverage(studentsFirstYear, studentsSecondeYear);
                                         //drawline group
                                         printGraphic(
                                             secondePage,
@@ -443,6 +444,28 @@ const drawCirelAtelierPro = (moyenne_mat_generale, yPosition, page, widthPage) =
     }
 };
 
+const calculateAverage = (averageFirstYear, averageSecondeYear) => {
+    const result = [];
+    averageSecondeYear = averageSecondeYear.filter((subject) => {
+        if (subject.ABREGE_MATIERE !== "U51" && subject.ABREGE_MATIERE !== "U52") {
+            return subject;
+        }
+    });
+
+    if (averageFirstYear.length !== 0 && averageSecondeYear.length !== 0) {
+        for (let i = 0; i < averageFirstYear.length; i++) {
+            const firstYear = toNumber(averageFirstYear[i].MOYENNE_MAT_GENERALE);
+            const secondYear = toNumber(averageSecondeYear[i].MOYENNE_MAT_GENERALE);
+            const resultAverage = numberExistThenCalculate(firstYear, secondYear);
+            result.push(resultAverage);
+        }
+    }
+
+    console.log({ result: result, first: averageFirstYear, second: averageSecondeYear });
+
+    return result;
+};
+
 function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
     if (moyenne !== null && moyenne !== NaN) {
         moyenne = moyenne.replace(",", ".");
@@ -538,4 +561,36 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
             }
         }
     });
+};
+
+const numberExistThenCalculate = (checkNumber_1, checkNumber_2) => {
+    const valuesToCheck = [checkNumber_1, checkNumber_2];
+    let number = "";
+    let i = 0;
+
+    for (let j = 0; j < valuesToCheck.length; j++) {
+        if (valuesToCheck[j] !== null && valuesToCheck[j] !== undefined) {
+            valuesToCheck[j] = valuesToCheck[j];
+            i++;
+        } else {
+            valuesToCheck[j] = 0;
+        }
+    }
+
+    if (i > 0) {
+        number = (checkNumber_1 + checkNumber_2) / i;
+    } else {
+        number = "";
+    }
+
+    return number;
+};
+
+const toNumber = (number) => {
+    if (number !== null && number !== NaN) {
+        number = number.replace(",", ".");
+        number = parseFloat(number);
+    }
+
+    return number;
 };
