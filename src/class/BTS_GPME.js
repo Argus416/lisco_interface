@@ -303,56 +303,74 @@ export class BTS_GPME {
                                     studentIndex++;
                                 } else {
                                     // Enseignements de 2ème année
-                                    const getDrawLineStudents2 = getCoordinateGraph(
-                                        moyenne,
-                                        studentIndex2,
-                                        secondYear.ABREGE_MATIERE
-                                    );
+
                                     const getDrawLineGroup2 = getCoordinateGraph(
                                         moyenneGroupMatier,
                                         studentIndex2,
                                         secondYear.ABREGE_MATIERE
                                     );
 
-                                    positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineStudents2);
-                                    positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineGroup2);
+                                    const getDrawLineStudents2 = getCoordinateGraph(
+                                        moyenne,
+                                        studentIndex2,
+                                        secondYear.ABREGE_MATIERE
+                                    );
+
+                                    positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineGroup2);
+                                    positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineStudents2);
 
                                     studentIndex2++;
                                 }
 
                                 if (positionsLineGraphicGroupCommuns.length === 8) {
                                     if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
-                                        console.log(positionsLineGraphicStudentCommuns);
+                                        if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
+                                            //drawline student
+                                            secondePage.drawLine({
+                                                start: {
+                                                    x: positionsLineGraphicStudentCommuns[7].start.x,
+                                                    y: positionsLineGraphicStudentCommuns[7].start.y,
+                                                },
+                                                end: {
+                                                    x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
+                                                    y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
+                                                },
+                                                thickness: 2,
+                                                color: rgb(0.75, 0.2, 0.2),
+                                            });
 
-                                        secondePage.drawLine({
-                                            start: {
-                                                x: positionsLineGraphicStudentCommuns[7].start.x,
-                                                y: positionsLineGraphicStudentCommuns[7].start.y,
-                                            },
-                                            end: {
-                                                x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
-                                                y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
-                                            },
-                                            thickness: 2,
-                                            color: rgb(0.75, 0.2, 0.2),
-                                        });
+                                            //drawline student
+                                            printGraphic(
+                                                secondePage,
+                                                positionsLineGraphicSubjectsSecondYearStudents,
+                                                0,
+                                                studentsSecondeYear,
+                                                rgb(0.75, 0.2, 0.2)
+                                            );
+                                        }
 
-                                        //drawline group
-                                        printGraphic(
-                                            secondePage,
-                                            positionsLineGraphicSubjectsSecondYearStudents,
-                                            0,
-                                            studentsSecondeYear
-                                        );
+                                        if (positionsLineGraphicGroupCommuns[7].start.y !== 0) {
+                                            //drawline group
+                                            secondePage.drawLine({
+                                                start: {
+                                                    x: positionsLineGraphicGroupCommuns[7].start.x,
+                                                    y: positionsLineGraphicGroupCommuns[7].start.y,
+                                                },
+                                                end: {
+                                                    x: positionsLineGraphicSubjectsSecondYearGroup[0].start.x,
+                                                    y: positionsLineGraphicSubjectsSecondYearGroup[0].start.y,
+                                                },
+                                                thickness: 2,
+                                            });
 
-                                        //drawline student
-                                        printGraphic(
-                                            secondePage,
-                                            positionsLineGraphicSubjectsSecondYearGroup,
-                                            0,
-                                            studentsSecondeYear,
-                                            rgb(0.75, 0.2, 0.2)
-                                        );
+                                            //drawline group
+                                            printGraphic(
+                                                secondePage,
+                                                positionsLineGraphicSubjectsSecondYearGroup,
+                                                0,
+                                                studentsSecondeYear
+                                            );
+                                        }
                                     }
                                 }
 
