@@ -128,11 +128,9 @@ const UploadContainer = () => {
     return (
         <Container variant="main">
             <Typography className="title" component="h1" variant="h3">
-                Convertissez le fichier CSV
+                Convertissez le fichier CSV en PDF
             </Typography>
-            <Typography className="smallTitle" component="h2" variant="h5">
-                CSV à PDF
-            </Typography>
+
             {fileUploaded && (
                 <Alert
                     className="alert"
@@ -202,7 +200,7 @@ const UploadContainer = () => {
                                 variant="h4"
                                 component="h3"
                             >
-                                {traniningTitle}
+                                {traniningTitle} <small>(Convertie...)</small>
                             </Typography>
 
                             <Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">

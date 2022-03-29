@@ -230,6 +230,29 @@ export class BTS_GPME {
                                 //     },
                                 // };
 
+                                const drawCirelAtelierPro = (moyenne_mat_generale, yPosition) => {
+                                    let coief = 11;
+                                    let tranche = 0;
+                                    for (let i = 1; i <= 4; i++) {
+                                        console.log(moyenne_mat_generale <= tranche);
+                                        console.log({ coief: coief, tranche: tranche });
+
+                                        if (moyenne_mat_generale <= tranche) {
+                                            firstPage.drawCircle({
+                                                x: width / 2 - 92 + coief,
+                                                y: yPosition,
+                                                size: 6,
+                                                borderWidth: 3,
+                                                borderColor: rgb(0, 0, 0.5),
+                                            });
+                                            break;
+                                        } else {
+                                            coief = 11 * i;
+                                            tranche = 5 * i;
+                                        }
+                                    }
+                                };
+
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     if (
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
@@ -237,11 +260,22 @@ export class BTS_GPME {
                                         studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== undefined
                                     ) {
                                         if (studentsFirstYear[student_index].ABREGE_MATIERE === "ATELIER PRO") {
+                                            let coief = 0;
+                                            if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 5) {
+                                                coief = 11;
+                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 10) {
+                                                coief = 22;
+                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 15) {
+                                                coief = 33;
+                                            } else if (studentsFirstYear[student_index].MOYENNE_MAT_GENERALE <= 20) {
+                                                coief = 44;
+                                            }
                                             firstPage.drawCircle({
-                                                x: width / 2 - 102,
+                                                x: width / 2 - 92 + coief,
                                                 y: height / 2 + 95,
-                                                size: 5,
+                                                size: 6,
                                                 borderWidth: 3,
+                                                borderColor: rgb(0, 0, 0.5),
                                             });
                                         } else {
                                             firstPage.drawText(
