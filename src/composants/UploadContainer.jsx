@@ -133,7 +133,7 @@ const UploadContainer = () => {
                 <Box className="content">
                     <FontAwesomeIcon icon={faFileArrowUp} size="5x" />
                     <Typography component="p" className="box-text-desc">
-                        Jetez les élèyves dans la boîte :3
+                        Jetez les élèves dans la boîte :3
                     </Typography>
                     <form onSubmit={submitHandler} className="form-upload">
                         <input
