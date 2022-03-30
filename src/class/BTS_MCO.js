@@ -56,7 +56,7 @@ export class BTS_MCO {
                             color: rgb(0, 0, 0.5),
                         };
 
-                        let moyenneMetierY = 126;
+                        let moyenneMetierY = 169;
                         // ! Change year here
                         if (studentsSecondeYear.length && studentsSecondeYear !== undefined) {
                             const positionsLineGraphicStudent = [];
@@ -65,7 +65,7 @@ export class BTS_MCO {
                             // ! Change year here
                             await Promise.all(
                                 studentsSecondeYear.map(async (secondYear, student_index) => {
-                                    moyenneMetierY = moyenneMetierY - 25;
+                                    moyenneMetierY = moyenneMetierY - 18;
                                     const Coordonnes = [
                                         {
                                             text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
@@ -93,8 +93,8 @@ export class BTS_MCO {
                                                     : "",
 
                                             position: {
-                                                x: widthFirstPage / 2 - 130,
-                                                y: heightFirstPage / 2 + 163,
+                                                x: widthFirstPage / 2 - 118,
+                                                y: heightFirstPage / 2 + 231,
                                                 ...configText,
                                             },
                                         },
@@ -102,11 +102,11 @@ export class BTS_MCO {
                                         {
                                             text:
                                                 secondYear.CODE_APPRENANT !== null
-                                                    ? "code apprenant " + secondYear.CODE_APPRENANT
+                                                    ? "cd apprenant" + secondYear.CODE_APPRENANT
                                                     : "",
                                             position: {
-                                                x: widthFirstPage / 2 + 10,
-                                                y: heightFirstPage / 2 + 163,
+                                                x: widthFirstPage / 2 - 20,
+                                                y: heightFirstPage / 2 + 231,
                                                 size: configText.size,
                                                 // font: configText.font,
                                                 color: configText.color,
@@ -201,10 +201,10 @@ export class BTS_MCO {
 
                                     // ! Graphic
                                     // Moyenne d'un eleve
-                                    let moyenne = secondYear.MOYENNE_MAT_GENERALE;
+                                    let average = secondYear.MOYENNE_MAT_GENERALE;
                                     let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-                                    const getDrawLineStudents = getCoordinateGraph(moyenne, student_index);
+                                    const getDrawLineStudents = getCoordinateGraph(average, student_index);
                                     const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, student_index);
 
                                     // positionsLineGraphicStudent.push(drawLine);
@@ -215,11 +215,11 @@ export class BTS_MCO {
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
                                         printGraphic(secondePage, positionsLineGraphicGroup);
-                                        const x = widthSecondePage / 2;
-                                        const y = heightSecondePage / 2 - 196;
+                                        const x = 132;
+                                        const y = heightSecondePage / 2 - 195;
                                         // yMax = 442.66
-                                        // yMin = 101.66000000000003
-                                        // y =  (yMax - yMin) => 341
+                                        // yMin = 102.66000000000003
+                                        // y =  (yMax - yMin) => 340
                                         // xMax =
                                         console.log({
                                             x: x,
@@ -260,28 +260,23 @@ export class BTS_MCO {
 
 // * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
 
-function getCoordinateGraph(moyenne, studentIndex) {
-    if (moyenne !== null && moyenne !== NaN) {
-        moyenne = moyenne.replace(",", ".");
-        moyenne = parseFloat(moyenne);
+function getCoordinateGraph(average, studentIndex) {
+    if (average !== null && average !== NaN) {
+        average = average.replace(",", ".");
+        average = parseFloat(average);
     }
 
     const drawLine = {
         start: {
-            x: 120 + 80 + (studentIndex - 1) * 79.5,
-            y: 85 + 14.2 * moyenne,
+            x: 132 + 56 + (studentIndex - 1) * 56.8,
+            y: 102 + 17 * average,
         },
     };
 
-    if (moyenne === 20) {
-        console.log("moyenne 20 start x", drawLine.start.x);
-        console.log("moyenne 20 start y", drawLine.start.y);
-    }
-
-    if (moyenne === NaN || moyenne === null) {
+    if (average === NaN || average === null) {
         drawLine.start.y = 0;
     }
-    // else if (moyenne === 0) {
+    // else if (average === 0) {
     //     // drawLine.start.y = 85;
     // }
 
