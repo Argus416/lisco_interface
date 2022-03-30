@@ -286,17 +286,12 @@ export class BTS_GPME {
                                 // ! Graphic
 
                                 // Moyenne d'un eleve
-                                let moyenne = 0;
+                                let averageFirstYear = "";
                                 if (studentsFirstYear[studentIndex] !== undefined) {
-                                    moyenne =
-                                        calculateAverage(
-                                            studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE,
-                                            secondYear.MOYENNE_MAT_GENERALE
-                                        ) ?? "";
-                                    if (studentsFirstYear[studentIndex].CODE_APPRENANT == "116433") {
-                                        console.log(moyenne, "here5");
-                                    }
+                                    averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
                                 }
+                                let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+                                let averageSubjectsecondYear = secondYear.MOYENNE_MAT_GENERALE;
 
                                 // let moyenne = secondYear.MOYENNE_MAT_GENERALE;
                                 let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
@@ -344,7 +339,7 @@ export class BTS_GPME {
                                     );
 
                                     const getDrawLineStudents2 = getCoordinateGraph(
-                                        moyenne,
+                                        averageSubjectsecondYear,
                                         studentIndexSubjectSecondYearIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
@@ -356,9 +351,21 @@ export class BTS_GPME {
                                 }
 
                                 // Print graphic subjects second year
+
                                 if (positionsLineGraphicGroupCommuns.length === 8) {
                                     if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
                                         if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
+                                            console.log(studentsFirstYear);
+                                            // console.log("here", {
+                                            //     start: {
+                                            //         x: positionsLineGraphicStudentCommuns[7].start.x,
+                                            //         y: positionsLineGraphicStudentCommuns[7].start.y,
+                                            //     },
+                                            //     end: {
+                                            //         x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
+                                            //         y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
+                                            //     },
+                                            // });
                                             //drawline student
                                             secondePage.drawLine({
                                                 start: {
@@ -374,6 +381,15 @@ export class BTS_GPME {
                                             });
 
                                             //drawline student
+                                            printGraphic(
+                                                secondePage,
+                                                positionsLineGraphicSubjectsSecondYearStudents,
+                                                0,
+                                                studentsSecondeYear,
+                                                rgb(0.75, 0.2, 0.2)
+                                            );
+                                        } else {
+                                            // When students didn't do the first year, print only the subjects of the second year
                                             printGraphic(
                                                 secondePage,
                                                 positionsLineGraphicSubjectsSecondYearStudents,
