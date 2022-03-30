@@ -313,19 +313,12 @@ export class BTS_GPME {
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
-                                        printGraphic(
-                                            secondePage,
-                                            positionsLineGraphicGroupCommuns,
-                                            studentIndex,
-                                            studentsSecondeYear
-                                        );
+                                        printGraphic(secondePage, positionsLineGraphicGroupCommuns);
 
                                         //drawline student
                                         printGraphic(
                                             secondePage,
                                             positionsLineGraphicStudentCommuns,
-                                            studentIndex,
-                                            studentsSecondeYear,
                                             rgb(0.75, 0.2, 0.2)
                                         );
                                     }
@@ -372,8 +365,6 @@ export class BTS_GPME {
                                             printGraphic(
                                                 secondePage,
                                                 positionsLineGraphicSubjectsSecondYearStudents,
-                                                0,
-                                                studentsSecondeYear,
                                                 rgb(0.75, 0.2, 0.2)
                                             );
                                         } else {
@@ -381,8 +372,6 @@ export class BTS_GPME {
                                             printGraphic(
                                                 secondePage,
                                                 positionsLineGraphicSubjectsSecondYearStudents,
-                                                0,
-                                                studentsSecondeYear[student_index],
                                                 rgb(0.75, 0.2, 0.2)
                                             );
                                         }
@@ -402,12 +391,7 @@ export class BTS_GPME {
                                             });
 
                                             //drawline group
-                                            printGraphic(
-                                                secondePage,
-                                                positionsLineGraphicSubjectsSecondYearGroup,
-                                                0,
-                                                studentsSecondeYear
-                                            );
+                                            printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearGroup);
                                         }
                                     }
                                 }
@@ -507,7 +491,9 @@ function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
     return drawLine;
 }
 
-const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
+// After calculating the average of notes of both years, get the position then draw the line
+// the ending of a line is the beginning of the next position
+const printGraphic = (page, arrayPositons, colorLine = rgb(0, 0, 0)) => {
     arrayPositons.map((position, indexLinePosition) => {
         if (indexLinePosition + 1 !== arrayPositons.length) {
             // If there is no note
@@ -557,7 +543,6 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
                 });
             }
         } else {
-            console.log("after", position.start, studentsSecondeYear[indexLinePosition]?.CODE_APPRENANT);
             page.drawCircle({
                 x: arrayPositons[indexLinePosition - 1].start.x,
                 y: arrayPositons[indexLinePosition - 1].start.y,
