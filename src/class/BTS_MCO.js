@@ -120,49 +120,90 @@ export class BTS_MCO {
                                         }
                                     });
 
-                                    let MoyenneMetierPremiereAnnee = {
+                                    //First Year
+
+                                    let firstSemesterFirstYear = {
                                         text:
                                             studentsFirstYear[student_index] == null
                                                 ? ""
                                                 : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
                                         position: {
-                                            x: 70,
+                                            x: 55,
                                             y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
-
-                                    let MoyenneMetierDeuxiemeAnnee = {
+                                    let secondSemesterFirstYear = {
                                         text:
-                                            secondYear.MOYENNE_MAT_GENERALE === null
+                                            studentsFirstYear[student_index] == null
                                                 ? ""
-                                                : secondYear.MOYENNE_MAT_GENERALE,
+                                                : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
                                         position: {
-                                            x: widthFirstPage / 2 + 70,
+                                            x: 100,
                                             y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
 
-                                    let semestreUn = {
+                                    let averageSubjectFisrtYear = {
+                                        text:
+                                            studentsFirstYear[student_index] == null
+                                                ? ""
+                                                : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+                                        position: {
+                                            x: 155,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
+                                            ...configText,
+                                        },
+                                    };
+
+                                    firstPage.drawText(
+                                        firstSemesterFirstYear.text ?? "",
+                                        firstSemesterFirstYear.position
+                                    );
+
+                                    firstPage.drawText(
+                                        secondSemesterFirstYear.text ?? "",
+                                        secondSemesterFirstYear.position
+                                    );
+
+                                    firstPage.drawText(
+                                        averageSubjectFisrtYear.text ?? "",
+                                        averageSubjectFisrtYear.position
+                                    );
+                                    // Second year
+
+                                    let firstSemesterSecondYear = {
                                         text:
                                             secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined
                                                 ? secondYear.MOYENNE_1
                                                 : "",
                                         position: {
-                                            x: widthFirstPage / 2 - 40,
+                                            x: widthFirstPage / 2 - 43,
                                             y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
 
-                                    let semestreDeux = {
+                                    let secondSemestreSecondYear = {
                                         text:
                                             secondYear.MOYENNE_2 !== null && secondYear.MOYENNE_2 !== undefined
                                                 ? secondYear.MOYENNE_2
                                                 : "",
                                         position: {
-                                            x: widthFirstPage / 2 + 15,
+                                            x: widthFirstPage / 2,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
+                                            ...configText,
+                                        },
+                                    };
+
+                                    let averageSubjectSecondYear = {
+                                        text:
+                                            secondYear.MOYENNE_MAT_GENERALE === null
+                                                ? ""
+                                                : secondYear.MOYENNE_MAT_GENERALE,
+                                        position: {
+                                            x: widthFirstPage / 2 + 50,
                                             y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
@@ -181,17 +222,15 @@ export class BTS_MCO {
                                         },
                                     };
 
+                                    firstPage.drawText(firstSemesterSecondYear.text, firstSemesterSecondYear.position);
                                     firstPage.drawText(
-                                        MoyenneMetierPremiereAnnee.text ?? "",
-                                        MoyenneMetierPremiereAnnee.position
+                                        secondSemestreSecondYear.text,
+                                        secondSemestreSecondYear.position
                                     );
 
-                                    firstPage.drawText(semestreUn.text, semestreUn.position);
-                                    firstPage.drawText(semestreDeux.text, semestreDeux.position);
-
                                     firstPage.drawText(
-                                        MoyenneMetierDeuxiemeAnnee.text,
-                                        MoyenneMetierDeuxiemeAnnee.position
+                                        averageSubjectSecondYear.text,
+                                        averageSubjectSecondYear.position
                                     );
 
                                     firstPage.drawText(
@@ -215,22 +254,6 @@ export class BTS_MCO {
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
                                         printGraphic(secondePage, positionsLineGraphicGroup);
-                                        const x = 132;
-                                        const y = heightSecondePage / 2 - 195;
-                                        // yMax = 442.66
-                                        // yMin = 102.66000000000003
-                                        // y =  (yMax - yMin) => 340
-                                        // xMax =
-                                        console.log({
-                                            x: x,
-                                            y: y,
-                                        });
-                                        secondePage.drawCircle({
-                                            x: x,
-                                            y: y,
-                                            size: 3,
-                                            color: rgb(0.75, 0.2, 0.2),
-                                        });
 
                                         //drawline student
                                         printGraphic(secondePage, positionsLineGraphicStudent, rgb(0.75, 0.2, 0.2));
