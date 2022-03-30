@@ -312,7 +312,6 @@ export class BTS_GPME {
                                     );
                                     positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
                                     positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
-                                    console.log(positionsLineGraphicStudentCommuns);
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
                                         printGraphic(
@@ -466,36 +465,36 @@ const calculateAverage = (averageFirstYear, averageSecondeYear) => {
 };
 
 function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
-    console.log(moyenne);
-    moyenne = toNumber(moyenne);
-
-    //Conditions
-    let xDifference = 52.6;
-    let yDifference = 14.2;
-
-    switch (subjectAbrege) {
-        case "GRCF & GRCF EBP":
-            xDifference = 51.6;
-            break;
-
-        case "U51":
-            xDifference = 53.2;
-            break;
-
-        case "U52":
-            xDifference = 53.4;
-            break;
-    }
-
-    const drawLine = {
-        start: {
-            x: 167 + xDifference + (studentIndex - 1) * xDifference,
-            y: 82 + yDifference * moyenne,
-        },
-    };
-
-    if (moyenne === NaN || moyenne === null) {
+    let drawLine = { start: { x: 0, y: 0 } };
+    if (moyenne === null || moyenne === NaN || moyenne === undefined || moyenne === "") {
         drawLine.start.y = 0;
+    } else {
+        moyenne = toNumber(moyenne);
+        console.log("here", moyenne);
+        //Conditions
+        let xDifference = 52.6;
+        let yDifference = 14.2;
+
+        switch (subjectAbrege) {
+            case "GRCF & GRCF EBP":
+                xDifference = 51.6;
+                break;
+
+            case "U51":
+                xDifference = 53.2;
+                break;
+
+            case "U52":
+                xDifference = 53.4;
+                break;
+        }
+
+        drawLine = {
+            start: {
+                x: 167 + xDifference + (studentIndex - 1) * xDifference,
+                y: 82 + yDifference * moyenne,
+            },
+        };
     }
 
     return drawLine;
