@@ -351,21 +351,9 @@ export class BTS_GPME {
                                 }
 
                                 // Print graphic subjects second year
-
                                 if (positionsLineGraphicGroupCommuns.length === 8) {
                                     if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
                                         if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
-                                            console.log(studentsFirstYear);
-                                            // console.log("here", {
-                                            //     start: {
-                                            //         x: positionsLineGraphicStudentCommuns[7].start.x,
-                                            //         y: positionsLineGraphicStudentCommuns[7].start.y,
-                                            //     },
-                                            //     end: {
-                                            //         x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
-                                            //         y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
-                                            //     },
-                                            // });
                                             //drawline student
                                             secondePage.drawLine({
                                                 start: {
@@ -394,7 +382,7 @@ export class BTS_GPME {
                                                 secondePage,
                                                 positionsLineGraphicSubjectsSecondYearStudents,
                                                 0,
-                                                studentsSecondeYear,
+                                                studentsSecondeYear[student_index],
                                                 rgb(0.75, 0.2, 0.2)
                                             );
                                         }
@@ -548,12 +536,6 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
                 }
 
                 // Draw the circle for the other notes
-                page.drawCircle({
-                    x: arrayPositons[indexLinePosition + 1].start.x,
-                    y: arrayPositons[indexLinePosition + 1].start.y,
-                    size: 3,
-                    color: colorLine,
-                });
             }
 
             // Draw the circle when there is no note
@@ -574,6 +556,14 @@ const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, co
                     color: colorLine,
                 });
             }
+        } else {
+            console.log("after", position.start, studentsSecondeYear[indexLinePosition]?.CODE_APPRENANT);
+            page.drawCircle({
+                x: arrayPositons[indexLinePosition - 1].start.x,
+                y: arrayPositons[indexLinePosition - 1].start.y,
+                size: 3,
+                color: colorLine,
+            });
         }
     });
 };
