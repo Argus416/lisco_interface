@@ -443,6 +443,13 @@ const drawCirelAtelierPro = (moyenne_mat_generale, yPosition, page, widthPage) =
     }
 };
 
+// One of BTS_GPME conditions was to caclulate the average of both years and take the condition the empty average !
+// Exemples
+// 1- (15 + 15) / 2 = 15
+// 2- (15 + 0) / 2 = 7.5
+// 3- (15 + "") / 2 = 15
+// 4- ( ""+ "") / 2 = "" => print nothing
+
 const calculateAverage = (averageFirstYear, averageSecondeYear) => {
     if (averageFirstYear && averageSecondeYear) {
         let result = "";
@@ -543,6 +550,7 @@ const printGraphic = (page, arrayPositons, colorLine = rgb(0, 0, 0)) => {
                 });
             }
         } else {
+            // For the first value of arrayPosition, we draw only a circle
             page.drawCircle({
                 x: arrayPositons[indexLinePosition - 1].start.x,
                 y: arrayPositons[indexLinePosition - 1].start.y,

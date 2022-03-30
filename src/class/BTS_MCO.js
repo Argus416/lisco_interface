@@ -39,8 +39,12 @@ export class BTS_MCO {
                         const firstPage = pdfDoc.getPage(0);
                         const secondePage = pdfDoc.getPage(1);
 
-                        // Get the width and height of the first page
-                        const { width, height } = firstPage.getSize();
+                        // Get the width and heieght of a page
+                        const widthFirstPage = firstPage.getWidth();
+                        const heightFirstPage = firstPage.getHeight();
+
+                        const widthSecondePage = secondePage.getWidth();
+                        const heightSecondePage = secondePage.getHeight();
 
                         // **********************************************
 
@@ -66,8 +70,8 @@ export class BTS_MCO {
                                         {
                                             text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
                                             position: {
-                                                x: width / 2 - 40,
-                                                y: height / 2 + 268,
+                                                x: widthFirstPage / 2 - 40,
+                                                y: heightFirstPage / 2 + 268,
                                                 ...configText,
                                             },
                                         },
@@ -76,8 +80,8 @@ export class BTS_MCO {
                                             text:
                                                 secondYear.PRENOM_APPRENANT !== null ? secondYear.PRENOM_APPRENANT : "",
                                             position: {
-                                                x: width / 2 + 140,
-                                                y: height / 2 + 268,
+                                                x: widthFirstPage / 2 + 140,
+                                                y: heightFirstPage / 2 + 268,
                                                 ...configText,
                                             },
                                         },
@@ -89,8 +93,8 @@ export class BTS_MCO {
                                                     : "",
 
                                             position: {
-                                                x: width / 2 - 130,
-                                                y: height / 2 + 163,
+                                                x: widthFirstPage / 2 - 130,
+                                                y: heightFirstPage / 2 + 163,
                                                 ...configText,
                                             },
                                         },
@@ -101,8 +105,8 @@ export class BTS_MCO {
                                                     ? "code apprenant " + secondYear.CODE_APPRENANT
                                                     : "",
                                             position: {
-                                                x: width / 2 + 10,
-                                                y: height / 2 + 163,
+                                                x: widthFirstPage / 2 + 10,
+                                                y: heightFirstPage / 2 + 163,
                                                 size: configText.size,
                                                 // font: configText.font,
                                                 color: configText.color,
@@ -123,7 +127,7 @@ export class BTS_MCO {
                                                 : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
                                         position: {
                                             x: 70,
-                                            y: height / 2 + moyenneMetierY,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
@@ -134,8 +138,8 @@ export class BTS_MCO {
                                                 ? ""
                                                 : secondYear.MOYENNE_MAT_GENERALE,
                                         position: {
-                                            x: width / 2 + 70,
-                                            y: height / 2 + moyenneMetierY,
+                                            x: widthFirstPage / 2 + 70,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
@@ -146,8 +150,8 @@ export class BTS_MCO {
                                                 ? secondYear.MOYENNE_1
                                                 : "",
                                         position: {
-                                            x: width / 2 - 40,
-                                            y: height / 2 + moyenneMetierY,
+                                            x: widthFirstPage / 2 - 40,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
@@ -158,8 +162,8 @@ export class BTS_MCO {
                                                 ? secondYear.MOYENNE_2
                                                 : "",
                                         position: {
-                                            x: width / 2 + 15,
-                                            y: height / 2 + moyenneMetierY,
+                                            x: widthFirstPage / 2 + 15,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
@@ -171,8 +175,8 @@ export class BTS_MCO {
                                                 ? secondYear.OBSERVATION_ANNUELLE_MATIERE
                                                 : "",
                                         position: {
-                                            x: width / 2 + 120,
-                                            y: height / 2 + moyenneMetierY,
+                                            x: widthFirstPage / 2 + 120,
+                                            y: heightFirstPage / 2 + moyenneMetierY,
                                             ...configText,
                                         },
                                     };
@@ -196,7 +200,6 @@ export class BTS_MCO {
                                     );
 
                                     // ! Graphic
-
                                     // Moyenne d'un eleve
                                     let moyenne = secondYear.MOYENNE_MAT_GENERALE;
                                     let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
@@ -207,24 +210,30 @@ export class BTS_MCO {
                                     // positionsLineGraphicStudent.push(drawLine);
                                     positionsLineGraphicGroup.push(getDrawLineGroup);
                                     positionsLineGraphicStudent.push(getDrawLineStudents);
+
                                     // *******
                                     if (student_index + 1 === studentsSecondeYear.length) {
                                         //drawline group
-                                        printGraphic(
-                                            secondePage,
-                                            positionsLineGraphicGroup,
-                                            student_index,
-                                            studentsSecondeYear
-                                        );
+                                        printGraphic(secondePage, positionsLineGraphicGroup);
+                                        const x = widthSecondePage / 2;
+                                        const y = heightSecondePage / 2 - 196;
+                                        // yMax = 442.66
+                                        // yMin = 101.66000000000003
+                                        // y =  (yMax - yMin) => 341
+                                        // xMax =
+                                        console.log({
+                                            x: x,
+                                            y: y,
+                                        });
+                                        secondePage.drawCircle({
+                                            x: x,
+                                            y: y,
+                                            size: 3,
+                                            color: rgb(0.75, 0.2, 0.2),
+                                        });
 
                                         //drawline student
-                                        printGraphic(
-                                            secondePage,
-                                            positionsLineGraphicStudent,
-                                            student_index,
-                                            studentsSecondeYear,
-                                            rgb(0.75, 0.2, 0.2)
-                                        );
+                                        printGraphic(secondePage, positionsLineGraphicStudent, rgb(0.75, 0.2, 0.2));
                                     }
 
                                     // ! *********************************************************
@@ -279,63 +288,61 @@ function getCoordinateGraph(moyenne, studentIndex) {
     return drawLine;
 }
 
-const printGraphic = (page, arrayPositons, studentIndex, studentsSecondeYear, colorLine = rgb(0, 0, 0)) => {
-    if (studentIndex + 1 === studentsSecondeYear.length) {
-        arrayPositons.map((position, indexLinePosition) => {
-            if (indexLinePosition + 1 !== arrayPositons.length) {
-                // If there is no note
-                if (position.start.y !== 0 && arrayPositons[indexLinePosition + 1].start.y !== 0) {
-                    page.drawLine({
-                        start: {
-                            x: position.start.x,
-                            y: position.start.y,
-                        },
-                        end: {
-                            x: arrayPositons[indexLinePosition + 1].start.x,
-                            y: arrayPositons[indexLinePosition + 1].start.y,
-                        },
-                        thickness: 2,
-                        color: colorLine,
-                    });
-
-                    // Draw the circle the very first note
-                    if (indexLinePosition === 0) {
-                        page.drawCircle({
-                            x: position.start.x,
-                            y: position.start.y,
-                            size: 3,
-                            color: colorLine,
-                        });
-                    }
-
-                    // Draw the circle for the other notes
-                    page.drawCircle({
+const printGraphic = (page, arrayPositons, colorLine = rgb(0, 0, 0)) => {
+    arrayPositons.map((position, indexLinePosition) => {
+        if (indexLinePosition + 1 !== arrayPositons.length) {
+            // If there is no note
+            if (position.start.y !== 0 && arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                page.drawLine({
+                    start: {
+                        x: position.start.x,
+                        y: position.start.y,
+                    },
+                    end: {
                         x: arrayPositons[indexLinePosition + 1].start.x,
                         y: arrayPositons[indexLinePosition + 1].start.y,
+                    },
+                    thickness: 2,
+                    color: colorLine,
+                });
+
+                // Draw the circle the very first note
+                if (indexLinePosition === 0) {
+                    page.drawCircle({
+                        x: position.start.x,
+                        y: position.start.y,
                         size: 3,
                         color: colorLine,
                     });
                 }
 
-                // Draw the circle when there is no note
-                if (arrayPositons[indexLinePosition + 1].start.y !== 0) {
-                    if (indexLinePosition === 0) {
-                        page.drawCircle({
-                            x: position.start.x,
-                            y: position.start.y,
-                            size: 3,
-                            color: colorLine,
-                        });
-                    }
-
-                    page.drawCircle({
-                        x: arrayPositons[indexLinePosition + 1].start.x,
-                        y: arrayPositons[indexLinePosition + 1].start.y,
-                        size: 3,
-                        color: colorLine,
-                    });
-                }
+                // Draw the circle for the other notes
+                page.drawCircle({
+                    x: arrayPositons[indexLinePosition + 1].start.x,
+                    y: arrayPositons[indexLinePosition + 1].start.y,
+                    size: 3,
+                    color: colorLine,
+                });
             }
-        });
-    }
+
+            // Draw the circle when there is no note
+            if (arrayPositons[indexLinePosition + 1].start.y !== 0) {
+                if (indexLinePosition === 0) {
+                    page.drawCircle({
+                        x: position.start.x,
+                        y: position.start.y,
+                        size: 3,
+                        color: colorLine,
+                    });
+                }
+
+                page.drawCircle({
+                    x: arrayPositons[indexLinePosition + 1].start.x,
+                    y: arrayPositons[indexLinePosition + 1].start.y,
+                    size: 3,
+                    color: colorLine,
+                });
+            }
+        }
+    });
 };
