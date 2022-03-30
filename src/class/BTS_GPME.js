@@ -288,10 +288,14 @@ export class BTS_GPME {
                                 // Moyenne d'un eleve
                                 let moyenne = 0;
                                 if (studentsFirstYear[studentIndex] !== undefined) {
-                                    moyenne = calculateAverage(
-                                        studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE,
-                                        secondYear.MOYENNE_MAT_GENERALE
-                                    );
+                                    moyenne =
+                                        calculateAverage(
+                                            studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE,
+                                            secondYear.MOYENNE_MAT_GENERALE
+                                        ) ?? "";
+                                    if (studentsFirstYear[studentIndex].CODE_APPRENANT == "116433") {
+                                        console.log(moyenne, "here5");
+                                    }
                                 }
 
                                 // let moyenne = secondYear.MOYENNE_MAT_GENERALE;
@@ -470,7 +474,6 @@ function getCoordinateGraph(moyenne, studentIndex, subjectAbrege = "") {
         drawLine.start.y = 0;
     } else {
         moyenne = toNumber(moyenne);
-        console.log("here", moyenne);
         //Conditions
         let xDifference = 52.6;
         let yDifference = 14.2;
