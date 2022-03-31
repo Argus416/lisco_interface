@@ -126,7 +126,7 @@ export class BTS_MCO {
                                         text:
                                             studentsFirstYear[student_index] == null
                                                 ? ""
-                                                : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+                                                : studentsFirstYear[student_index].MOYENNE_1,
                                         position: {
                                             x: 55,
                                             y: heightFirstPage / 2 + moyenneMetierY,
@@ -137,7 +137,7 @@ export class BTS_MCO {
                                         text:
                                             studentsFirstYear[student_index] == null
                                                 ? ""
-                                                : studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+                                                : studentsFirstYear[student_index].MOYENNE_2,
                                         position: {
                                             x: 100,
                                             y: heightFirstPage / 2 + moyenneMetierY,
