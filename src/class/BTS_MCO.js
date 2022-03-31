@@ -57,12 +57,11 @@ export class BTS_MCO {
                         };
 
                         let moyenneMetierY = 169;
-                        // ! Change year here
+
                         if (studentsSecondeYear.length && studentsSecondeYear !== undefined) {
                             const positionsLineGraphicStudent = [];
                             const positionsLineGraphicGroup = [];
 
-                            // ! Change year here
                             await Promise.all(
                                 studentsSecondeYear.map(async (secondYear, student_index) => {
                                     moyenneMetierY = moyenneMetierY - 18;
@@ -100,10 +99,7 @@ export class BTS_MCO {
                                         },
 
                                         {
-                                            text:
-                                                secondYear.CODE_APPRENANT !== null
-                                                    ? "cd apprenant" + secondYear.CODE_APPRENANT
-                                                    : "",
+                                            text: "Anglais",
                                             position: {
                                                 x: widthFirstPage / 2 - 20,
                                                 y: heightFirstPage / 2 + 231,
@@ -113,6 +109,7 @@ export class BTS_MCO {
                                             },
                                         },
                                     ];
+
                                     Coordonnes.map((coord, coord_index) => {
                                         // Print only one time
                                         if (student_index === 1) {
@@ -121,7 +118,6 @@ export class BTS_MCO {
                                     });
 
                                     //First Year
-
                                     let firstSemesterFirstYear = {
                                         text:
                                             studentsFirstYear[student_index] == null
@@ -157,6 +153,7 @@ export class BTS_MCO {
                                         },
                                     };
 
+                                    // Print text on the pdf
                                     firstPage.drawText(
                                         firstSemesterFirstYear.text ?? "",
                                         firstSemesterFirstYear.position
@@ -171,8 +168,8 @@ export class BTS_MCO {
                                         averageSubjectFisrtYear.text ?? "",
                                         averageSubjectFisrtYear.position
                                     );
-                                    // Second year
 
+                                    // Second year
                                     let firstSemesterSecondYear = {
                                         text:
                                             secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined
@@ -222,6 +219,7 @@ export class BTS_MCO {
                                         },
                                     };
 
+                                    // Print text on the pdf
                                     firstPage.drawText(firstSemesterSecondYear.text, firstSemesterSecondYear.position);
                                     firstPage.drawText(
                                         secondSemestreSecondYear.text,
@@ -243,8 +241,8 @@ export class BTS_MCO {
                                     let average = secondYear.MOYENNE_MAT_GENERALE;
                                     let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-                                    const getDrawLineStudents = getCoordinateGraph(average, student_index);
-                                    const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, student_index);
+                                    const getDrawLineStudents = getCoordinateGraphic(average, student_index);
+                                    const getDrawLineGroup = getCoordinateGraphic(moyenneGroupMatier, student_index);
 
                                     // positionsLineGraphicStudent.push(drawLine);
                                     positionsLineGraphicGroup.push(getDrawLineGroup);
@@ -283,7 +281,8 @@ export class BTS_MCO {
 
 // * since we can't create private methods in Javascript, I'm creating this function outside the class WITHOUT EXPORTING IT
 
-function getCoordinateGraph(average, studentIndex) {
+function getCoordinateGraphic(average, studentIndex) {
+    // the average must be a number
     if (average !== null && average !== NaN) {
         average = average.replace(",", ".");
         average = parseFloat(average);
@@ -296,6 +295,7 @@ function getCoordinateGraph(average, studentIndex) {
         },
     };
 
+    // if position.start.y is 0, it won't be printed on the pdf.
     if (average === NaN || average === null) {
         drawLine.start.y = 0;
     }

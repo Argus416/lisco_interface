@@ -217,18 +217,18 @@ export class BTS_GPME {
                                     },
                                 };
 
-                                // let observationAnnuelleMatier = {
-                                //     text:
-                                //         secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
-                                //         secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
-                                //             ? secondYear.OBSERVATION_ANNUELLE_MATIERE
-                                //             : "",
-                                //     position: {
-                                //         x: width / 2 + 70,
-                                //         y: moyenneMetierYSecondYear,
-                                //         ...configText,
-                                //     },
-                                // };
+                                let observationAnnuelleMatier = {
+                                    text:
+                                        secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
+                                        secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
+                                            ? secondYear.OBSERVATION_ANNUELLE_MATIERE
+                                            : "",
+                                    position: {
+                                        x: width / 2 + 70,
+                                        y: moyenneMetierYSecondYear,
+                                        ...configText,
+                                    },
+                                };
 
                                 // Print notes of the first year
                                 if (studentsFirstYear[student_index] !== undefined) {
@@ -281,7 +281,7 @@ export class BTS_GPME {
                                     );
                                 }
 
-                                // firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
+                                firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
 
                                 // ! Graphic
 
