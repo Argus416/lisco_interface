@@ -42,6 +42,7 @@ const UploadContainer = () => {
         e.preventDefault();
         const uploadedFile = document.querySelector(".csv-file");
         if (uploadedFile.files.length) {
+            setTraniningTitle("");
             setFileIsUploaded(false);
             setIsNotTraining(false);
             const reader = new FileReader();
@@ -56,8 +57,8 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
-                        console.log(resultStudents.data)
-                        if (typeof resultStudents.data.result === "object") {
+                        if (typeof resultStudents.data.result === "object" && resultStudents.data.status === 200) {
+                            console.log(resultStudents.data);
                             const trainingAbreg = resultStudents.data.trainingAbrege;
                             const trainingTitleHere = resultStudents.data.trainingName;
                             const { result } = resultStudents.data;
@@ -193,33 +194,26 @@ const UploadContainer = () => {
                 </Box>
             )}
 
-            {students && (
+            {students && traniningTitle && (
                 <>
-                    {!progressConversion && (
-                        <section className="uploaded-files">
-                            <Box component="header" className="header">
-                                <Typography
-                                    sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
-                                    variant="h4"
-                                    component="h3"
-                                >
-                                    {traniningTitle} <small>(Convertie...)</small>
-                                </Typography>
+                    <section className="uploaded-files">
+                        <Box component="header" className="header">
+                            <Typography
+                                sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
+                                variant="h4"
+                                component="h3"
+                            >
+                                {traniningTitle} <small>(Convertie...)</small>
+                            </Typography>
 
-                                <Button
-                                    onClick={downloadAll}
-                                    className="downloadAll"
-                                    color="warning"
-                                    variant="contained"
-                                >
-                                    Télécharger tout
-                                </Button>
-                            </Box>
-                            {students.map((student, index) => (
-                                <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-                            ))}
-                        </section>
-                    )}
+                            <Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
+                                Télécharger tout
+                            </Button>
+                        </Box>
+                        {students.map((student, index) => (
+                            <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+                        ))}
+                    </section>
                 </>
             )}
         </Container>
