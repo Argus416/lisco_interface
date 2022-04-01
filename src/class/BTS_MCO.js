@@ -102,8 +102,8 @@ export class BTS_MCO {
                                         {
                                             text: "Anglais",
                                             position: {
-                                                x: widthFirstPage / 2 - 20,
-                                                y: heightFirstPage / 2 + 231,
+                                                x: widthFirstPage / 2 + 120,
+                                                y: heightFirstPage / 2 + 220,
                                                 size: configText.size,
                                                 // font: configText.font,
                                                 color: configText.color,
