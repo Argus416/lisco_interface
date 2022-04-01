@@ -19,8 +19,8 @@ const UploadContainer = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const [fileUploaded, setFileUploaded] = useState(false);
-    const [fileIsUploaded, setFileIsUploaded] = useState(false);
     const [progressConversion, setProgressConversion] = useState(false);
+    const [fileIsUploaded, setFileIsUploaded] = useState(false);
     const [students, setStudents] = useState();
     const [studentPdf, setStudentPdf] = useState([]);
     const [traniningTitle, setTraniningTitle] = useState();
@@ -50,14 +50,13 @@ const UploadContainer = () => {
             reader.readAsText(csvFile);
 
             const url = `${apiUrl}/csv/analyse`;
-
+            setProgressConversion(true);
             reader.onload = async function (event) {
                 const text = event.target.result;
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
                         if (typeof resultStudents.data.result === "object") {
-                            setProgressConversion(true);
                             const trainingAbreg = resultStudents.data.trainingAbrege;
                             const trainingTitleHere = resultStudents.data.trainingName;
                             const { result } = resultStudents.data;
@@ -98,6 +97,7 @@ const UploadContainer = () => {
                         } else {
                             setIsNotTraining(true);
                             setProgressConversion(false);
+                            setStudents([]);
                         }
                     })
                     .catch((err) => console.error(err));
@@ -142,7 +142,7 @@ const UploadContainer = () => {
                         setFileUploaded(false);
                     }}
                 >
-                    Le fichier a été uploadé
+                    Le fichier a été uploader
                 </Alert>
             )}
 
@@ -161,7 +161,7 @@ const UploadContainer = () => {
                 <Box className="content">
                     <FontAwesomeIcon icon={faFileArrowUp} size="5x" />
                     <Typography component="p" className="box-text-desc">
-                        Jetez les élèves dans la boîte :3
+                        Jetez les élèyves dans la boîte :3
                     </Typography>
                     <form onSubmit={submitHandler} className="form-upload">
                         <input
@@ -191,28 +191,34 @@ const UploadContainer = () => {
                     <LinearWithValueLabel />
                 </Box>
             )}
+
             {students && (
                 <>
-                    {/* {!progressConversion && ( */}
-                    <section className="uploaded-files">
-                        <Box component="header" className="header">
-                            <Typography
-                                sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
-                                variant="h4"
-                                component="h3"
-                            >
-                                {traniningTitle} <small>(Convertie...)</small>
-                            </Typography>
+                    {!progressConversion && (
+                        <section className="uploaded-files">
+                            <Box component="header" className="header">
+                                <Typography
+                                    sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
+                                    variant="h4"
+                                    component="h3"
+                                >
+                                    {traniningTitle} <small>(Convertie...)</small>
+                                </Typography>
 
-                            <Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
-                                Télécharger tout
-                            </Button>
-                        </Box>
-                        {students.map((student, index) => (
-                            <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-                        ))}
-                    </section>
-                    {/* )} */}
+                                <Button
+                                    onClick={downloadAll}
+                                    className="downloadAll"
+                                    color="warning"
+                                    variant="contained"
+                                >
+                                    Télécharger tout
+                                </Button>
+                            </Box>
+                            {students.map((student, index) => (
+                                <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+                            ))}
+                        </section>
+                    )}
                 </>
             )}
         </Container>
