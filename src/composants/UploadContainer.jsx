@@ -56,6 +56,7 @@ const UploadContainer = () => {
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
+                        console.log(resultStudents.data)
                         if (typeof resultStudents.data.result === "object") {
                             const trainingAbreg = resultStudents.data.trainingAbrege;
                             const trainingTitleHere = resultStudents.data.trainingName;
