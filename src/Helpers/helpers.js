@@ -9,14 +9,14 @@ export const insertIntoArray = (arr, index, newItem) => [
 ];
 
 // STRING
-export const getObservation = (observation) => {
+export const getObservation = (observation, phraseApplayCondition, lineBreakAt) => {
     let observationString = observation !== null && observation !== undefined ? observation : "";
 
     observationString = observationString.split(" ");
-    if (observationString.length >= 8) {
-        observationString = insertIntoArray(observationString, 6, "\n ");
+    if (observationString.length >= phraseApplayCondition) {
+        observationString = insertIntoArray(observationString, lineBreakAt, "\n ");
     }
-    console.log(observationString);
+    observationString[0] = observationString[0].charAt(0).toUpperCase() + observationString[0].slice(1);
     observationString = observationString.join(" ").replace("  ", "");
 
     return observationString;

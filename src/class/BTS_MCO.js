@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PDFDocument, rgb } from "pdf-lib";
+import { getObservation } from "../Helpers/helpers";
 
 export class BTS_MCO {
     constructor() {
@@ -52,7 +53,7 @@ export class BTS_MCO {
                         const studentsSecondeYear = eleve["2e ANNEE"] ?? [];
 
                         const configText = {
-                            size: 12,
+                            size: 10,
                             color: rgb(0, 0, 0.5),
                         };
 
@@ -207,15 +208,13 @@ export class BTS_MCO {
                                     };
 
                                     let observationAnnuelleMatier = {
-                                        text:
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
-                                                ? secondYear.OBSERVATION_ANNUELLE_MATIERE
-                                                : "",
+                                        text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 10),
                                         position: {
-                                            x: widthFirstPage / 2 + 120,
-                                            y: heightFirstPage / 2 + moyenneMetierY,
-                                            ...configText,
+                                            x: widthFirstPage / 2 + 90,
+                                            y: heightFirstPage / 2 + moyenneMetierY + 5,
+                                            size: 9,
+                                            color: rgb(0, 0, 0.5),
+                                            lineHeight: 12,
                                         },
                                     };
 

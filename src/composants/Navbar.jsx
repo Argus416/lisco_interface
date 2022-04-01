@@ -10,7 +10,8 @@ const Navbar = () => {
             <Container component="header">
                 <Toolbar disableGutters>
                     <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-                        LiSco votre temps est précieux, économisez-le !
+                        LiSco
+                        {/* votre temps est précieux, économisez-le ! */}
                     </Typography>
                     <Typography
                         variant="h6"

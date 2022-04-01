@@ -5,7 +5,7 @@ import "../style/style.scss";
 const Home = () => {
     return (
         <main className="Home">
-            {/* <Navbar /> */}
+            <Navbar />
             <UploadContainer />
         </main>
     );

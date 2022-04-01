@@ -1,6 +1,7 @@
 import { borderColor } from "@mui/system";
 import axios from "axios";
 import { grayscale, PDFDocument, rgb } from "pdf-lib";
+import { getObservation } from "../Helpers/helpers";
 
 export class BTS_GPME {
     constructor() {
@@ -125,12 +126,9 @@ export class BTS_GPME {
                                     },
 
                                     {
-                                        text:
-                                            secondYear.CODE_APPRENANT !== null
-                                                ? "code apprenant " + secondYear.CODE_APPRENANT
-                                                : "",
+                                        text: "Anglais",
                                         position: {
-                                            x: width / 2 - 30,
+                                            x: width / 2 - 20,
                                             y: height / 2 + 297,
                                             size: configText.size,
                                             // font: configText.font,
@@ -218,15 +216,13 @@ export class BTS_GPME {
                                 };
 
                                 let observationAnnuelleMatier = {
-                                    text:
-                                        secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
-                                        secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
-                                            ? secondYear.OBSERVATION_ANNUELLE_MATIERE
-                                            : "",
+                                    text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
                                     position: {
-                                        x: width / 2 + 70,
-                                        y: moyenneMetierYSecondYear,
-                                        ...configText,
+                                        x: width / 2 + 35,
+                                        y: moyenneMetierYSecondYear - 15,
+                                        size: 9,
+                                        color: rgb(0, 0, 0.5),
+                                        lineHeight: 12,
                                     },
                                 };
 

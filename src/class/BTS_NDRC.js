@@ -164,7 +164,7 @@ export class BTS_NDRC {
                                     };
 
                                     let observationAnnuelleMatier = {
-                                        text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE),
+                                        text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 6),
                                         position: {
                                             x: width / 2 + 120,
                                             y: height / 2 + moyenneMetierY + 3,
