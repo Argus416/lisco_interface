@@ -38,15 +38,17 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionCus = ({ student, index, pdf }) => {
+    // console.log("student", student);
+
     const [expanded, setExpanded] = useState("panel1");
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
 
-    const downloadPdf = (pdf) => {
-        downloadjs(pdf, `${student["2e ANNEE"][0].CODE_APPRENANT}.pdf`);
-    };
+    // const downloadPdf = (pdf) => {
+    //     downloadjs(pdf, `${student["2e ANNEE"][0].CODE_APPRENANT}.pdf`);
+    // };
 
     const viewPdf = (pdf) => {
         const pdfPreview = URL.createObjectURL(new Blob([pdf], { type: "application/pdf" }));
@@ -64,14 +66,14 @@ const AccordionCus = ({ student, index, pdf }) => {
                         `}
                     </Typography>
                     <Box>
-                        <Button
+                        {/* <Button
                             className="downloadPdf"
                             variant="contained"
                             color="success"
                             onClick={() => downloadPdf(pdf[index])}
                         >
                             <FontAwesomeIcon icon={faArrowDown} />
-                        </Button>
+                        </Button> */}
 
                         <Button className="downloadPdf" variant="contained" onClick={() => viewPdf(pdf[index])}>
                             <FontAwesomeIcon icon={faEye} />

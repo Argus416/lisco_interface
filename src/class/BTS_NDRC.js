@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PDFDocument, grayscale, rgb } from "pdf-lib";
+import { getObservation, insertIntoArray } from "../Helpers/helpers";
 
 export class BTS_NDRC {
     constructor() {
@@ -48,7 +49,7 @@ export class BTS_NDRC {
                         const studentsSecondeYear = eleve["2e ANNEE"] ?? [];
 
                         const configText = {
-                            size: 12,
+                            size: 10,
                             color: rgb(0, 0, 0.5),
                         };
 
@@ -96,10 +97,7 @@ export class BTS_NDRC {
                                         },
 
                                         {
-                                            text:
-                                                secondYear.CODE_APPRENANT !== null
-                                                    ? "code apprenant " + secondYear.CODE_APPRENANT
-                                                    : "",
+                                            text: "Anglais",
                                             position: {
                                                 x: width / 2 + 10,
                                                 y: height / 2 + 163,
@@ -112,6 +110,7 @@ export class BTS_NDRC {
 
                                     Coordonnes.map((coord, coord_index) => {
                                         if (student_index === 1) {
+                                            // Print only one time
                                             firstPage.drawText(coord.text ?? "", coord.position);
                                         }
                                     });
@@ -165,15 +164,13 @@ export class BTS_NDRC {
                                     };
 
                                     let observationAnnuelleMatier = {
-                                        text:
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== null &&
-                                            secondYear.OBSERVATION_ANNUELLE_MATIERE !== undefined
-                                                ? secondYear.OBSERVATION_ANNUELLE_MATIERE
-                                                : "",
+                                        text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 6),
                                         position: {
                                             x: width / 2 + 120,
-                                            y: height / 2 + moyenneMetierY,
-                                            ...configText,
+                                            y: height / 2 + moyenneMetierY + 3,
+                                            size: 9,
+                                            color: rgb(0, 0, 0.5),
+                                            lineHeight: 12,
                                         },
                                     };
 

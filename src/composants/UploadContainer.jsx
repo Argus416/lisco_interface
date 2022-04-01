@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowUp, faLariSign } from "@fortawesome/free-solid-svg-icons";
 import { Alert, Button, Container, Typography } from "@mui/material";
 import AccordionCus from "./AccordionCus";
 import LinearWithValueLabel from "./LinearWithValueLabel";
@@ -10,6 +10,7 @@ import { PDFDocument } from "pdf-lib";
 import downloadjs from "downloadjs";
 import { BTS_NDRC } from "../class/BTS_NDRC";
 import { BTS_MCO } from "../class/BTS_MCO";
+import { BTS_GPME } from "../class/BTS_GPME";
 
 const UploadContainer = () => {
     // TODO : Add chart line
@@ -24,8 +25,7 @@ const UploadContainer = () => {
     const [studentPdf, setStudentPdf] = useState([]);
     const [traniningTitle, setTraniningTitle] = useState();
     const [pdfPreview, setPdfPreview] = useState("");
-    const bts_ndrc = new BTS_NDRC();
-    const bts_mco = new BTS_MCO();
+    const [isNotTraining, setIsNotTraining] = useState(false);
 
     const onChange = (e) => {
         if (e.target.value) {
@@ -33,6 +33,7 @@ const UploadContainer = () => {
             setStudents();
             setTimeout(() => {
                 setFileUploaded(false);
+                setIsNotTraining(false);
             }, 3000);
         }
     };
@@ -41,47 +42,62 @@ const UploadContainer = () => {
         e.preventDefault();
         const uploadedFile = document.querySelector(".csv-file");
         if (uploadedFile.files.length) {
-            setProgressConversion(true);
             setFileIsUploaded(false);
+            setIsNotTraining(false);
             const reader = new FileReader();
             const csvFile = uploadedFile.files[0];
             //read csv file
             reader.readAsText(csvFile);
 
-            const url = `${apiUrl}/csv/`;
+            const url = `${apiUrl}/csv/analyse`;
+
             reader.onload = async function (event) {
                 const text = event.target.result;
                 axios
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
-                        const trainingTitleHere = resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION;
-                        let pdfs = [];
+                        if (typeof resultStudents.data.result === "object") {
+                            setProgressConversion(true);
+                            const trainingAbreg = resultStudents.data.trainingAbrege;
+                            const trainingTitleHere = resultStudents.data.trainingName;
+                            const { result } = resultStudents.data;
+                            let pdfs = [];
+                            switch (trainingAbreg) {
+                                case "BTS NDRC":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(result);
+                                    const bts_ndrc = new BTS_NDRC();
+                                    pdfs = await bts_ndrc.generatePdf(result);
+                                    break;
 
-                        switch (trainingTitleHere) {
-                            case "BTS NEGO. DIGITAL. RELATION CLIENT":
-                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
-                                setStudents(resultStudents.data);
-                                pdfs = await bts_ndrc.generatePdf(resultStudents.data);
-                                break;
+                                case "BTS GPME":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(result);
+                                    const bts_gpme = new BTS_GPME();
+                                    pdfs = await bts_gpme.generatePdf(result);
+                                    break;
 
-                            case "BTS MANAGEMENT COMMERCIAL OPERATIONNEL":
-                                setTraniningTitle(resultStudents.data[0]["2e ANNEE"][0].NOM_FORMATION);
-                                setStudents(resultStudents.data);
-                                pdfs = await bts_mco.generatePdf(resultStudents.data);
-                                break;
+                                case "BTS MCO":
+                                    setTraniningTitle(trainingTitleHere);
+                                    setStudents(result);
+                                    const bts_mco = new BTS_MCO();
+                                    pdfs = await bts_mco.generatePdf(result);
+                                    break;
+                            }
+                            if (pdfs.length) {
+                                setProgressConversion(false);
+                                setStudentPdf(pdfs);
 
-                            default:
-                                setTraniningTitle("Fichier non reconnu");
-                        }
-                        if (pdfs.length) {
+                                // TODO : DELETE
+                                const pdfPreviewBlob = URL.createObjectURL(
+                                    new Blob([pdfs[1]], { type: "application/pdf" })
+                                );
+                                setPdfPreview(pdfPreviewBlob);
+                                // END TODO DELETE;
+                            }
+                        } else {
+                            setIsNotTraining(true);
                             setProgressConversion(false);
-                            setStudentPdf(pdfs);
-
-                            // TO DELETE
-                            const pdfPreviewBlob = URL.createObjectURL(
-                                new Blob([pdfs[1]], { type: "application/pdf" })
-                            );
-                            setPdfPreview(pdfPreviewBlob);
                         }
                     })
                     .catch((err) => console.error(err));
@@ -106,26 +122,38 @@ const UploadContainer = () => {
             );
 
             const docSave = await doc.save();
-            downloadjs(docSave, "gg.pdf");
+            downloadjs(docSave, `${traniningTitle}.pdf`);
         }
     };
 
     return (
         <Container variant="main">
             <Typography className="title" component="h1" variant="h3">
-                Convertissez le fichier CSV
+                Convertissez le fichier CSV en PDF
             </Typography>
-            <Typography className="smallTitle" component="h2" variant="h5">
-                CSV à PDF
-            </Typography>
+
             {fileUploaded && (
                 <Alert
                     className="alert"
+                    sx={{
+                        marginBottom: 1,
+                    }}
                     onClose={() => {
                         setFileUploaded(false);
                     }}
                 >
                     Le fichier a été uploader
+                </Alert>
+            )}
+
+            {isNotTraining && (
+                <Alert
+                    severity="error"
+                    onClose={() => {
+                        setIsNotTraining(false);
+                    }}
+                >
+                    Formation non connu
                 </Alert>
             )}
 
@@ -156,6 +184,7 @@ const UploadContainer = () => {
                     )}
                 </Box>
             </Box>
+
             {progressConversion && (
                 <Box sx={{ marginTop: "20px " }}>
                     <Typography variant="p">Convertir en pdf...</Typography>
@@ -164,31 +193,26 @@ const UploadContainer = () => {
             )}
             {students && (
                 <>
-                    {!progressConversion && (
-                        <section className="uploaded-files">
-                            <Box component="header" className="header">
-                                <Typography
-                                    sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
-                                    variant="h4"
-                                    component="h3"
-                                >
-                                    {traniningTitle}
-                                </Typography>
-                                <Button
-                                    onClick={downloadAll}
-                                    className="downloadAll"
-                                    color="warning"
-                                    variant="contained"
-                                >
-                                    Télécharger tout
-                                </Button>
-                            </Box>
+                    {/* {!progressConversion && ( */}
+                    <section className="uploaded-files">
+                        <Box component="header" className="header">
+                            <Typography
+                                sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }}
+                                variant="h4"
+                                component="h3"
+                            >
+                                {traniningTitle} <small>(Convertie...)</small>
+                            </Typography>
 
-                            {students.map((student, index) => (
-                                <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-                            ))}
-                        </section>
-                    )}
+                            <Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
+                                Télécharger tout
+                            </Button>
+                        </Box>
+                        {students.map((student, index) => (
+                            <AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+                        ))}
+                    </section>
+                    {/* )} */}
                 </>
             )}
         </Container>

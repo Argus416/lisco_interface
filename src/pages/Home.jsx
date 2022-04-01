@@ -4,7 +4,7 @@ import "../style/style.scss";
 
 const Home = () => {
     return (
-        <main>
+        <main className="Home">
             <Navbar />
             <UploadContainer />
         </main>
