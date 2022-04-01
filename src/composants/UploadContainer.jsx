@@ -142,7 +142,7 @@ const UploadContainer = () => {
                         setFileUploaded(false);
                     }}
                 >
-                    Le fichier a été uploader
+                    Le fichier a été uploadé
                 </Alert>
             )}
 
