@@ -323,6 +323,7 @@ export class BTS_GPME {
                                     averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
                                 }
                                 let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+
                                 moyenneGroupMatier = calculateAverage(
                                     students[firstStudentPassedBothYears]["1ere ANNEE"][studentIndex]
                                         .MOYENNE_MAT_GRPE_ANNUELLE,
@@ -364,7 +365,7 @@ export class BTS_GPME {
                                 } else {
                                     // Enseignements de 2ème année
                                     const getDrawLineGroup2 = getCoordinateGraph(
-                                        moyenneGroupMatier,
+                                        secondYear.MOYENNE_MAT_GRPE_ANNUELLE,
                                         studentIndexSubjectSecondYearIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
