@@ -58,12 +58,10 @@ const UploadContainer = () => {
                     .post(url, { csvFile: text })
                     .then(async (resultStudents) => {
                         if (typeof resultStudents.data.result === "object" && resultStudents.data.status === 200) {
-                            console.log(resultStudents.data);
-                            const trainingAbreg = resultStudents.data.trainingAbrege;
                             const trainingTitleHere = resultStudents.data.trainingName;
-                            const { result } = resultStudents.data;
+                            const { result, trainingAbrege } = resultStudents.data;
                             let pdfs = [];
-                            switch (trainingAbreg) {
+                            switch (trainingAbrege) {
                                 case "BTS NDRC":
                                     setTraniningTitle(trainingTitleHere);
                                     setStudents(result);

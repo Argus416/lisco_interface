@@ -23,11 +23,27 @@ export class BTS_GPME {
         return pdf;
     }
 
+    getFirstStudentWhoPassedBothYears(students) {
+        let index = null;
+
+        if (students.length) {
+            for (let i = 0; i < students.length; i++) {
+                if (students[i]["1ere ANNEE"] !== undefined && students[i]["2e ANNEE"] !== undefined) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
     // ********************************************
 
     async generatePdf(students) {
         const pdf = await this.getPdf();
 
+        const firstStudentPassedBothYears = this.getFirstStudentWhoPassedBothYears(students);
+        console.log(firstStudentPassedBothYears);
         const allStudentPdf = [];
 
         if (students.length) {
@@ -283,14 +299,21 @@ export class BTS_GPME {
 
                                 // Moyenne d'un eleve
                                 let averageFirstYear = "";
+                                let moyenneGroupMatier = "";
                                 if (studentsFirstYear[studentIndex] !== undefined) {
                                     averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
                                 }
                                 let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+                                moyenneGroupMatier = calculateAverage(
+                                    students[firstStudentPassedBothYears]["1ere ANNEE"][studentIndex]
+                                        .MOYENNE_MAT_GRPE_ANNUELLE,
+                                    secondYear.MOYENNE_MAT_GRPE_ANNUELLE
+                                );
+
                                 let averageSubjectsecondYear = secondYear.MOYENNE_MAT_GENERALE;
 
                                 // let moyenne = secondYear.MOYENNE_MAT_GENERALE;
-                                let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
+                                // let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
                                 // *******
                                 if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
