@@ -194,6 +194,7 @@ export class BTS_GPME {
                                             ...configText,
                                         },
                                     };
+
                                     firstYearObservation = {
                                         text: getObservation(
                                             studentsFirstYear[student_index].OBSERVATION_ANNUELLE_MATIERE,
@@ -202,7 +203,7 @@ export class BTS_GPME {
                                         ),
                                         position: {
                                             x: width / 2 + 35,
-                                            y: moyenneMetierYFirstYear + 30,
+                                            y: moyenneMetierYFirstYear + 5,
                                             size: 8.5,
                                             color: rgb(0, 0, 0.5),
                                             lineHeight: 12,
@@ -273,6 +274,10 @@ export class BTS_GPME {
                                                 yPosition,
                                                 firstPage,
                                                 width
+                                            );
+                                            firstPage.drawText(
+                                                firstYearObservation.text,
+                                                firstYearObservation.position
                                             );
                                         } else {
                                             firstPage.drawText(
