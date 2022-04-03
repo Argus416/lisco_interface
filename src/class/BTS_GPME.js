@@ -364,7 +364,7 @@ export class BTS_GPME {
                                 } else {
                                     // Enseignements de 2ème année
                                     const getDrawLineGroup2 = getCoordinateGraph(
-                                        moyenneGroupMatier,
+                                        secondYear.MOYENNE_MAT_GRPE_ANNUELLE,
                                         studentIndexSubjectSecondYearIndex,
                                         secondYear.ABREGE_MATIERE
                                     );
