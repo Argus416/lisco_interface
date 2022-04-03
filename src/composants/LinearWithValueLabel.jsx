@@ -29,7 +29,7 @@ const LinearWithValueLabel = () => {
     const [progress, setProgress] = useState(0);
     useEffect(() => {
         const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
+            setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 25));
         }, 1000);
         return () => {
             clearInterval(timer);
