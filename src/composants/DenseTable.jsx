@@ -39,7 +39,7 @@ const DenseTable = ({ student }) => {
                                             <TableCell component="th" scope="row">
                                                 {element.NUM_ORDRE_MATIERE}
                                             </TableCell>
-                                            <TableCell>{element.NOM_MATIERE}</TableCell>
+                                            <TableCell>{element.OBSERVATION_ANNUELLE_MATIERE}</TableCell>
                                             <TableCell>{element.ABREGE_MATIERE}</TableCell>
                                             <TableCell>{element.MOYENNE_1}</TableCell>
                                             <TableCell>{element.MOYENNE_2}</TableCell>

@@ -66,7 +66,7 @@ export class BTS_GPME {
                     const studentsSecondeYear = eleve["2e ANNEE"] ?? [];
 
                     const configText = {
-                        size: 12,
+                        size: 10,
                         color: rgb(0, 0, 0.5),
                     };
 
@@ -162,10 +162,10 @@ export class BTS_GPME {
 
                                 // First year **************************
 
+                                let firstYearObservation = {};
                                 let MoyenneMetierPremiereAnnee = {};
                                 let semestreUnPremiereAnnee = {};
                                 let semestreDeuxPremiereAnnee = {};
-
                                 // Because the subjects of the first year are less than the second year
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     MoyenneMetierPremiereAnnee = {
@@ -194,9 +194,24 @@ export class BTS_GPME {
                                             ...configText,
                                         },
                                     };
+                                    firstYearObservation = {
+                                        text: getObservation(
+                                            studentsFirstYear[student_index].OBSERVATION_ANNUELLE_MATIERE,
+                                            8,
+                                            8
+                                        ),
+                                        position: {
+                                            x: width / 2 + 35,
+                                            y: moyenneMetierYFirstYear + 30,
+                                            size: 8.5,
+                                            color: rgb(0, 0, 0.5),
+                                            lineHeight: 12,
+                                        },
+                                    };
                                 }
 
                                 // Second year **************************
+
                                 let MoyenneMetierDeuxiemeAnnee = {
                                     text:
                                         secondYear.MOYENNE_MAT_GENERALE === null ? "" : secondYear.MOYENNE_MAT_GENERALE,
@@ -231,12 +246,12 @@ export class BTS_GPME {
                                     },
                                 };
 
-                                let observationAnnuelleMatier = {
+                                let secondYearObservation = {
                                     text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
                                     position: {
                                         x: width / 2 + 35,
-                                        y: moyenneMetierYSecondYear - 15,
-                                        size: 9,
+                                        y: moyenneMetierYSecondYear + 30,
+                                        size: 8.5,
                                         color: rgb(0, 0, 0.5),
                                         lineHeight: 12,
                                     },
@@ -273,6 +288,10 @@ export class BTS_GPME {
                                                 semestreDeuxPremiereAnnee.text,
                                                 semestreDeuxPremiereAnnee.position
                                             );
+                                            firstPage.drawText(
+                                                firstYearObservation.text,
+                                                firstYearObservation.position
+                                            );
                                         }
                                     }
                                 }
@@ -293,7 +312,7 @@ export class BTS_GPME {
                                     );
                                 }
 
-                                firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
+                                firstPage.drawText(secondYearObservation.text, secondYearObservation.position);
 
                                 // ! Graphic
 
