@@ -250,7 +250,7 @@ export class BTS_GPME {
                                     text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
                                     position: {
                                         x: width / 2 + 35,
-                                        y: moyenneMetierYSecondYear + 30,
+                                        y: moyenneMetierYSecondYear + 5,
                                         size: 8.5,
                                         color: rgb(0, 0, 0.5),
                                         lineHeight: 12,
