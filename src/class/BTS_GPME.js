@@ -23,11 +23,27 @@ export class BTS_GPME {
         return pdf;
     }
 
+    getFirstStudentWhoPassedBothYears(students) {
+        let index = null;
+
+        if (students.length) {
+            for (let i = 0; i < students.length; i++) {
+                if (students[i]["1ere ANNEE"] !== undefined && students[i]["2e ANNEE"] !== undefined) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
     // ********************************************
 
     async generatePdf(students) {
         const pdf = await this.getPdf();
 
+        const firstStudentPassedBothYears = this.getFirstStudentWhoPassedBothYears(students);
+        console.log(firstStudentPassedBothYears);
         const allStudentPdf = [];
 
         if (students.length) {
@@ -50,7 +66,7 @@ export class BTS_GPME {
                     const studentsSecondeYear = eleve["2e ANNEE"] ?? [];
 
                     const configText = {
-                        size: 12,
+                        size: 10,
                         color: rgb(0, 0, 0.5),
                     };
 
@@ -146,10 +162,10 @@ export class BTS_GPME {
 
                                 // First year **************************
 
+                                let firstYearObservation = {};
                                 let MoyenneMetierPremiereAnnee = {};
                                 let semestreUnPremiereAnnee = {};
                                 let semestreDeuxPremiereAnnee = {};
-
                                 // Because the subjects of the first year are less than the second year
                                 if (studentsFirstYear[student_index] !== undefined) {
                                     MoyenneMetierPremiereAnnee = {
@@ -178,9 +194,24 @@ export class BTS_GPME {
                                             ...configText,
                                         },
                                     };
+                                    firstYearObservation = {
+                                        text: getObservation(
+                                            studentsFirstYear[student_index].OBSERVATION_ANNUELLE_MATIERE,
+                                            8,
+                                            8
+                                        ),
+                                        position: {
+                                            x: width / 2 + 35,
+                                            y: moyenneMetierYFirstYear + 30,
+                                            size: 8.5,
+                                            color: rgb(0, 0, 0.5),
+                                            lineHeight: 12,
+                                        },
+                                    };
                                 }
 
                                 // Second year **************************
+
                                 let MoyenneMetierDeuxiemeAnnee = {
                                     text:
                                         secondYear.MOYENNE_MAT_GENERALE === null ? "" : secondYear.MOYENNE_MAT_GENERALE,
@@ -215,12 +246,12 @@ export class BTS_GPME {
                                     },
                                 };
 
-                                let observationAnnuelleMatier = {
+                                let secondYearObservation = {
                                     text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
                                     position: {
                                         x: width / 2 + 35,
-                                        y: moyenneMetierYSecondYear - 15,
-                                        size: 9,
+                                        y: moyenneMetierYSecondYear + 30,
+                                        size: 8.5,
                                         color: rgb(0, 0, 0.5),
                                         lineHeight: 12,
                                     },
@@ -257,6 +288,10 @@ export class BTS_GPME {
                                                 semestreDeuxPremiereAnnee.text,
                                                 semestreDeuxPremiereAnnee.position
                                             );
+                                            firstPage.drawText(
+                                                firstYearObservation.text,
+                                                firstYearObservation.position
+                                            );
                                         }
                                     }
                                 }
@@ -277,20 +312,27 @@ export class BTS_GPME {
                                     );
                                 }
 
-                                firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
+                                firstPage.drawText(secondYearObservation.text, secondYearObservation.position);
 
                                 // ! Graphic
 
                                 // Moyenne d'un eleve
                                 let averageFirstYear = "";
+                                let moyenneGroupMatier = "";
                                 if (studentsFirstYear[studentIndex] !== undefined) {
                                     averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
                                 }
                                 let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+                                moyenneGroupMatier = calculateAverage(
+                                    students[firstStudentPassedBothYears]["1ere ANNEE"][studentIndex]
+                                        .MOYENNE_MAT_GRPE_ANNUELLE,
+                                    secondYear.MOYENNE_MAT_GRPE_ANNUELLE
+                                );
+
                                 let averageSubjectsecondYear = secondYear.MOYENNE_MAT_GENERALE;
 
                                 // let moyenne = secondYear.MOYENNE_MAT_GENERALE;
-                                let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
+                                // let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
                                 // *******
                                 if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
