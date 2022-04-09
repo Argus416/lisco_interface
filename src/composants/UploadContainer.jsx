@@ -125,11 +125,7 @@ const UploadContainer = () => {
 	};
 
 	return (
-		<Container variant="main">
-			<Typography className="title" component="h1" variant="h3">
-				Convertissez le fichier CSV en PDF
-			</Typography>
-
+		<Box>
 			{fileUploaded && (
 				<Alert
 					className="alert"
@@ -202,7 +198,7 @@ const UploadContainer = () => {
 					</section>
 				</>
 			)}
-		</Container>
+		</Box>
 	);
 };
 
