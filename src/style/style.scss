@@ -20,6 +20,28 @@ body {
 	font-family: "Roboto", sans-serif;
 }
 
+.primary-btn {
+	display: inline-block;
+	background-color: $third-color !important;
+	color: $primary-color !important;
+	transition: all 0.2 ease-in-out;
+	&:hover {
+		background-color: $third-color !important;
+		opacity: 0.8;
+	}
+}
+
+.secondary-btn {
+	display: inline-block;
+	background-color: $primary-color !important;
+	color: $third-color !important;
+	transition: all 0.2 ease-in-out;
+	&:hover {
+		background-color: $primary-color !important;
+		opacity: 0.8;
+	}
+}
+
 .navbar {
 	background-color: $primary-color !important;
 }
@@ -30,6 +52,13 @@ body {
 main.Home {
 	h1.title {
 		margin-bottom: 1em !important;
+	}
+	.btn-container {
+		text-align: center;
+		margin-top: 1em;
+		.continue-btn {
+			margin: 0 auto;
+		}
 	}
 }
 
@@ -60,9 +89,6 @@ main.Home {
 		}
 	}
 	.pmStep1 {
-		.cpm {
-			border: 6px solid $primary-color;
-		}
 	}
 	.pmStep4 {
 		width: 70% !important;
@@ -126,14 +152,7 @@ main.Home {
 	flex-direction: column;
 	align-items: center;
 	.btn-upload-file {
-		margin-top: 10px;
-		background-color: $third-color !important;
-		color: $primary-color !important;
-		transition: all 0.2 ease-in-out;
-		&:hover {
-			background-color: $third-color !important;
-			opacity: 0.8;
-		}
+		margin-top: 15px;
 	}
 }
 

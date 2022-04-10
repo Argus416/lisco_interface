@@ -1,11 +1,23 @@
-import { Box, Typography, Container } from "@mui/material";
-import Navbar from "../composants/Navbar";
+import { Box, Typography, Container, Button } from "@mui/material";
+import Navbar from "../composants/utils/Navbar";
 import UploadContainer from "../composants/UploadContainer";
+import StudentsValidation from "../composants/StudentsValidation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import "../style/style.scss";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Home = () => {
+	const students = useSelector((state) => state.students.value);
+
+	const [screen, setSreen] = useState(1);
+
+	const progressionHandler = () => {
+		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
+		console.log(students);
+	};
+
 	return (
 		<Box component="main" className="Home">
 			<Navbar />
@@ -16,7 +28,7 @@ const Home = () => {
 
 				<Box className="ProgressionMenu">
 					<Box className="ProgressionMenuStep pmStep1">
-						<Typography component="span" className="cercle-progression-menu cpm">
+						<Typography component="span" className="cercle-progression-menu cpm" sx={{ border: "6px solid #e5077e !important" }}>
 							1
 						</Typography>
 						<FontAwesomeIcon className="arrowIcon" icon={faArrowRightLong} size="3x" />
@@ -41,7 +53,14 @@ const Home = () => {
 						</Typography>
 					</Box>
 				</Box>
-				{/* <UploadContainer /> */}
+
+				<Box className="btn-container">
+					<Button onClick={progressionHandler} className="secondary-btn continue-btn" variant="contained">
+						Continuer
+					</Button>
+				</Box>
+				{students && <StudentsValidation />}
+				<UploadContainer display={true} />
 			</Container>
 		</Box>
 	);

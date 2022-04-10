@@ -64,9 +64,43 @@ const UploadContainer = ({ display }) => {
 					.post(url, { csvFile: text })
 					.then(async (resultStudents) => {
 						if (typeof resultStudents.data.result === "object" && resultStudents.data.status === 200) {
+							const trainingTitleHere = resultStudents.data.trainingName;
 							const { result, trainingAbrege } = resultStudents.data;
+							let pdfs = [];
 							// update students globale state
 							dispatch(updateStudents(result));
+
+							switch (trainingAbrege) {
+								case "BTS NDRC":
+									setTraniningTitle(trainingTitleHere);
+									setStudents(result);
+									const bts_ndrc = new BTS_NDRC();
+									pdfs = await bts_ndrc.generatePdf(result);
+									break;
+
+								case "BTS GPME":
+									setTraniningTitle(trainingTitleHere);
+									setStudents(result);
+									const bts_gpme = new BTS_GPME();
+									pdfs = await bts_gpme.generatePdf(result);
+									break;
+
+								case "BTS MCO":
+									setTraniningTitle(trainingTitleHere);
+									setStudents(result);
+									const bts_mco = new BTS_MCO();
+									pdfs = await bts_mco.generatePdf(result);
+									break;
+							}
+							if (pdfs.length) {
+								setProgressConversion(false);
+								setStudentPdf(pdfs);
+
+								// TODO : DELETE
+								const pdfPreviewBlob = URL.createObjectURL(new Blob([pdfs[1]], { type: "application/pdf" }));
+								setPdfPreview(pdfPreviewBlob);
+								// END TODO DELETE;
+							}
 						} else {
 							setIsNotTraining(true);
 							setProgressConversion(false);
