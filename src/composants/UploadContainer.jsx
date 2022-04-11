@@ -16,7 +16,7 @@ import { BTS_GPME } from "../class/BTS_GPME";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStudents } from "../features/students";
 
-const UploadContainer = ({ display }) => {
+const UploadContainer = ({ nextStep }) => {
 	// TODO : Add chart line
 	// https://devexpress.github.io/devextreme-reactive/react/chart/demos/line/line/
 
@@ -30,6 +30,7 @@ const UploadContainer = ({ display }) => {
 	const [traniningTitle, setTraniningTitle] = useState();
 	const [pdfPreview, setPdfPreview] = useState("");
 	const [isNotTraining, setIsNotTraining] = useState(false);
+	const [display, setDisplay] = useState(true);
 
 	const dispatch = useDispatch();
 
@@ -67,6 +68,8 @@ const UploadContainer = ({ display }) => {
 							const { result, trainingAbrege } = resultStudents.data;
 							// update students globale state
 							dispatch(updateStudents(result));
+							nextStep();
+							setDisplay(false);
 						} else {
 							setIsNotTraining(true);
 							setProgressConversion(false);

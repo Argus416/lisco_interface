@@ -1,25 +1,17 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { useSelector } from "react-redux";
-import { NativeSelect } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { Box, NativeSelect, Typography, FormControl, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { updateStudents } from "../features/students";
 
 function createData(id, fullName, studentCode) {
 	return { id, fullName, studentCode };
 }
 
-const StudentsValidation = ({ display }) => {
-	const students = useSelector((state) => state.students.value);
+const StudentsValidation = ({ nextStep }) => {
+	const dispatch = useDispatch();
 
+	const students = useSelector((state) => state.students.value);
+	let copiedStudents = JSON.parse(JSON.stringify(students));
 	const rows = [];
 	let rowsId = 0;
 	students.map((year) => {
@@ -31,45 +23,82 @@ const StudentsValidation = ({ display }) => {
 		rows.push(createData(rowsId, fullName, studentCode));
 	});
 
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		if (copiedStudents.length) {
+			for (let i = 0; i < students.length; i++) {
+				copiedStudents[i].validate = e.target[i + 1].value;
+			}
+		}
+		dispatch(updateStudents(copiedStudents));
+		console.log(students);
+	};
+
+	const changeHandler = (e) => {
+		if (e.target.value != 0) {
+			e.target.classList.add("ok");
+			e.target.classList.remove("error");
+		} else {
+			e.target.classList.remove("ok");
+			e.target.classList.add("error");
+		}
+	};
 	return (
-		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-				<TableHead>
-					<TableRow>
-						<TableCell></TableCell>
-						<TableCell>Nom complet</TableCell>
-						<TableCell>Code Appreant</TableCell>
-						<TableCell>Avis</TableCell>
-						{/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{rows.map((row) => (
-						<TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-							<TableCell>{row.id}</TableCell>
-							<TableCell>{row.fullName}</TableCell>
-							<TableCell>{row.studentCode}</TableCell>
-							<TableCell>
-								<FormControl fullWidth>
-									<NativeSelect
-										defaultValue={0}
-										inputProps={{
-											name: "avis",
-											id: "uncontrolled-native",
-										}}
-									>
-										<option value={0}>Choisir une avis</option>
-										<option value={1}>Favorable</option>
-										<option value={2}>Doit faire ses preuves</option>
-										<option value={3}>Trés favorable</option>
-									</NativeSelect>
-								</FormControl>
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<Box component="section" id="StudentsValidation">
+			<Typography variant="h4" className="title">
+				Avis du conseil de classe (facultatif)
+			</Typography>
+			<form onSubmit={submitHandler} className="form-student-validation">
+				<Box className="btn-container">
+					<Button type="submit" className="secondary-btn">
+						Suivant
+					</Button>
+				</Box>
+
+				<TableContainer component={Paper}>
+					<Table size="small" aria-label="a dense table">
+						<TableHead>
+							<TableRow>
+								<TableCell></TableCell>
+								<TableCell>Nom complet</TableCell>
+								<TableCell>Code Appreant</TableCell>
+								<TableCell>Avis</TableCell>
+								{/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{rows.map((row, index) => (
+								<TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+									<TableCell>{row.id}</TableCell>
+									<TableCell>{row.fullName}</TableCell>
+									<TableCell>{row.studentCode}</TableCell>
+									<TableCell>
+										<FormControl fullWidth>
+											<NativeSelect
+												defaultValue="2"
+												inputProps={{
+													name: "avis",
+													id: "uncontrolled-native",
+												}}
+												onChange={changeHandler}
+												name={index}
+												// required
+											>
+												<option value="0">Choisir une avis</option>
+												<option value="1">Favorable</option>
+												<option value="2">Doit faire ses preuves</option>
+												<option value="3">Trés favorable</option>
+											</NativeSelect>
+										</FormControl>
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</form>
+		</Box>
 	);
 };
 export default StudentsValidation;

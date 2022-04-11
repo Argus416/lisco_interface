@@ -83,6 +83,9 @@ main.Home {
 			text-align: center;
 			line-height: 60px;
 		}
+		.active {
+			border: 6px solid #e5077e !important;
+		}
 		.arrowIcon {
 			position: absolute;
 			right: 0;
@@ -94,7 +97,6 @@ main.Home {
 		width: 70% !important;
 	}
 }
-
 .droparea {
 	margin: auto;
 	width: 50%;
@@ -172,5 +174,26 @@ main.Home {
 		&:first-child {
 			margin-right: 10px;
 		}
+	}
+}
+
+// STEP 2 *******************************************
+#StudentsValidation {
+	margin-bottom: 1em;
+	.title {
+		text-align: center;
+		margin-top: 1.5em;
+	}
+	.form-student-validation {
+		.secondary-btn {
+			margin-block: 10px;
+			width: 50%;
+		}
+	}
+	.ok {
+		background-color: lightgreen;
+	}
+	.error {
+		background-color: crimson;
 	}
 }

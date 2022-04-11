@@ -12,10 +12,15 @@ const Home = () => {
 	const students = useSelector((state) => state.students.value);
 
 	const [screen, setSreen] = useState(1);
-
+	let step = 0;
 	const progressionHandler = () => {
 		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
-		console.log(students);
+		if (step !== allSteps.length - 1) {
+			allSteps[step].querySelector(".cpm").classList.remove("active");
+			allSteps[step + 1].querySelector(".cpm").classList.add("active");
+			step++;
+		}
+		console.log(step);
 	};
 
 	return (
@@ -28,7 +33,7 @@ const Home = () => {
 
 				<Box className="ProgressionMenu">
 					<Box className="ProgressionMenuStep pmStep1">
-						<Typography component="span" className="cercle-progression-menu cpm" sx={{ border: "6px solid #e5077e !important" }}>
+						<Typography component="span" className="cercle-progression-menu cpm active">
 							1
 						</Typography>
 						<FontAwesomeIcon className="arrowIcon" icon={faArrowRightLong} size="3x" />
@@ -54,13 +59,8 @@ const Home = () => {
 					</Box>
 				</Box>
 
-				<Box className="btn-container">
-					<Button onClick={progressionHandler} className="secondary-btn continue-btn" variant="contained">
-						Continuer
-					</Button>
-				</Box>
-				{students && <StudentsValidation />}
-				<UploadContainer display={true} />
+				<UploadContainer nextStep={() => progressionHandler()} />
+				{students && <StudentsValidation nextStep={() => progressionHandler()} />}
 			</Container>
 		</Box>
 	);
