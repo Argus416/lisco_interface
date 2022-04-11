@@ -51,20 +51,12 @@ const YearResult = ({ nextStep }) => {
 				copiedStudents[i].validate = e.target[i + 1].value;
 			}
 		}
+
 		dispatch(updateStudents(copiedStudents));
-		setDisplay(false);
-		nextStep();
+		// setDisplay(false);
+		// nextStep();
 	};
 
-	const changeHandler = (e) => {
-		if (e.target.value != 0) {
-			e.target.classList.add("ok");
-			e.target.classList.remove("error");
-		} else {
-			e.target.classList.remove("ok");
-			e.target.classList.add("error");
-		}
-	};
 	return (
 		display && (
 			<Box component="section" id="StudentsValidation">
@@ -95,10 +87,10 @@ const YearResult = ({ nextStep }) => {
 									<TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 										<TableCell>{todayYear - i - 1}</TableCell>
 										<TableCell>
-											<TextField id="filled-basic" label="Filled" variant="filled" />
+											<TextField type="number" id="filled-basic" label="Filled" variant="filled" />
 										</TableCell>
 										<TableCell>
-											<TextField id="filled-basic" label="Filled" variant="filled" />
+											<TextField type="number" id="filled-basic" label="Filled" variant="filled" />
 										</TableCell>
 										<TableCell>30%</TableCell>
 									</TableRow>
