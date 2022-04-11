@@ -1,19 +1,24 @@
 import { Box, Typography, Container, Button } from "@mui/material";
-import Navbar from "../components/utils/Navbar";
+import Navbar from "../components/partiel/Navbar";
 import UploadContainer from "../components/UploadContainer";
 import StudentsValidation from "../components/StudentsValidation";
+import YearResult from "../components/YearResult";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
-import "../style/style.scss";
 import { useSelector, useDispatch } from "react-redux";
+import "../style/style.scss";
+import { useState } from "react";
 
 const Home = () => {
 	const students = useSelector((state) => state.students.value);
-	// let step = currentScreen;
+	const dispatch = useDispatch();
+
+	const [stepState, setStepState] = useState(1);
 	const progressionHandler = (step) => {
 		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
 		allSteps[step - 1].querySelector(".cpm").classList.remove("active");
 		allSteps[step].querySelector(".cpm").classList.add("active");
+		setStepState(step);
 	};
 
 	return (
@@ -51,9 +56,9 @@ const Home = () => {
 						</Typography>
 					</Box>
 				</Box>
-
 				<UploadContainer nextStep={() => progressionHandler(1)} />
 				{students && <StudentsValidation nextStep={() => progressionHandler(2)} />}
+				{students && students[0].validate && <YearResult nextStep={() => progressionHandler(3)} />}
 			</Container>
 		</Box>
 	);

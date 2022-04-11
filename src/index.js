@@ -7,10 +7,12 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import studentsReducer from "./features/students";
+import progressCounterReducer from "./features/progressCounter";
 
 const store = configureStore({
 	reducer: {
 		students: studentsReducer,
+		progressCounter: progressCounterReducer,
 	},
 });
 
