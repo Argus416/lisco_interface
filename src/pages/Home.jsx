@@ -1,26 +1,21 @@
 import { Box, Typography, Container, Button } from "@mui/material";
-import Navbar from "../composants/utils/Navbar";
-import UploadContainer from "../composants/UploadContainer";
-import StudentsValidation from "../composants/StudentsValidation";
+import Navbar from "../components/utils/Navbar";
+import UploadContainer from "../components/UploadContainer";
+import StudentsValidation from "../components/StudentsValidation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import "../style/style.scss";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 const Home = () => {
 	const students = useSelector((state) => state.students.value);
-
-	const [screen, setSreen] = useState(1);
-	let step = 0;
-	const progressionHandler = () => {
+	// let step = currentScreen;
+	const progressionHandler = (step) => {
 		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
-		if (step !== allSteps.length - 1) {
-			allSteps[step].querySelector(".cpm").classList.remove("active");
-			allSteps[step + 1].querySelector(".cpm").classList.add("active");
-			step++;
+		if (step !== 4) {
+			allSteps[step - 1].querySelector(".cpm").classList.remove("active");
+			allSteps[step].querySelector(".cpm").classList.add("active");
 		}
-		console.log(step);
 	};
 
 	return (
@@ -59,8 +54,8 @@ const Home = () => {
 					</Box>
 				</Box>
 
-				<UploadContainer nextStep={() => progressionHandler()} />
-				{students && <StudentsValidation nextStep={() => progressionHandler()} />}
+				<UploadContainer nextStep={() => progressionHandler(1)} />
+				{students && <StudentsValidation nextStep={() => progressionHandler(2)} />}
 			</Container>
 		</Box>
 	);
