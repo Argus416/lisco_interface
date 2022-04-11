@@ -12,10 +12,8 @@ const Home = () => {
 	// let step = currentScreen;
 	const progressionHandler = (step) => {
 		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
-		if (step !== 4) {
-			allSteps[step - 1].querySelector(".cpm").classList.remove("active");
-			allSteps[step].querySelector(".cpm").classList.add("active");
-		}
+		allSteps[step - 1].querySelector(".cpm").classList.remove("active");
+		allSteps[step].querySelector(".cpm").classList.add("active");
 	};
 
 	return (

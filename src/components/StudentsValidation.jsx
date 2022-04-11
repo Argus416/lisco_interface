@@ -2,7 +2,7 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, NativeSelect, Typography, FormControl, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { updateStudents } from "../features/students";
-
+import { useState } from "react";
 function createData(id, fullName, studentCode) {
 	return { id, fullName, studentCode };
 }
@@ -10,6 +10,7 @@ function createData(id, fullName, studentCode) {
 const StudentsValidation = ({ nextStep }) => {
 	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
+	const [display, setDisplay] = useState(true);
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	const rows = [];
 	let rowsId = 0;
@@ -32,6 +33,7 @@ const StudentsValidation = ({ nextStep }) => {
 			}
 		}
 		dispatch(updateStudents(copiedStudents));
+		setDisplay(false);
 		nextStep();
 	};
 
@@ -45,7 +47,7 @@ const StudentsValidation = ({ nextStep }) => {
 		}
 	};
 	return (
-		students && (
+		display && (
 			<Box component="section" id="StudentsValidation">
 				<Typography variant="h4" className="title">
 					Avis du conseil de classe (facultatif)
