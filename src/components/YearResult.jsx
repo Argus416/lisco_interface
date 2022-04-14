@@ -31,7 +31,7 @@ const YearResult = ({ nextStep }) => {
 	const thisYearYear = {
 		recus: students.filter((student) => student.validate !== "0").length,
 		presnetes: students.length,
-		result: (students.filter((student) => student.validate !== "0").length / students.length) * 100,
+		result: ((students.filter((student) => student.validate !== "0").length / students.length) * 100).toFixed(2),
 	};
 
 	console.log(thisYearYear);
