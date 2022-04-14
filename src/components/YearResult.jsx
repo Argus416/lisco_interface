@@ -34,8 +34,6 @@ const YearResult = ({ nextStep }) => {
 		result: ((students.filter((student) => student.validate !== "0").length / students.length) * 100).toFixed(2),
 	};
 
-	console.log(thisYearYear);
-	console.log(recus, presnet, "eee");
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
@@ -74,12 +72,21 @@ const YearResult = ({ nextStep }) => {
 		// nextStep();
 	};
 
+	const changeHandler = (e) => {
+		console.log(e.target.parentNode.parentNode.parentNode.nextElementSibling);
+	};
+
 	const inputIsDisabled = (condition1, condition2 = 0) => {
 		if (condition1 === condition2) {
 			return { disabled: true };
 		}
 	};
 
+	const showResultFirstYear = (condition1) => {
+		if (condition1 === 0) {
+			return thisYearYear;
+		}
+	};
 	return (
 		display && (
 			<Box component="section" id="StudentsValidation">
@@ -107,7 +114,7 @@ const YearResult = ({ nextStep }) => {
 							</TableHead>
 							<TableBody>
 								{[...Array(years)].map((e, i) => (
-									<TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+									<TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} onChange={(e) => changeHandler(e)}>
 										<TableCell sx={{ display: "none" }}>
 											<input type="hidden" name={todayYear - i - 1} />
 										</TableCell>
@@ -119,7 +126,8 @@ const YearResult = ({ nextStep }) => {
 												placeholder="25"
 												variant="filled"
 												{...inputIsDisabled(i)}
-												value={i == 0 ? thisYearYear.presnetes : ""}
+												value={showResultFirstYear(i)?.presnetes}
+
 												// {...(i == 0 ? { disabled: true } : "")}
 											/>
 										</TableCell>
@@ -129,8 +137,12 @@ const YearResult = ({ nextStep }) => {
 												type="number"
 												placeholder="25"
 												variant="filled"
+												value={showResultFirstYear(i)?.recus}
+												InputProps={{
+													max: 100,
+													min: 0,
+												}}
 												{...inputIsDisabled(i)}
-												value={i == 0 ? thisYearYear.recus : ""}
 											/>
 										</TableCell>
 										<TableCell>{i == 0 ? thisYearYear.result + "%" : "0%"}</TableCell>
