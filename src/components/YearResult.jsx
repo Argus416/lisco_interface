@@ -25,6 +25,17 @@ const YearResult = ({ nextStep }) => {
 	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
 	const [display, setDisplay] = useState(true);
+
+	const recus = students.filter((student) => student.validate !== "0").length;
+	const presnet = students.length;
+	const thisYearYear = {
+		recus: students.filter((student) => student.validate !== "0").length,
+		presnetes: students.length,
+		result: (students.filter((student) => student.validate !== "0").length / students.length) * 100,
+	};
+
+	console.log(thisYearYear);
+	console.log(recus, presnet, "eee");
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
@@ -44,17 +55,29 @@ const YearResult = ({ nextStep }) => {
 			break;
 	}
 	const submitHandler = (e) => {
+		// Taux de réussite brut = (Bacheliers x 100) / Présents
+
 		e.preventDefault();
 
-		if (copiedStudents.length) {
-			for (let i = 0; i < students.length; i++) {
-				copiedStudents[i].validate = e.target[i + 1].value;
-			}
+		let results = [];
+		for (let i = 0; i < years; i++) {
+			results.push({
+				presentes: e.target[`presente${i}`].value,
+				recus: e.target[`recus${i}`].value,
+			});
 		}
 
+		copiedStudents[0] = { ...copiedStudents[0], yearResult: { ...results } };
 		dispatch(updateStudents(copiedStudents));
+		console.log(students);
 		// setDisplay(false);
 		// nextStep();
+	};
+
+	const inputIsDisabled = (condition1, condition2 = 0) => {
+		if (condition1 === condition2) {
+			return { disabled: true };
+		}
 	};
 
 	return (
@@ -84,15 +107,33 @@ const YearResult = ({ nextStep }) => {
 							</TableHead>
 							<TableBody>
 								{[...Array(years)].map((e, i) => (
-									<TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+									<TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+										<TableCell sx={{ display: "none" }}>
+											<input type="hidden" name={todayYear - i - 1} />
+										</TableCell>
 										<TableCell>{todayYear - i - 1}</TableCell>
 										<TableCell>
-											<TextField type="number" id="filled-basic" label="Filled" variant="filled" />
+											<TextField
+												name={"presente" + i}
+												type="number"
+												placeholder="25"
+												variant="filled"
+												{...inputIsDisabled(i)}
+												value={i == 0 ? thisYearYear.presnetes : ""}
+												// {...(i == 0 ? { disabled: true } : "")}
+											/>
 										</TableCell>
 										<TableCell>
-											<TextField type="number" id="filled-basic" label="Filled" variant="filled" />
+											<TextField
+												name={"recus" + i}
+												type="number"
+												placeholder="25"
+												variant="filled"
+												{...inputIsDisabled(i)}
+												value={i == 0 ? thisYearYear.recus : ""}
+											/>
 										</TableCell>
-										<TableCell>30%</TableCell>
+										<TableCell>{i == 0 ? thisYearYear.result + "%" : "0%"}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
