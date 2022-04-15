@@ -26,13 +26,33 @@ const StudentsValidation = ({ nextStep }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-
+		let studentDecision = { none: 0, tf: 0, f: 0, dfsp: 0, total: 0 };
 		if (copiedStudents.length) {
 			for (let i = 0; i < students.length; i++) {
 				copiedStudents[i].validate = e.target[i + 1].value;
+
+				switch (e.target[i + 1].value) {
+					case "0":
+						studentDecision.none++;
+						break;
+					case "1":
+						studentDecision.tf++;
+						studentDecision.total++;
+						break;
+					case "2":
+						studentDecision.f++;
+						studentDecision.total++;
+						break;
+					case "3":
+						studentDecision.dfsp++;
+						studentDecision.total++;
+						break;
+				}
 			}
 		}
+		copiedStudents[0].studentDecision = studentDecision;
 		dispatch(updateStudents(copiedStudents));
+		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};
