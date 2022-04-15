@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { updateStudents } from "../features/students";
 import { useState } from "react";
+import { calcResultLastYears } from "../Helpers/helpers";
 function createData(id, fullName, studentCode) {
 	return { id, fullName, studentCode };
 }
@@ -26,14 +27,12 @@ const YearResult = ({ nextStep }) => {
 	const students = useSelector((state) => state.students.value);
 	const [display, setDisplay] = useState(true);
 
-	const recus = students.filter((student) => student.validate !== "0").length;
-	const presnet = students.length;
 	const thisYearYear = {
 		recus: students.filter((student) => student.validate !== "0").length,
 		presnetes: students.length,
-		result: ((students.filter((student) => student.validate !== "0").length / students.length) * 100).toFixed(2),
+		result: calcResultLastYears(students.filter((student) => student.validate !== "0").length, students.length),
 	};
-
+	//
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
@@ -54,9 +53,7 @@ const YearResult = ({ nextStep }) => {
 	}
 	const submitHandler = (e) => {
 		// Taux de réussite brut = (Bacheliers x 100) / Présents
-
 		e.preventDefault();
-
 		let results = [];
 		for (let i = 0; i < years; i++) {
 			results.push({
@@ -67,13 +64,30 @@ const YearResult = ({ nextStep }) => {
 
 		copiedStudents[0] = { ...copiedStudents[0], yearResult: { ...results } };
 		dispatch(updateStudents(copiedStudents));
-		console.log(students);
-		// setDisplay(false);
-		// nextStep();
+		setDisplay(false);
+		nextStep();
 	};
 
+	let secondInputIsFilled = false;
 	const changeHandler = (e) => {
-		console.log(e.target.parentNode.parentNode.parentNode.nextElementSibling);
+		const getResultDom = e.target.parentNode.parentNode.parentNode.nextSibling;
+		if (getResultDom.classList.contains("result")) {
+			secondInputIsFilled = true;
+			const firstInput = e.target.parentNode.parentNode.parentNode.previousSibling.firstChild.firstChild.firstChild.value;
+			if (firstInput !== "") {
+				const secondInput = e.target.value;
+				getResultDom.textContent = `${calcResultLastYears(secondInput, firstInput)}%`;
+			}
+		}
+
+		// if the event target is the first input, works only after the second input is triggered/filled
+		const firstInputContainer = e.target.parentNode.parentNode;
+		if (firstInputContainer.classList.contains("firstInput") && secondInputIsFilled === true) {
+			const firstInput = e.target.value;
+			const secondInput = e.target.parentNode.parentNode.parentNode.nextSibling.firstChild.firstChild.firstChild.value;
+			const resultDomDependingOnFirstInput = e.target.parentNode.parentNode.parentNode.nextSibling.nextSibling;
+			resultDomDependingOnFirstInput.textContent = `${calcResultLastYears(secondInput, firstInput)}%`;
+		}
 	};
 
 	const inputIsDisabled = (condition1, condition2 = 0) => {
@@ -89,7 +103,7 @@ const YearResult = ({ nextStep }) => {
 	};
 	return (
 		display && (
-			<Box component="section" id="StudentsValidation">
+			<Box component="section" id="YearResult">
 				<Typography variant="h4" className="title">
 					Résultats des dernières années (facultatif)
 				</Typography>
@@ -121,31 +135,28 @@ const YearResult = ({ nextStep }) => {
 										<TableCell>{todayYear - i - 1}</TableCell>
 										<TableCell>
 											<TextField
+												className="firstInput"
 												name={"presente" + i}
 												type="number"
-												placeholder="25"
+												placeholder="0"
 												variant="filled"
-												{...inputIsDisabled(i)}
 												value={showResultFirstYear(i)?.presnetes}
-
+												{...inputIsDisabled(i)}
 												// {...(i == 0 ? { disabled: true } : "")}
 											/>
 										</TableCell>
 										<TableCell>
 											<TextField
+												className="secondInput"
 												name={"recus" + i}
 												type="number"
-												placeholder="25"
+												placeholder="0"
 												variant="filled"
 												value={showResultFirstYear(i)?.recus}
-												InputProps={{
-													max: 100,
-													min: 0,
-												}}
 												{...inputIsDisabled(i)}
 											/>
 										</TableCell>
-										<TableCell>{i == 0 ? thisYearYear.result + "%" : "0%"}</TableCell>
+										<TableCell className="result">{i == 0 ? thisYearYear.result + "%" : "0.00%"}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>

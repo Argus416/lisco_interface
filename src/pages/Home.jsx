@@ -8,6 +8,7 @@ import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import "../style/style.scss";
 import { useState } from "react";
+import ResultStudent from "../components/ResultStudent";
 
 const Home = () => {
 	const students = useSelector((state) => state.students.value);
@@ -59,6 +60,7 @@ const Home = () => {
 				<UploadContainer nextStep={() => progressionHandler(1)} />
 				{students && <StudentsValidation nextStep={() => progressionHandler(2)} />}
 				{students && students[0].validate && <YearResult nextStep={() => progressionHandler(3)} />}
+				{students && students[0].yearResult && <ResultStudent nextStep={() => progressionHandler(4)} />}
 			</Container>
 		</Box>
 	);
