@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { PDFDocument } from "pdf-lib";
+import downloadjs from "downloadjs";
 import {
 	Box,
 	NativeSelect,
@@ -15,53 +17,66 @@ import {
 	Paper,
 	TextField,
 } from "@mui/material";
-import { updateStudents } from "../features/students";
+
+import { BTS_NDRC } from "../class/BTS_NDRC";
+import { BTS_MCO } from "../class/BTS_MCO";
+import { BTS_GPME } from "../class/BTS_GPME";
+
 import { useState } from "react";
-import { calcResultLastYears } from "../Helpers/helpers";
-function createData(id, fullName, studentCode) {
-	return { id, fullName, studentCode };
-}
+import { useEffect } from "react";
 
 const ResultStudent = () => {
-	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
 	const [display, setDisplay] = useState(true);
+	const [trainingTitle, setTrainingTitle] = useState();
 
-	let copiedStudents = JSON.parse(JSON.stringify(students));
-	let todayYear = new Date();
-	todayYear = todayYear.getFullYear();
-	let years = 0;
-	const trainingName = students[0]["2e ANNEE"][0].ABREGE_FORMATION;
-	console.log(students);
-	switch (trainingName) {
-		case "BTS NDRC":
-			years = 3;
-			break;
+	const [studentPdf, setStudentPdf] = useState([]);
+	const trainingTitleHere = students[0]["2e ANNEE"][0].NOM_FORMATION;
+	const trainingAbrege = students[0]["2e ANNEE"][0].ABREGE_FORMATION;
+	let pdfs = [];
+	useEffect(async () => {
+		switch (trainingAbrege) {
+			case "BTS NDRC":
+				setTrainingTitle(trainingTitleHere);
+				const bts_ndrc = new BTS_NDRC();
+				pdfs = await bts_ndrc.generatePdf(students);
+				break;
 
-		case "BTS GPME":
-			years = 3;
-			break;
+			case "BTS GPME":
+				setTrainingTitle(trainingTitleHere);
+				const bts_gpme = new BTS_GPME();
+				pdfs = await bts_gpme.generatePdf(students);
+				break;
 
-		case "BTS MCO":
-			years = 5;
-			break;
-	}
-	const submitHandler = (e) => {
-		// Taux de réussite brut = (Bacheliers x 100) / Présents
-		e.preventDefault();
-		let results = [];
-		for (let i = 0; i < years; i++) {
-			results.push({
-				presentes: e.target[`presente${i}`].value,
-				recus: e.target[`recus${i}`].value,
-			});
+			case "BTS MCO":
+				setTrainingTitle(trainingTitleHere);
+				const bts_mco = new BTS_MCO();
+				pdfs = await bts_mco.generatePdf(students);
+				break;
 		}
 
-		copiedStudents[0] = { ...copiedStudents[0], yearResult: { ...results } };
-		dispatch(updateStudents(copiedStudents));
-		console.log(students);
-		// setDisplay(false);
-		// nextStep();
+		setStudentPdf(pdfs);
+	}, []);
+
+	const clickHandler = async () => {
+		console.log(studentPdf.length, students.length);
+		if (studentPdf.length === students.length) {
+			const doc = await PDFDocument.create();
+
+			await Promise.all(
+				studentPdf.map(async (pageBuffer) => {
+					const loadPage = await PDFDocument.load(pageBuffer);
+					const contentPages = await doc.copyPages(loadPage, loadPage.getPageIndices());
+					contentPages.map(async (page) => {
+						doc.addPage(page);
+					});
+				})
+			);
+
+			const docSave = await doc.save();
+
+			downloadjs(docSave, `${trainingTitle}.pdf`);
+		}
 	};
 
 	return (
@@ -70,6 +85,7 @@ const ResultStudent = () => {
 				<Typography variant="h1" color="initial">
 					result
 				</Typography>
+				<Button onClick={clickHandler}>downloadPdf</Button>
 			</Box>
 		)
 	);
