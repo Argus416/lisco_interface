@@ -34,6 +34,7 @@ const ResultStudent = () => {
 	const trainingTitleHere = students[0]["2e ANNEE"][0].NOM_FORMATION;
 	const trainingAbrege = students[0]["2e ANNEE"][0].ABREGE_FORMATION;
 	let pdfs = [];
+
 	useEffect(async () => {
 		switch (trainingAbrege) {
 			case "BTS NDRC":
@@ -59,10 +60,8 @@ const ResultStudent = () => {
 	}, []);
 
 	const clickHandler = async () => {
-		console.log(studentPdf.length, students.length);
 		if (studentPdf.length === students.length) {
 			const doc = await PDFDocument.create();
-
 			await Promise.all(
 				studentPdf.map(async (pageBuffer) => {
 					const loadPage = await PDFDocument.load(pageBuffer);

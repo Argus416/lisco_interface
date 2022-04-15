@@ -26,31 +26,44 @@ const StudentsValidation = ({ nextStep }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		let studentDecision = { none: 0, tf: 0, f: 0, dfsp: 0, total: 0 };
+		let juryDecision = { none: 0, tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
+
 		if (copiedStudents.length) {
 			for (let i = 0; i < students.length; i++) {
+				// todo correct here
 				copiedStudents[i].validate = e.target[i + 1].value;
+				juryDecision.sign.note = e.target[i + 1].value;
 
 				switch (e.target[i + 1].value) {
 					case "0":
-						studentDecision.none++;
+						juryDecision.none++;
+						juryDecision.sign.title = "None";
 						break;
+
 					case "1":
-						studentDecision.tf++;
-						studentDecision.total++;
+						juryDecision.tf++;
+						juryDecision.total++;
+						juryDecision.sign.title = "Favorable";
 						break;
+
 					case "2":
-						studentDecision.f++;
-						studentDecision.total++;
+						juryDecision.f++;
+						juryDecision.total++;
+						juryDecision.sign.title = "Doit faire ses preuves";
 						break;
+
 					case "3":
-						studentDecision.dfsp++;
-						studentDecision.total++;
+						juryDecision.dfsp++;
+						juryDecision.total++;
+						juryDecision.sign.title = "Trés favorable";
 						break;
 				}
 			}
+
+			for (let i = 0; i < students.length; i++) {
+				copiedStudents[i].juryDecision = juryDecision;
+			}
 		}
-		copiedStudents[0].studentDecision = studentDecision;
 		dispatch(updateStudents(copiedStudents));
 		console.log(students);
 		setDisplay(false);
@@ -99,7 +112,7 @@ const StudentsValidation = ({ nextStep }) => {
 										<TableCell>
 											<FormControl fullWidth>
 												<NativeSelect
-													defaultValue="2"
+													defaultValue={String(parseInt(Math.random() * 4))}
 													inputProps={{
 														name: "avis",
 														id: "uncontrolled-native",

@@ -22,7 +22,11 @@ export const getObservation = (observation, phraseApplayCondition, lineBreakAt) 
 	return observationString;
 };
 
-export const calcResultLastYears = (presentes, recus) => {
+export const calcResultLastYears = (presentes, recus, floatFormat = true) => {
 	const result = (presentes / recus) * 100;
-	return result.toFixed(2);
+	if (floatFormat === true) {
+		return result.toFixed(2);
+	} else {
+		return parseInt(result);
+	}
 };

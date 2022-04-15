@@ -18,9 +18,6 @@ import {
 import { updateStudents } from "../features/students";
 import { useState } from "react";
 import { calcResultLastYears } from "../Helpers/helpers";
-function createData(id, fullName, studentCode) {
-	return { id, fullName, studentCode };
-}
 
 const YearResult = ({ nextStep }) => {
 	const dispatch = useDispatch();
@@ -28,9 +25,10 @@ const YearResult = ({ nextStep }) => {
 	const [display, setDisplay] = useState(true);
 
 	const thisYearYear = {
-		recus: students.filter((student) => student.validate !== "0").length,
+		// student.juryDecision.sign.note !== "0"
+		recus: students.filter((student) => console.log(student)).length,
 		presnetes: students.length,
-		result: calcResultLastYears(students.filter((student) => student.validate !== "0").length, students.length),
+		result: calcResultLastYears(students.filter((student) => student.juryDecision.sign.note !== "0").length, students.length),
 	};
 	//
 	let copiedStudents = JSON.parse(JSON.stringify(students));
@@ -38,6 +36,7 @@ const YearResult = ({ nextStep }) => {
 	todayYear = todayYear.getFullYear();
 	let years = 0;
 	const trainingName = students[0]["2e ANNEE"][0].ABREGE_FORMATION;
+	console.log(students);
 	switch (trainingName) {
 		case "BTS NDRC":
 			years = 3;
@@ -56,14 +55,21 @@ const YearResult = ({ nextStep }) => {
 		e.preventDefault();
 		let results = [];
 		for (let i = 0; i < years; i++) {
+			const resultYear = calcResultLastYears(e.target[`recus${i}`].value, e.target[`presente${i}`].value, false);
 			results.push({
 				presentes: e.target[`presente${i}`].value,
 				recus: e.target[`recus${i}`].value,
+				year: String(todayYear - i - 1),
+				result: resultYear ? `${resultYear}%` : "",
 			});
 		}
 
-		copiedStudents[0] = { ...copiedStudents[0], yearResult: { ...results } };
+		for (let i = 0; i < students.length; i++) {
+			copiedStudents[i].yearResult = [...results];
+		}
+
 		dispatch(updateStudents(copiedStudents));
+		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};
