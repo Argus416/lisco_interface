@@ -127,7 +127,7 @@ const UploadContainer = ({ nextStep }) => {
 							setIsNotTraining(false);
 						}}
 					>
-						Formation non connu
+						Formation non reconnue
 					</Alert>
 				)}
 				<Box className="titles">
