@@ -198,7 +198,7 @@ export class BTS_MCO {
 									// Decision **************************
 									if (student_index === 0) {
 										const juryDecisionTF = {
-											text: String(eleve.juryGlobalDecision.tf),
+											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
 												x: widthFirstPage / 2 - 113,
 												y: 125,
@@ -208,7 +208,7 @@ export class BTS_MCO {
 											},
 										};
 										const juryDecisionF = {
-											text: String(eleve.juryGlobalDecision.f),
+											text: String(eleve.juryGlobalDecision.f.percentage),
 											position: {
 												x: widthFirstPage / 2 - 67,
 												y: 125,
@@ -219,7 +219,7 @@ export class BTS_MCO {
 										};
 
 										const juryDecisionDFSP = {
-											text: String(eleve.juryGlobalDecision.dfsp),
+											text: String(eleve.juryGlobalDecision.dfsp.percentage),
 											position: {
 												x: widthFirstPage / 2 - 21,
 												y: 125,

@@ -170,7 +170,7 @@ export class BTS_NDRC {
 									// Decision **************************
 									if (student_index === 0) {
 										const juryDecisionTF = {
-											text: String(eleve.juryGlobalDecision.tf),
+											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
 												x: width / 2 - 130,
 												y: 108,
@@ -181,7 +181,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecisionF = {
-											text: String(eleve.juryGlobalDecision.f),
+											text: String(eleve.juryGlobalDecision.f.percentage),
 											position: {
 												x: width / 2 - 80,
 												y: 108,
@@ -192,7 +192,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecisionDFSP = {
-											text: String(eleve.juryGlobalDecision.dfsp),
+											text: String(eleve.juryGlobalDecision.dfsp.percentage),
 											position: {
 												x: width / 2 - 35,
 												y: 108,
@@ -248,7 +248,7 @@ export class BTS_NDRC {
 												text: year.presentes,
 												position: {
 													x: width / 2 + 103,
-													y: 130 - 18 * yearIndex,
+													y: 130 - 23 * yearIndex,
 													size: 8.5,
 													color: rgb(0, 0, 0.5),
 													lineHeight: 12,
@@ -259,7 +259,7 @@ export class BTS_NDRC {
 												text: year.recus,
 												position: {
 													x: width / 2 + 143,
-													y: 130 - 18 * yearIndex,
+													y: 130 - 23 * yearIndex,
 													size: 8.5,
 													color: rgb(0, 0, 0.5),
 													lineHeight: 12,
@@ -270,7 +270,7 @@ export class BTS_NDRC {
 												text: year.result,
 												position: {
 													x: width / 2 + 185,
-													y: 130 - 18 * yearIndex,
+													y: 130 - 23 * yearIndex,
 													size: 8.5,
 													color: rgb(0, 0, 0.5),
 													lineHeight: 12,

@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { updateStudents } from "../features/students";
 import { useState } from "react";
-import { calcResultLastYears } from "../Helpers/helpers";
+import { calcPercentage } from "../Helpers/helpers";
 
 const YearResult = ({ nextStep }) => {
 	const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const YearResult = ({ nextStep }) => {
 		// student.juryDecision.note !== "0"
 		recus: students.filter((student) => student.juryDecision.note !== "0").length,
 		presnetes: students.length,
-		result: calcResultLastYears(students.filter((student) => student.juryDecision.note !== "0").length, students.length),
+		result: calcPercentage(students.filter((student) => student.juryDecision.note !== "0").length, students.length),
 	};
 	console.log(display);
 	let copiedStudents = JSON.parse(JSON.stringify(students));
@@ -56,7 +56,7 @@ const YearResult = ({ nextStep }) => {
 		e.preventDefault();
 		let results = [];
 		for (let i = 0; i < years; i++) {
-			const resultYear = calcResultLastYears(e.target[`recus${i}`].value, e.target[`presente${i}`].value, false);
+			const resultYear = calcPercentage(e.target[`recus${i}`].value, e.target[`presente${i}`].value, false);
 			results.push({
 				presentes: e.target[`presente${i}`].value,
 				recus: e.target[`recus${i}`].value,
@@ -83,7 +83,7 @@ const YearResult = ({ nextStep }) => {
 			const firstInput = e.target.parentNode.parentNode.parentNode.previousSibling.firstChild.firstChild.firstChild.value;
 			if (firstInput !== "") {
 				const secondInput = e.target.value;
-				getResultDom.textContent = `${calcResultLastYears(secondInput, firstInput)}%`;
+				getResultDom.textContent = `${calcPercentage(secondInput, firstInput)}%`;
 			}
 		}
 
@@ -93,7 +93,7 @@ const YearResult = ({ nextStep }) => {
 			const firstInput = e.target.value;
 			const secondInput = e.target.parentNode.parentNode.parentNode.nextSibling.firstChild.firstChild.firstChild.value;
 			const resultDomDependingOnFirstInput = e.target.parentNode.parentNode.parentNode.nextSibling.nextSibling;
-			resultDomDependingOnFirstInput.textContent = `${calcResultLastYears(secondInput, firstInput)}%`;
+			resultDomDependingOnFirstInput.textContent = `${calcPercentage(secondInput, firstInput)}%`;
 		}
 	};
 

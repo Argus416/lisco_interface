@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, NativeSelect, Typography, FormControl, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { updateStudents } from "../features/students";
 import { useState } from "react";
+import { calcPercentage } from "../Helpers/helpers";
 function createData(id, fullName, studentCode) {
 	return { id, fullName, studentCode };
 }
@@ -28,34 +29,41 @@ const StudentsValidation = ({ nextStep }) => {
 		e.preventDefault();
 
 		if (copiedStudents.length) {
-			const juryGlobalDecision = { tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
+			const juryGlobalDecision = {
+				tf: { value: 0, percentage: 0 },
+				f: { value: 0, percentage: 0 },
+				dfsp: { value: 0, percentage: 0 },
+				total: 0,
+			};
 			for (let i = 0; i < students.length; i++) {
 				const juryDecision = { title: "", note: 0 };
-				// todo correct here
-				// copiedStudents[i].validate = e.target[i + 1].value;
 				switch (e.target[i + 1].value) {
 					case "1":
-						juryGlobalDecision.tf++;
+						juryGlobalDecision.tf.value++;
 						juryGlobalDecision.total++;
 						juryDecision.title = "Favorable";
 						break;
 
 					case "2":
-						juryGlobalDecision.f++;
+						juryGlobalDecision.f.value++;
 						juryGlobalDecision.total++;
 						juryDecision.title = "Doit faire ses preuves";
 						break;
 
 					case "3":
-						juryGlobalDecision.dfsp++;
+						juryGlobalDecision.dfsp.value++;
 						juryGlobalDecision.total++;
 						juryDecision.title = "Trés favorable";
 						break;
 				}
-
 				juryDecision.note = e.target[i + 1].value;
 				copiedStudents[i].juryDecision = juryDecision;
 			}
+
+			juryGlobalDecision.tf.percentage = calcPercentage(juryGlobalDecision.tf.value, juryGlobalDecision.total, false);
+			juryGlobalDecision.f.percentage = calcPercentage(juryGlobalDecision.f.value, juryGlobalDecision.total, false);
+			juryGlobalDecision.dfsp.percentage = calcPercentage(juryGlobalDecision.dfsp.value, juryGlobalDecision.total, false);
+
 			for (let i = 0; i < students.length; i++) {
 				copiedStudents[i].juryGlobalDecision = juryGlobalDecision;
 			}
@@ -108,7 +116,7 @@ const StudentsValidation = ({ nextStep }) => {
 										<TableCell>
 											<FormControl fullWidth>
 												<NativeSelect
-													defaultValue={String(parseInt(Math.random() * 4))}
+													defaultValue={String(parseInt(Math.random() * 1 * 4))}
 													inputProps={{
 														name: "avis",
 														id: "uncontrolled-native",

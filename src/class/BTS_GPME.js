@@ -282,7 +282,7 @@ export class BTS_GPME {
 								// Decision **************************
 								if (student_index === 0) {
 									const juryDecisionTF = {
-										text: String(eleve.juryGlobalDecision.tf),
+										text: String(eleve.juryGlobalDecision.tf.percentage),
 										position: {
 											x: width / 2 - 105,
 											y: 80,
@@ -292,7 +292,7 @@ export class BTS_GPME {
 										},
 									};
 									const juryDecisionF = {
-										text: String(eleve.juryGlobalDecision.f),
+										text: String(eleve.juryGlobalDecision.f.percentage),
 										position: {
 											x: width / 2 - 70,
 											y: 80,
@@ -303,7 +303,7 @@ export class BTS_GPME {
 									};
 
 									const juryDecisionDFSP = {
-										text: String(eleve.juryGlobalDecision.dfsp),
+										text: String(eleve.juryGlobalDecision.dfsp.percentage),
 										position: {
 											x: width / 2 - 35,
 											y: 80,
@@ -328,6 +328,17 @@ export class BTS_GPME {
 										text: String(eleve.juryDecision.title),
 										position: {
 											x: 50,
+											y: 100,
+											size: 10,
+											color: rgb(0, 0, 0.5),
+											lineHeight: 12,
+										},
+									};
+
+									const juryDecisionNote = {
+										text: String(eleve.juryDecision.note),
+										position: {
+											x: 20,
 											y: 100,
 											size: 10,
 											color: rgb(0, 0, 0.5),
@@ -398,6 +409,8 @@ export class BTS_GPME {
 									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
 									firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
 									firstPage.drawText(juryDecision.text, juryDecision.position);
+
+									firstPage.drawText(juryDecisionNote.text, juryDecisionNote.position);
 								}
 
 								// ! *************************************************

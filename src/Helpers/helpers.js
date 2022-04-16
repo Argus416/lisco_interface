@@ -22,11 +22,12 @@ export const getObservation = (observation, phraseApplayCondition, lineBreakAt) 
 	return observationString;
 };
 
-export const calcResultLastYears = (presentes, recus, floatFormat = true) => {
+export const calcPercentage = (presentes, recus, floatFormat = true) => {
 	const result = (presentes / recus) * 100;
 	if (floatFormat === true) {
 		return result.toFixed(2);
 	} else {
-		return parseInt(result);
+		return Math.round(result);
+		// return result;
 	}
 };

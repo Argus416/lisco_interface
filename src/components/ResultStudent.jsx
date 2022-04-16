@@ -24,6 +24,7 @@ import { BTS_GPME } from "../class/BTS_GPME";
 
 import { useState } from "react";
 import { useEffect } from "react";
+import AccordionCus from "./AccordionCus";
 
 const ResultStudent = () => {
 	const students = useSelector((state) => state.students.value);
@@ -59,7 +60,7 @@ const ResultStudent = () => {
 		setStudentPdf(pdfs);
 	}, []);
 
-	const clickHandler = async () => {
+	const donwloadPdf = async () => {
 		if (studentPdf.length === students.length) {
 			const doc = await PDFDocument.create();
 			await Promise.all(
@@ -81,10 +82,33 @@ const ResultStudent = () => {
 	return (
 		display && (
 			<Box component="section" id="ResultStudent">
-				<Typography variant="h1" color="initial">
-					result
-				</Typography>
-				<Button onClick={clickHandler}>downloadPdf</Button>
+				{students && trainingTitle && (
+					<>
+						<section className="uploaded-files">
+							<Box component="header" className="header">
+								<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
+									{trainingTitle} <small>(Convertie...)</small>
+								</Typography>
+
+								<Box className="btn-container">
+									<Button onClick={donwloadPdf} className="downloadAll" color="warning" variant="contained">
+										Télécharger tout
+									</Button>
+								</Box>
+							</Box>
+							{students.map((student, index) => (
+								<AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+							))}
+							{students.length > 15 && (
+								<Box className="btn-container">
+									<Button onClick={donwloadPdf} className="downloadAll" color="warning" variant="contained">
+										Télécharger tout
+									</Button>
+								</Box>
+							)}
+						</section>
+					</>
+				)}
 			</Box>
 		)
 	);
