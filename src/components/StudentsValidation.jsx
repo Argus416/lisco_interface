@@ -28,36 +28,40 @@ const StudentsValidation = ({ nextStep }) => {
 		e.preventDefault();
 
 		if (copiedStudents.length) {
+			const juryGlobalDecision = { tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
 			for (let i = 0; i < students.length; i++) {
-				const juryDecision = { tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
+				const juryDecision = { title: "", note: 0 };
 				// todo correct here
 				// copiedStudents[i].validate = e.target[i + 1].value;
 				switch (e.target[i + 1].value) {
 					case "1":
-						juryDecision.tf++;
-						juryDecision.total++;
-						juryDecision.sign.title = "Favorable";
+						juryGlobalDecision.tf++;
+						juryGlobalDecision.total++;
+						juryDecision.title = "Favorable";
 						break;
 
 					case "2":
-						juryDecision.f++;
-						juryDecision.total++;
-						juryDecision.sign.title = "Doit faire ses preuves";
+						juryGlobalDecision.f++;
+						juryGlobalDecision.total++;
+						juryDecision.title = "Doit faire ses preuves";
 						break;
 
 					case "3":
-						juryDecision.dfsp++;
-						juryDecision.total++;
-						juryDecision.sign.title = "Trés favorable";
+						juryGlobalDecision.dfsp++;
+						juryGlobalDecision.total++;
+						juryDecision.title = "Trés favorable";
 						break;
 				}
 
-				juryDecision.sign.note = e.target[i + 1].value;
+				juryDecision.note = e.target[i + 1].value;
 				copiedStudents[i].juryDecision = juryDecision;
 			}
+			for (let i = 0; i < students.length; i++) {
+				copiedStudents[i].juryGlobalDecision = juryGlobalDecision;
+			}
 		}
-
 		dispatch(updateStudents(copiedStudents));
+		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};

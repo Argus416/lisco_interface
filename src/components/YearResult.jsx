@@ -27,10 +27,10 @@ const YearResult = ({ nextStep }) => {
 	const [display, setDisplay] = useState(true);
 
 	const thisYearYear = {
-		// student.juryDecision.sign.note !== "0"
-		recus: students.filter((student) => student.juryDecision.sign.note !== "0").length,
+		// student.juryDecision.note !== "0"
+		recus: students.filter((student) => student.juryDecision.note !== "0").length,
 		presnetes: students.length,
-		result: calcResultLastYears(students.filter((student) => student.juryDecision.sign.note !== "0").length, students.length),
+		result: calcResultLastYears(students.filter((student) => student.juryDecision.note !== "0").length, students.length),
 	};
 	console.log(display);
 	let copiedStudents = JSON.parse(JSON.stringify(students));

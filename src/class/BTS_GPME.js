@@ -282,7 +282,7 @@ export class BTS_GPME {
 								// Decision **************************
 								if (student_index === 0) {
 									const juryDecisionTF = {
-										text: String(eleve.juryDecision.tf),
+										text: String(eleve.juryGlobalDecision.tf),
 										position: {
 											x: width / 2 - 105,
 											y: 80,
@@ -292,7 +292,7 @@ export class BTS_GPME {
 										},
 									};
 									const juryDecisionF = {
-										text: String(eleve.juryDecision.f),
+										text: String(eleve.juryGlobalDecision.f),
 										position: {
 											x: width / 2 - 70,
 											y: 80,
@@ -303,7 +303,7 @@ export class BTS_GPME {
 									};
 
 									const juryDecisionDFSP = {
-										text: String(eleve.juryDecision.dfsp),
+										text: String(eleve.juryGlobalDecision.dfsp),
 										position: {
 											x: width / 2 - 35,
 											y: 80,
@@ -314,7 +314,7 @@ export class BTS_GPME {
 									};
 
 									const juryDecisionTOTAL = {
-										text: String(eleve.juryDecision.total),
+										text: String(eleve.juryGlobalDecision.total),
 										position: {
 											x: width / 2,
 											y: 80,
@@ -325,7 +325,7 @@ export class BTS_GPME {
 									};
 
 									const juryDecision = {
-										text: String(eleve.juryDecision.sign.title),
+										text: String(eleve.juryDecision.title),
 										position: {
 											x: 50,
 											y: 100,
@@ -334,7 +334,7 @@ export class BTS_GPME {
 											lineHeight: 12,
 										},
 									};
-									switch (eleve.juryDecision.sign.title) {
+									switch (eleve.juryDecision.title) {
 										case "Trés favorable":
 											juryDecision.position.x = 60;
 											break;

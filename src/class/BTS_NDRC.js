@@ -170,7 +170,7 @@ export class BTS_NDRC {
 									// Decision **************************
 									if (student_index === 0) {
 										const juryDecisionTF = {
-											text: String(eleve.juryDecision.tf),
+											text: String(eleve.juryGlobalDecision.tf),
 											position: {
 												x: width / 2 - 130,
 												y: 108,
@@ -181,7 +181,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecisionF = {
-											text: String(eleve.juryDecision.f),
+											text: String(eleve.juryGlobalDecision.f),
 											position: {
 												x: width / 2 - 80,
 												y: 108,
@@ -192,7 +192,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecisionDFSP = {
-											text: String(eleve.juryDecision.dfsp),
+											text: String(eleve.juryGlobalDecision.dfsp),
 											position: {
 												x: width / 2 - 35,
 												y: 108,
@@ -203,7 +203,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecisionTOTAL = {
-											text: String(eleve.juryDecision.total),
+											text: String(eleve.juryGlobalDecision.total),
 											position: {
 												x: width / 2 + 15,
 												y: 108,
@@ -214,7 +214,7 @@ export class BTS_NDRC {
 										};
 
 										const juryDecision = {
-											text: String(eleve.juryDecision.sign.title),
+											text: String(eleve.juryDecision.title),
 											position: {
 												x: 80,
 												y: 130,
@@ -223,7 +223,7 @@ export class BTS_NDRC {
 												lineHeight: 12,
 											},
 										};
-										switch (eleve.juryDecision.sign.title) {
+										switch (eleve.juryDecision.title) {
 											case "Trés favorable":
 												juryDecision.position.x = 92;
 												break;

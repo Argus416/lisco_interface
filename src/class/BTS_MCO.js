@@ -198,7 +198,7 @@ export class BTS_MCO {
 									// Decision **************************
 									if (student_index === 0) {
 										const juryDecisionTF = {
-											text: String(eleve.juryDecision.tf),
+											text: String(eleve.juryGlobalDecision.tf),
 											position: {
 												x: widthFirstPage / 2 - 113,
 												y: 125,
@@ -208,7 +208,7 @@ export class BTS_MCO {
 											},
 										};
 										const juryDecisionF = {
-											text: String(eleve.juryDecision.f),
+											text: String(eleve.juryGlobalDecision.f),
 											position: {
 												x: widthFirstPage / 2 - 67,
 												y: 125,
@@ -219,7 +219,7 @@ export class BTS_MCO {
 										};
 
 										const juryDecisionDFSP = {
-											text: String(eleve.juryDecision.dfsp),
+											text: String(eleve.juryGlobalDecision.dfsp),
 											position: {
 												x: widthFirstPage / 2 - 21,
 												y: 125,
@@ -230,7 +230,7 @@ export class BTS_MCO {
 										};
 
 										const juryDecisionTOTAL = {
-											text: String(eleve.juryDecision.total),
+											text: String(eleve.juryGlobalDecision.total),
 											position: {
 												x: widthFirstPage / 2 + 15,
 												y: 125,
@@ -241,7 +241,7 @@ export class BTS_MCO {
 										};
 
 										const juryDecision = {
-											text: String(eleve.juryDecision.sign.title),
+											text: String(eleve.juryDecision.title),
 											position: {
 												x: 95,
 												y: 150,
@@ -250,7 +250,7 @@ export class BTS_MCO {
 												lineHeight: 12,
 											},
 										};
-										switch (eleve.juryDecision.sign.title) {
+										switch (eleve.juryDecision.title) {
 											case "Trés favorable":
 												juryDecision.position.x = 110;
 												break;
