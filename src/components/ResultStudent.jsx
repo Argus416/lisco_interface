@@ -76,13 +76,17 @@ const ResultStudent = () => {
 						<Box component="section" id="resultStudent">
 							<Box component="section" className="uploaded-files">
 								<Box component="header" className="header">
-									<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
-										{trainingTitle} <small>(Convertie...)</small>
-									</Typography>
+									<Box className="titles">
+										<Typography variant="h4">Téléchargez vos livrets scolaires</Typography>
+
+										<Typography variant="h5" className="title">
+											{trainingTitle}
+										</Typography>
+									</Box>
 
 									<Box className="btn-container">
-										<Button onClick={donwloadPdf} className="downloadAll" color="warning" variant="contained">
-											Télécharger tout
+										<Button onClick={donwloadPdf} className="downloadAll secondary-btn" variant="contained">
+											Télécharger
 										</Button>
 									</Box>
 								</Box>

@@ -280,7 +280,7 @@ export class BTS_GPME {
 								firstPage.drawText(secondYearObservation.text, secondYearObservation.position);
 
 								// Decision **************************
-								if (student_index === 0) {
+								if (student_index === 0 && eleve.juryDecision.title !== "") {
 									const juryDecisionTF = {
 										text: String(eleve.juryGlobalDecision.tf.percentage),
 										position: {

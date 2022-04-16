@@ -49,6 +49,14 @@ body {
 	margin-top: 15px;
 }
 
+.titles {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 2em;
+}
+
 main.Home {
 	h1.title {
 		margin-bottom: 1em !important;
@@ -153,8 +161,11 @@ main.Home {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-top: 15px;
+
 	.btn-upload-file {
-		margin-top: 15px;
+		width: 40%;
+		min-width: 300px;
 	}
 }
 

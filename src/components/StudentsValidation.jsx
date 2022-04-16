@@ -11,6 +11,7 @@ function createData(id, fullName, studentCode) {
 const StudentsValidation = ({ nextStep }) => {
 	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
+	const trainingTitle = students[0]["2e ANNEE"][0].NOM_FORMATION;
 	const [display, setDisplay] = useState(true);
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	const rows = [];
@@ -86,9 +87,14 @@ const StudentsValidation = ({ nextStep }) => {
 	return (
 		display && (
 			<Box component="section" id="StudentsValidation">
-				<Typography variant="h4" className="title">
-					Avis du conseil de classe (facultatif)
-				</Typography>
+				<Box className="titles">
+					<Typography variant="h4">Renseignez les avis du conseil de classe (facultatif)</Typography>
+
+					<Typography variant="h5" className="title">
+						{trainingTitle}
+					</Typography>
+				</Box>
+
 				<form onSubmit={submitHandler} className="form-student-validation">
 					<Box className="btn-container">
 						<Button type="submit" className="secondary-btn">
@@ -126,10 +132,10 @@ const StudentsValidation = ({ nextStep }) => {
 													name={String(index)}
 													// required
 												>
-													<option value="0">Choisir une avis</option>
+													<option value="0">Choisir un avis</option>
 													<option value="1">Favorable</option>
 													<option value="2">Doit faire ses preuves</option>
-													<option value="3">Trés favorable</option>
+													<option value="3">Très favorable</option>
 												</NativeSelect>
 											</FormControl>
 										</TableCell>
