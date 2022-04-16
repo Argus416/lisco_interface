@@ -22,7 +22,7 @@ import { calcPercentage } from "../Helpers/helpers";
 const YearResult = ({ nextStep }) => {
 	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
-	console.log(students);
+	const trainingTitle = students[0]["2e ANNEE"][0].NOM_FORMATION;
 
 	const [display, setDisplay] = useState(true);
 
@@ -97,24 +97,15 @@ const YearResult = ({ nextStep }) => {
 		}
 	};
 
-	const inputIsDisabled = (condition1, condition2 = 0) => {
-		if (condition1 === condition2) {
-			return { disabled: true };
-		}
-	};
-
-	const showResultFirstYear = (condition1) => {
-		if (condition1 === 0) {
-			return thisYearYear;
-		}
-	};
 	return (
 		display && (
 			<Box component="section" id="YearResult">
-				<Typography variant="h4" className="title">
-					Résultats des dernières années (facultatif)
-				</Typography>
-
+				<Box className="titles">
+					<Typography variant="h4" className="title">
+						Renseignez les résultats des dernières années (facultatif)
+					</Typography>
+					<Typography variant="h5">{trainingTitle}</Typography>
+				</Box>
 				<form onSubmit={submitHandler} className="form-student-validation">
 					<Box className="btn-container">
 						<Button type="submit" className="secondary-btn">
@@ -126,7 +117,7 @@ const YearResult = ({ nextStep }) => {
 						<Table size="small" aria-label="a dense table">
 							<TableHead>
 								<TableRow>
-									<TableCell>Année</TableCell>
+									<TableCell>Années</TableCell>
 									<TableCell>Présentés</TableCell>
 									<TableCell>Reçus</TableCell>
 									<TableCell>%</TableCell>
@@ -141,27 +132,10 @@ const YearResult = ({ nextStep }) => {
 										</TableCell>
 										<TableCell>{todayYear - i - 1}</TableCell>
 										<TableCell>
-											<TextField
-												className="firstInput"
-												name={"presente" + i}
-												type="number"
-												placeholder="0"
-												variant="filled"
-												value={showResultFirstYear(i)?.presnetes}
-												{...inputIsDisabled(i)}
-												// {...(i == 0 ? { disabled: true } : "")}
-											/>
+											<TextField className="firstInput" name={"presente" + i} type="number" placeholder="0" variant="filled" />
 										</TableCell>
 										<TableCell>
-											<TextField
-												className="secondInput"
-												name={"recus" + i}
-												type="number"
-												placeholder="0"
-												variant="filled"
-												value={showResultFirstYear(i)?.recus}
-												{...inputIsDisabled(i)}
-											/>
+											<TextField className="secondInput" name={"recus" + i} type="number" placeholder="0" variant="filled" />
 										</TableCell>
 										<TableCell className="result">{i == 0 ? thisYearYear.result + "%" : "0.00%"}</TableCell>
 									</TableRow>

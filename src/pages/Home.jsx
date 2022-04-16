@@ -27,7 +27,7 @@ const Home = () => {
 			<Navbar />
 			<Container>
 				<Typography className="title" component="h1" variant="h3">
-					Convertissez le fichier CSV en PDF
+					Créez vos livrets scolaires en 4 étapes
 				</Typography>
 
 				<Box className="ProgressionMenu">

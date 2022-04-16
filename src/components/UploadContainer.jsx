@@ -68,6 +68,7 @@ const UploadContainer = ({ nextStep }) => {
 							const { result, trainingAbrege } = resultStudents.data;
 							// update students globale state
 							dispatch(updateStudents(result));
+
 							nextStep();
 							setDisplay(false);
 						} else {
@@ -115,7 +116,7 @@ const UploadContainer = ({ nextStep }) => {
 							setFileUploaded(false);
 						}}
 					>
-						Le fichier a été uploader
+						Le fichier a été uploadé
 					</Alert>
 				)}
 
@@ -126,35 +127,38 @@ const UploadContainer = ({ nextStep }) => {
 							setIsNotTraining(false);
 						}}
 					>
-						Formation non connu
+						Formation non reconnue
 					</Alert>
 				)}
-
-				<Box component="section" className="droparea">
-					<Box className="content">
-						<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
-						<Typography component="p" className="box-text-desc">
-							Jetez les élèves dans la boîte :3
-						</Typography>
-						<form onSubmit={submitHandler} className="form-upload">
-							<input onChange={onChange} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
-							<Button variant="contained" className=" primary-btn btn-upload-file" type="submit">
-								Convertir
-							</Button>
-						</form>
-
-						{/* <iframe src={pdfPreview} width="700" height="700" frameborder="0"></iframe> */}
-						{fileIsUploaded && (
-							<Typography component="p" className="error-file-upload">
-								Veuillez uploader un fichier
-							</Typography>
-						)}
-					</Box>
+				<Box className="titles">
+					<Typography component="h2" variant="h4" className="box-text-desc">
+						Choisissez votre fichier csv
+					</Typography>
 				</Box>
+
+				<form onSubmit={submitHandler} className="form-upload">
+					<Button variant="contained" className="btn-upload-file secondary-btn" type="submit">
+						Suivant
+					</Button>
+
+					<Box component="section" className="droparea">
+						<Box className="content">
+							<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
+							<input onChange={onChange} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
+
+							{/* <iframe src={pdfPreview} width="700" height="700" frameborder="0"></iframe> */}
+							{fileIsUploaded && (
+								<Typography component="p" className="error-file-upload">
+									Le fichier a été uploadé
+								</Typography>
+							)}
+						</Box>
+					</Box>
+				</form>
 
 				{progressConversion && (
 					<Box sx={{ marginTop: "20px " }}>
-						<Typography variant="p">Convertir en pdf...</Typography>
+						<Typography variant="p">Traitement des informations...</Typography>
 						<LinearWithValueLabel />
 					</Box>
 				)}
