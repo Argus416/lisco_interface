@@ -12,7 +12,11 @@ import { BTS_NDRC } from "../class/BTS_NDRC";
 import { BTS_MCO } from "../class/BTS_MCO";
 import { BTS_GPME } from "../class/BTS_GPME";
 
-const UploadContainer = () => {
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import { updateStudents } from "../features/students";
+
+const UploadContainer = ({ display }) => {
 	// TODO : Add chart line
 	// https://devexpress.github.io/devextreme-reactive/react/chart/demos/line/line/
 
@@ -26,6 +30,8 @@ const UploadContainer = () => {
 	const [traniningTitle, setTraniningTitle] = useState();
 	const [pdfPreview, setPdfPreview] = useState("");
 	const [isNotTraining, setIsNotTraining] = useState(false);
+
+	const dispatch = useDispatch();
 
 	const onChange = (e) => {
 		if (e.target.value) {
@@ -61,6 +67,9 @@ const UploadContainer = () => {
 							const trainingTitleHere = resultStudents.data.trainingName;
 							const { result, trainingAbrege } = resultStudents.data;
 							let pdfs = [];
+							// update students globale state
+							dispatch(updateStudents(result));
+
 							switch (trainingAbrege) {
 								case "BTS NDRC":
 									setTraniningTitle(trainingTitleHere);
@@ -125,84 +134,82 @@ const UploadContainer = () => {
 	};
 
 	return (
-		<Container variant="main">
-			<Typography className="title" component="h1" variant="h3">
-				Convertissez le fichier CSV en PDF
-			</Typography>
+		display && (
+			<Box>
+				{fileUploaded && (
+					<Alert
+						className="alert"
+						sx={{
+							marginBottom: 1,
+						}}
+						onClose={() => {
+							setFileUploaded(false);
+						}}
+					>
+						Le fichier a été uploader
+					</Alert>
+				)}
 
-			{fileUploaded && (
-				<Alert
-					className="alert"
-					sx={{
-						marginBottom: 1,
-					}}
-					onClose={() => {
-						setFileUploaded(false);
-					}}
-				>
-					Le fichier a été uploader
-				</Alert>
-			)}
+				{isNotTraining && (
+					<Alert
+						severity="error"
+						onClose={() => {
+							setIsNotTraining(false);
+						}}
+					>
+						Formation non connu
+					</Alert>
+				)}
 
-			{isNotTraining && (
-				<Alert
-					severity="error"
-					onClose={() => {
-						setIsNotTraining(false);
-					}}
-				>
-					Formation non connu
-				</Alert>
-			)}
-
-			<Box component="section" className="droparea">
-				<Box className="content">
-					<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
-					<Typography component="p" className="box-text-desc">
-						Jetez les élèves dans la boîte :3
-					</Typography>
-					<form onSubmit={submitHandler} className="form-upload">
-						<input onChange={onChange} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
-						<Button variant="contained" className=" btn-upload-file" type="submit">
-							Convertir
-						</Button>
-					</form>
-
-					{/* <iframe src={pdfPreview} width="700" height="700" frameborder="0"></iframe> */}
-					{fileIsUploaded && (
-						<Typography component="p" className="error-file-upload">
-							Veuillez uploader un fichier
+				<Box component="section" className="droparea">
+					<Box className="content">
+						<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
+						<Typography component="p" className="box-text-desc">
+							Jetez les élèves dans la boîte :3
 						</Typography>
-					)}
-				</Box>
-			</Box>
-
-			{progressConversion && (
-				<Box sx={{ marginTop: "20px " }}>
-					<Typography variant="p">Convertir en pdf...</Typography>
-					<LinearWithValueLabel />
-				</Box>
-			)}
-
-			{students && traniningTitle && (
-				<>
-					<section className="uploaded-files">
-						<Box component="header" className="header">
-							<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
-								{traniningTitle} <small>(Convertie...)</small>
-							</Typography>
-
-							<Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
-								Télécharger tout
+						<form onSubmit={submitHandler} className="form-upload">
+							<input onChange={onChange} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
+							<Button variant="contained" className=" primary-btn btn-upload-file" type="submit">
+								Convertir
 							</Button>
-						</Box>
-						{students.map((student, index) => (
-							<AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-						))}
-					</section>
-				</>
-			)}
-		</Container>
+						</form>
+
+						{/* <iframe src={pdfPreview} width="700" height="700" frameborder="0"></iframe> */}
+						{fileIsUploaded && (
+							<Typography component="p" className="error-file-upload">
+								Veuillez uploader un fichier
+							</Typography>
+						)}
+					</Box>
+				</Box>
+
+				{progressConversion && (
+					<Box sx={{ marginTop: "20px " }}>
+						<Typography variant="p">Convertir en pdf...</Typography>
+						<LinearWithValueLabel />
+					</Box>
+				)}
+
+				{students && traniningTitle && (
+					<>
+						<section className="uploaded-files">
+							<Box component="header" className="header">
+								<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
+									{traniningTitle} <small>(Convertie...)</small>
+								</Typography>
+
+								<Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
+									Télécharger tout
+								</Button>
+							</Box>
+							{students.map((student, index) => (
+								<AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
+							))}
+						</section>
+					</>
+				)}
+			</Box>
+		)
 	);
 };
 
