@@ -172,7 +172,7 @@ export class BTS_NDRC {
 										const juryDecisionTF = {
 											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
-												x: width / 2 - 130,
+												x: width / 2 - 145,
 												y: 108,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
@@ -183,7 +183,7 @@ export class BTS_NDRC {
 										const juryDecisionF = {
 											text: String(eleve.juryGlobalDecision.f.percentage),
 											position: {
-												x: width / 2 - 80,
+												x: width / 2 - 95,
 												y: 108,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
@@ -194,7 +194,7 @@ export class BTS_NDRC {
 										const juryDecisionDFSP = {
 											text: String(eleve.juryGlobalDecision.dfsp.percentage),
 											position: {
-												x: width / 2 - 35,
+												x: width / 2 - 45,
 												y: 108,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),

@@ -284,7 +284,7 @@ export class BTS_GPME {
 									const juryDecisionTF = {
 										text: String(eleve.juryGlobalDecision.tf.percentage),
 										position: {
-											x: width / 2 - 105,
+											x: width / 2 - 115,
 											y: 80,
 											size: 8.5,
 											color: rgb(0, 0, 0.5),
@@ -294,7 +294,7 @@ export class BTS_GPME {
 									const juryDecisionF = {
 										text: String(eleve.juryGlobalDecision.f.percentage),
 										position: {
-											x: width / 2 - 70,
+											x: width / 2 - 80,
 											y: 80,
 											size: 8.5,
 											color: rgb(0, 0, 0.5),
@@ -305,7 +305,7 @@ export class BTS_GPME {
 									const juryDecisionDFSP = {
 										text: String(eleve.juryGlobalDecision.dfsp.percentage),
 										position: {
-											x: width / 2 - 35,
+											x: width / 2 - 45,
 											y: 80,
 											size: 8.5,
 											color: rgb(0, 0, 0.5),
@@ -335,16 +335,6 @@ export class BTS_GPME {
 										},
 									};
 
-									const juryDecisionNote = {
-										text: String(eleve.juryDecision.note),
-										position: {
-											x: 20,
-											y: 100,
-											size: 10,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
 									switch (eleve.juryDecision.title) {
 										case "Trés favorable":
 											juryDecision.position.x = 60;
@@ -409,8 +399,6 @@ export class BTS_GPME {
 									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
 									firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
 									firstPage.drawText(juryDecision.text, juryDecision.position);
-
-									firstPage.drawText(juryDecisionNote.text, juryDecisionNote.position);
 								}
 
 								// ! *************************************************

@@ -60,9 +60,9 @@ const StudentsValidation = ({ nextStep }) => {
 				copiedStudents[i].juryDecision = juryDecision;
 			}
 
-			juryGlobalDecision.tf.percentage = calcPercentage(juryGlobalDecision.tf.value, juryGlobalDecision.total, false);
-			juryGlobalDecision.f.percentage = calcPercentage(juryGlobalDecision.f.value, juryGlobalDecision.total, false);
-			juryGlobalDecision.dfsp.percentage = calcPercentage(juryGlobalDecision.dfsp.value, juryGlobalDecision.total, false);
+			juryGlobalDecision.tf.percentage = calcPercentage(juryGlobalDecision.tf.value, juryGlobalDecision.total) + "%";
+			juryGlobalDecision.f.percentage = calcPercentage(juryGlobalDecision.f.value, juryGlobalDecision.total) + "%";
+			juryGlobalDecision.dfsp.percentage = calcPercentage(juryGlobalDecision.dfsp.value, juryGlobalDecision.total) + "%";
 
 			for (let i = 0; i < students.length; i++) {
 				copiedStudents[i].juryGlobalDecision = juryGlobalDecision;

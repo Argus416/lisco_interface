@@ -200,7 +200,7 @@ export class BTS_MCO {
 										const juryDecisionTF = {
 											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
-												x: widthFirstPage / 2 - 113,
+												x: widthFirstPage / 2 - 122,
 												y: 125,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
@@ -210,7 +210,7 @@ export class BTS_MCO {
 										const juryDecisionF = {
 											text: String(eleve.juryGlobalDecision.f.percentage),
 											position: {
-												x: widthFirstPage / 2 - 67,
+												x: widthFirstPage / 2 - 80,
 												y: 125,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
@@ -221,7 +221,7 @@ export class BTS_MCO {
 										const juryDecisionDFSP = {
 											text: String(eleve.juryGlobalDecision.dfsp.percentage),
 											position: {
-												x: widthFirstPage / 2 - 21,
+												x: widthFirstPage / 2 - 35,
 												y: 125,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),

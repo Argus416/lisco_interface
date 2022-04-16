@@ -28,6 +28,5 @@ export const calcPercentage = (presentes, recus, floatFormat = true) => {
 		return result.toFixed(2);
 	} else {
 		return Math.round(result);
-		// return result;
 	}
 };

@@ -84,7 +84,7 @@ const ResultStudent = () => {
 			<Box component="section" id="ResultStudent">
 				{students && trainingTitle && (
 					<>
-						<section className="uploaded-files">
+						<Box component="section" className="uploaded-files">
 							<Box component="header" className="header">
 								<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
 									{trainingTitle} <small>(Convertie...)</small>
@@ -106,7 +106,7 @@ const ResultStudent = () => {
 									</Button>
 								</Box>
 							)}
-						</section>
+						</Box>
 					</>
 				)}
 			</Box>
