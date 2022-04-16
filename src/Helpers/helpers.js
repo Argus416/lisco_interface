@@ -22,8 +22,8 @@ export const getObservation = (observation, phraseApplayCondition, lineBreakAt) 
 	return observationString;
 };
 
-export const calcPercentage = (presentes, recus, floatFormat = true) => {
-	const result = (presentes / recus) * 100;
+export const calcPercentage = (all, rest, floatFormat = true) => {
+	const result = (all / rest) * 100;
 	if (floatFormat === true) {
 		return result.toFixed(2);
 	} else {

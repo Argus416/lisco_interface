@@ -30,9 +30,9 @@ const StudentsValidation = ({ nextStep }) => {
 
 		if (copiedStudents.length) {
 			const juryGlobalDecision = {
-				tf: { value: 0, percentage: 0 },
-				f: { value: 0, percentage: 0 },
-				dfsp: { value: 0, percentage: 0 },
+				tf: { value: 0, percentage: 0, title: "Très favorable" },
+				f: { value: 0, percentage: 0, title: "Favorable" },
+				dfsp: { value: 0, percentage: 0, title: "Doit faire ses preuves" },
 				total: 0,
 			};
 			for (let i = 0; i < students.length; i++) {
