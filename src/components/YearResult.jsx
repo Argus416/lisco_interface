@@ -22,21 +22,22 @@ import { calcResultLastYears } from "../Helpers/helpers";
 const YearResult = ({ nextStep }) => {
 	const dispatch = useDispatch();
 	const students = useSelector((state) => state.students.value);
+	console.log(students);
+
 	const [display, setDisplay] = useState(true);
 
 	const thisYearYear = {
 		// student.juryDecision.sign.note !== "0"
-		recus: students.filter((student) => console.log(student)).length,
+		recus: students.filter((student) => student.juryDecision.sign.note !== "0").length,
 		presnetes: students.length,
 		result: calcResultLastYears(students.filter((student) => student.juryDecision.sign.note !== "0").length, students.length),
 	};
-	//
+	console.log(display);
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
 	let years = 0;
 	const trainingName = students[0]["2e ANNEE"][0].ABREGE_FORMATION;
-	console.log(students);
 	switch (trainingName) {
 		case "BTS NDRC":
 			years = 3;

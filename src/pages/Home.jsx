@@ -59,7 +59,7 @@ const Home = () => {
 				</Box>
 				<UploadContainer nextStep={() => progressionHandler(1)} />
 				{students && <StudentsValidation nextStep={() => progressionHandler(2)} />}
-				{students && students[0].validate && <YearResult nextStep={() => progressionHandler(3)} />}
+				{students && students[0].juryDecision && <YearResult nextStep={() => progressionHandler(3)} />}
 				{students && students[0].yearResult && <ResultStudent nextStep={() => progressionHandler(4)} />}
 			</Container>
 		</Box>

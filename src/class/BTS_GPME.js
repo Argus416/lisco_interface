@@ -324,10 +324,26 @@ export class BTS_GPME {
 										},
 									};
 
-									let eleveYearResultY = 0;
-									let eleveYearResultX = 24;
+									const juryDecision = {
+										text: String(eleve.juryDecision.sign.title),
+										position: {
+											x: 50,
+											y: 100,
+											size: 10,
+											color: rgb(0, 0, 0.5),
+											lineHeight: 12,
+										},
+									};
+									switch (eleve.juryDecision.sign.title) {
+										case "Trés favorable":
+											juryDecision.position.x = 60;
+											break;
+										case "Favorable":
+											juryDecision.position.x = 75;
+											break;
+									}
+
 									eleve.yearResult.map((year, yearIndex) => {
-										eleveYearResultX = eleveYearResultY + 24;
 										const yearResult = {
 											text: year.year,
 											position: {
@@ -381,6 +397,7 @@ export class BTS_GPME {
 									firstPage.drawText(juryDecisionF.text, juryDecisionF.position);
 									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
 									firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
+									firstPage.drawText(juryDecision.text, juryDecision.position);
 									const yearResult = eleve.yearResult;
 								}
 

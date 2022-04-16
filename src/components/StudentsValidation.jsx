@@ -26,20 +26,13 @@ const StudentsValidation = ({ nextStep }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		let juryDecision = { none: 0, tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
 
 		if (copiedStudents.length) {
 			for (let i = 0; i < students.length; i++) {
+				const juryDecision = { tf: 0, f: 0, dfsp: 0, total: 0, sign: { title: "", note: 0 } };
 				// todo correct here
-				copiedStudents[i].validate = e.target[i + 1].value;
-				juryDecision.sign.note = e.target[i + 1].value;
-
+				// copiedStudents[i].validate = e.target[i + 1].value;
 				switch (e.target[i + 1].value) {
-					case "0":
-						juryDecision.none++;
-						juryDecision.sign.title = "None";
-						break;
-
 					case "1":
 						juryDecision.tf++;
 						juryDecision.total++;
@@ -58,14 +51,13 @@ const StudentsValidation = ({ nextStep }) => {
 						juryDecision.sign.title = "Trés favorable";
 						break;
 				}
-			}
 
-			for (let i = 0; i < students.length; i++) {
+				juryDecision.sign.note = e.target[i + 1].value;
 				copiedStudents[i].juryDecision = juryDecision;
 			}
 		}
+
 		dispatch(updateStudents(copiedStudents));
-		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};
