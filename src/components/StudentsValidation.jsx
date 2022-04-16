@@ -116,7 +116,8 @@ const StudentsValidation = ({ nextStep }) => {
 										<TableCell>
 											<FormControl fullWidth>
 												<NativeSelect
-													defaultValue={String(parseInt(Math.random() * 1 * 4))}
+													// defaultValue={String(parseInt(Math.random * 4))}
+													defaultValue="0"
 													inputProps={{
 														name: "avis",
 														id: "uncontrolled-native",
