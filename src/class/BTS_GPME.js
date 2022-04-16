@@ -398,7 +398,6 @@ export class BTS_GPME {
 									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
 									firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
 									firstPage.drawText(juryDecision.text, juryDecision.position);
-									const yearResult = eleve.yearResult;
 								}
 
 								// ! *************************************************
