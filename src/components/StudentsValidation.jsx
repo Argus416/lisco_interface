@@ -31,24 +31,24 @@ const StudentsValidation = ({ nextStep }) => {
 
 		if (copiedStudents.length) {
 			const juryGlobalDecision = {
-				tf: { value: 0, percentage: 0, title: "Très favorable" },
-				f: { value: 0, percentage: 0, title: "Favorable" },
 				dfsp: { value: 0, percentage: 0, title: "Doit faire ses preuves" },
+				f: { value: 0, percentage: 0, title: "Favorable" },
+				tf: { value: 0, percentage: 0, title: "Très favorable" },
 				total: 0,
 			};
 			for (let i = 0; i < students.length; i++) {
 				const juryDecision = { title: "", note: 0 };
 				switch (e.target[i + 1].value) {
 					case "1":
-						juryGlobalDecision.tf.value++;
-						juryGlobalDecision.total++;
-						juryDecision.title = "Favorable";
-						break;
-
-					case "2":
 						juryGlobalDecision.f.value++;
 						juryGlobalDecision.total++;
 						juryDecision.title = "Doit faire ses preuves";
+						break;
+
+					case "2":
+						juryGlobalDecision.tf.value++;
+						juryGlobalDecision.total++;
+						juryDecision.title = "Favorable";
 						break;
 
 					case "3":
@@ -133,8 +133,8 @@ const StudentsValidation = ({ nextStep }) => {
 													// required
 												>
 													<option value="0">Choisir un avis</option>
-													<option value="1">Favorable</option>
-													<option value="2">Doit faire ses preuves</option>
+													<option value="1">Doit faire ses preuves</option>
+													<option value="2">Favorable</option>
 													<option value="3">Très favorable</option>
 												</NativeSelect>
 											</FormControl>
