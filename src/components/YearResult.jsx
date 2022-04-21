@@ -120,7 +120,7 @@ const YearResult = ({ nextStep }) => {
 									<TableCell>Années</TableCell>
 									<TableCell>Présentés</TableCell>
 									<TableCell>Reçus</TableCell>
-									<TableCell>%</TableCell>
+									<TableCell>Taux de réussite</TableCell>
 									{/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
 								</TableRow>
 							</TableHead>
