@@ -108,7 +108,7 @@ const StudentsValidation = ({ nextStep }) => {
 								<TableRow>
 									<TableCell></TableCell>
 									<TableCell>Nom complet</TableCell>
-									<TableCell>Code Appreant</TableCell>
+									<TableCell>Code Apprenant</TableCell>
 									<TableCell>Avis</TableCell>
 									{/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
 								</TableRow>
