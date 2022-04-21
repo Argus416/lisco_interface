@@ -197,7 +197,7 @@ export class BTS_GPME {
 										position: {
 											x: width / 2 + 35,
 											y: moyenneMetierYFirstYear + 5,
-											size: 8.5,
+											size: 7,
 											color: rgb(0, 0, 0.5),
 											lineHeight: 12,
 										},
@@ -238,7 +238,7 @@ export class BTS_GPME {
 									position: {
 										x: width / 2 + 35,
 										y: moyenneMetierYSecondYear + 5,
-										size: 8.5,
+										size: 7,
 										color: rgb(0, 0, 0.5),
 										lineHeight: 12,
 									},
@@ -257,12 +257,17 @@ export class BTS_GPME {
 
 											drawCirelAtelierPro(studentsFirstYear[student_index].MOYENNE_MAT_GENERALE, yPosition, firstPage, width);
 											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
-										} else {
+										}
+										//  else if (studentsFirstYear[student_index].ABREGE_MATIERE === "") {
+										// TODO
+										// const cultureEcoAppliquée = calculateAverage()
+										// console.log(studentsFirstYear[student_index].ABREGE_MATIERE);
+										// }
+										else {
+											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
 											firstPage.drawText(MoyenneMetierPremiereAnnee.text, MoyenneMetierPremiereAnnee.position);
-
 											firstPage.drawText(semestreUnPremiereAnnee.text, semestreUnPremiereAnnee.position);
 											firstPage.drawText(semestreDeuxPremiereAnnee.text, semestreDeuxPremiereAnnee.position);
-											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
 										}
 									}
 								}
@@ -394,6 +399,7 @@ export class BTS_GPME {
 										firstPage.drawText(result.text, result.position);
 										firstPage.drawText(yearResult.text, yearResult.position);
 									});
+
 									firstPage.drawText(juryDecisionTF.text, juryDecisionTF.position);
 									firstPage.drawText(juryDecisionF.text, juryDecisionF.position);
 									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);

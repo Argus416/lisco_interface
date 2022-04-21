@@ -32,7 +32,7 @@ const YearResult = ({ nextStep }) => {
 		presnetes: students.length,
 		result: calcPercentage(students.filter((student) => student.juryDecision.note !== "0").length, students.length),
 	};
-	console.log(display);
+
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
@@ -120,7 +120,7 @@ const YearResult = ({ nextStep }) => {
 									<TableCell>Années</TableCell>
 									<TableCell>Présentés</TableCell>
 									<TableCell>Reçus</TableCell>
-									<TableCell>%</TableCell>
+									<TableCell>Taux de réussite</TableCell>
 									{/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
 								</TableRow>
 							</TableHead>

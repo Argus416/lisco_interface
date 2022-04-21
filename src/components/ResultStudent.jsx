@@ -106,8 +106,8 @@ const ResultStudent = () => {
 
 										{students.length > 15 && (
 											<Box className="btn-container">
-												<Button onClick={donwloadPdf} className="downloadAll" color="warning" variant="contained">
-													Télécharger tout
+												<Button onClick={donwloadPdf} className="downloadAll secondary-btn" variant="contained">
+													Télécharger
 												</Button>
 											</Box>
 										)}
