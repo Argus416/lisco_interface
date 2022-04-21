@@ -32,7 +32,7 @@ const YearResult = ({ nextStep }) => {
 		presnetes: students.length,
 		result: calcPercentage(students.filter((student) => student.juryDecision.note !== "0").length, students.length),
 	};
-	console.log(display);
+
 	let copiedStudents = JSON.parse(JSON.stringify(students));
 	let todayYear = new Date();
 	todayYear = todayYear.getFullYear();
@@ -137,7 +137,7 @@ const YearResult = ({ nextStep }) => {
 										<TableCell>
 											<TextField className="secondInput" name={"recus" + i} type="number" placeholder="0" variant="filled" />
 										</TableCell>
-										<TableCell className="result">{i == 0 ? thisYearYear.result + "%" : "0.00%"}</TableCell>
+										<TableCell className="result">0.00%</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
