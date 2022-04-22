@@ -28,15 +28,15 @@ const UploadContainer = ({ nextStep }) => {
 	const [students, setStudents] = useState();
 	const [studentPdf, setStudentPdf] = useState([]);
 	const [traniningTitle, setTraniningTitle] = useState();
-	const [pdfPreview, setPdfPreview] = useState("");
 	const [isNotTraining, setIsNotTraining] = useState(false);
 	const [display, setDisplay] = useState(true);
 
 	const dispatch = useDispatch();
 
-	const onChange = (e) => {
+	const changeHandler = (e) => {
 		if (e.target.value) {
 			setFileUploaded(true);
+			setFileIsUploaded(true);
 			setStudents();
 			setTimeout(() => {
 				setFileUploaded(false);
@@ -68,7 +68,6 @@ const UploadContainer = ({ nextStep }) => {
 							const { result, trainingAbrege } = resultStudents.data;
 							// update students globale state
 							dispatch(updateStudents(result));
-
 							nextStep();
 							setDisplay(false);
 						} else {
@@ -81,25 +80,6 @@ const UploadContainer = ({ nextStep }) => {
 			};
 		} else {
 			setFileIsUploaded(true);
-		}
-	};
-
-	const downloadAll = async () => {
-		if (studentPdf.length === students.length) {
-			const doc = await PDFDocument.create();
-
-			await Promise.all(
-				studentPdf.map(async (pageBuffer) => {
-					const loadPage = await PDFDocument.load(pageBuffer);
-					const contentPages = await doc.copyPages(loadPage, loadPage.getPageIndices());
-					contentPages.map(async (page) => {
-						doc.addPage(page);
-					});
-				})
-			);
-
-			const docSave = await doc.save();
-			downloadjs(docSave, `${traniningTitle}.pdf`);
 		}
 	};
 
@@ -136,26 +116,6 @@ const UploadContainer = ({ nextStep }) => {
 					</Typography>
 				</Box>
 
-				<form onSubmit={submitHandler} className="form-upload">
-					<Button variant="contained" className="btn-upload-file secondary-btn" type="submit">
-						Suivant
-					</Button>
-
-					<Box component="section" className="droparea">
-						<Box className="content">
-							<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
-							<input onChange={onChange} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
-
-							{/* <iframe src={pdfPreview} width="700" height="700" frameborder="0"></iframe> */}
-							{fileIsUploaded && (
-								<Typography component="p" className="error-file-upload">
-									Le fichier a été uploadé
-								</Typography>
-							)}
-						</Box>
-					</Box>
-				</form>
-
 				{progressConversion && (
 					<Box sx={{ marginTop: "20px " }}>
 						<Typography variant="p">Traitement des informations...</Typography>
@@ -163,24 +123,20 @@ const UploadContainer = ({ nextStep }) => {
 					</Box>
 				)}
 
-				{students && traniningTitle && (
-					<>
-						<section className="uploaded-files">
-							<Box component="header" className="header">
-								<Typography sx={{ marginBottom: "20px", marginTop: "40px", textAlign: "center" }} variant="h4" component="h3">
-									{traniningTitle} <small>(Convertie...)</small>
-								</Typography>
+				<form onSubmit={submitHandler} className="form-upload">
+					{fileIsUploaded && (
+						<Button variant="contained" className="btn-upload-file secondary-btn" type="submit">
+							Suivant
+						</Button>
+					)}
 
-								<Button onClick={downloadAll} className="downloadAll" color="warning" variant="contained">
-									Télécharger tout
-								</Button>
-							</Box>
-							{students.map((student, index) => (
-								<AccordionCus key={index} student={student} index={index} pdf={studentPdf} />
-							))}
-						</section>
-					</>
-				)}
+					<Box component="section" className="droparea">
+						<Box className="content">
+							<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
+							{!fileIsUploaded && <input onChange={changeHandler} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />}
+						</Box>
+					</Box>
+				</form>
 			</Box>
 		)
 	);
