@@ -18,6 +18,7 @@ const Home = () => {
 	const progressionHandler = (step) => {
 		const allSteps = document.querySelectorAll(".ProgressionMenuStep");
 		allSteps[step - 1].querySelector(".cpm").classList.remove("active");
+		allSteps[step - 1].querySelector(".cpm").classList.add("passed");
 		allSteps[step].querySelector(".cpm").classList.add("active");
 		setStepState(step);
 	};

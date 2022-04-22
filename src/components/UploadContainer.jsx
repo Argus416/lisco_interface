@@ -35,6 +35,8 @@ const UploadContainer = ({ nextStep }) => {
 
 	const changeHandler = (e) => {
 		if (e.target.value) {
+			document.querySelector(".csv-file").classList.add("hidden");
+
 			setFileUploaded(true);
 			setFileIsUploaded(true);
 			setStudents();
@@ -124,18 +126,19 @@ const UploadContainer = ({ nextStep }) => {
 				)}
 
 				<form onSubmit={submitHandler} className="form-upload">
-					{fileIsUploaded && (
-						<Button variant="contained" className="btn-upload-file secondary-btn" type="submit">
-							Suivant
-						</Button>
-					)}
-
 					<Box component="section" className="droparea">
 						<Box className="content">
 							<FontAwesomeIcon icon={faFileArrowUp} size="5x" />
-							{!fileIsUploaded && <input onChange={changeHandler} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />}
+							<input onChange={changeHandler} className="form-control csv-file" name="csvFile" accept=".csv" type="file" />
 						</Box>
 					</Box>
+					{fileIsUploaded && (
+						<Box className="btn-container">
+							<Button variant="contained" className="btn-upload-file secondary-btn" type="submit">
+								Suivant
+							</Button>
+						</Box>
+					)}
 				</form>
 			</Box>
 		)

@@ -196,7 +196,7 @@ export class BTS_MCO {
 									firstPage.drawText(observationAnnuelleMatier.text, observationAnnuelleMatier.position);
 
 									// Decision **************************
-									if (student_index === 0) {
+									if (student_index === 0 && eleve.juryDecision.title !== "") {
 										const juryDecisionTF = {
 											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
