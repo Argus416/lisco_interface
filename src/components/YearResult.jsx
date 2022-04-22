@@ -70,7 +70,6 @@ const YearResult = ({ nextStep }) => {
 		}
 
 		dispatch(updateStudents(copiedStudents));
-		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};
@@ -104,7 +103,9 @@ const YearResult = ({ nextStep }) => {
 					<Typography variant="h4" className="title">
 						Renseignez les résultats des dernières années (facultatif)
 					</Typography>
-					<Typography variant="h5">{trainingTitle}</Typography>
+					<Typography variant="h5" className="title">
+						Formation : {trainingTitle}
+					</Typography>
 				</Box>
 				<form onSubmit={submitHandler} className="form-student-validation">
 					<Box className="btn-container">

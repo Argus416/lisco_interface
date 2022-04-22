@@ -4,6 +4,7 @@ $primary-color: #e5077e;
 $secondary-color: #eeeff03f;
 $third-color: #fff;
 $fourth-color: #000;
+$fifth-color: #31313131;
 h1 {
 	margin-top: 20px !important;
 	margin-bottom: 25px !important;
@@ -48,13 +49,16 @@ body {
 .alert {
 	margin-top: 15px;
 }
+.hidden {
+	display: none;
+}
 
 .titles {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 }
 
 main.Home {
@@ -66,6 +70,9 @@ main.Home {
 		margin-top: 1em;
 		.continue-btn {
 			margin: 0 auto;
+		}
+		.btn-upload-file {
+			width: 350px;
 		}
 	}
 }
@@ -92,7 +99,11 @@ main.Home {
 			line-height: 60px;
 		}
 		.active {
-			border: 6px solid #e5077e !important;
+			border: 6px solid $primary-color !important;
+		}
+		.passed {
+			color: $fifth-color;
+			border: 4px solid $fifth-color !important;
 		}
 		.arrowIcon {
 			position: absolute;
@@ -161,12 +172,6 @@ main.Home {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 15px;
-
-	.btn-upload-file {
-		width: 40%;
-		min-width: 300px;
-	}
 }
 
 .MuiAccordionDetails-root {

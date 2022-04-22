@@ -348,10 +348,10 @@ function getCoordinateGraph(moyenne, studentIndex) {
 		},
 	};
 
-	if (moyenne === 20) {
-		console.log("moyenne 20 start x", drawLine.start.x);
-		console.log("moyenne 20 start y", drawLine.start.y);
-	}
+	// if (moyenne === 20) {
+	// 	console.log("moyenne 20 start x", drawLine.start.x);
+	// 	console.log("moyenne 20 start y", drawLine.start.y);
+	// }
 
 	if (moyenne === NaN || moyenne === null) {
 		drawLine.start.y = 0;

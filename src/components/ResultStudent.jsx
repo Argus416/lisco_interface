@@ -26,7 +26,7 @@ const ResultStudent = () => {
 	const [displayStudents, setDisplayStudents] = useState(true);
 
 	let pdfs = [];
-
+	console.log(students);
 	useEffect(async () => {
 		switch (trainingAbrege) {
 			case "BTS NDRC":
@@ -64,7 +64,7 @@ const ResultStudent = () => {
 				})
 			);
 			const docSave = await doc.save();
-			downloadjs(docSave, `${trainingTitle}.pdf`);
+			downloadjs(docSave, `Livret scolaire ${trainingTitle} ${new Date().getFullYear()}.pdf`);
 		}
 	};
 
@@ -80,7 +80,7 @@ const ResultStudent = () => {
 										<Typography variant="h4">Téléchargez vos livrets scolaires</Typography>
 
 										<Typography variant="h5" className="title">
-											{trainingTitle}
+											Formation : {trainingTitle}
 										</Typography>
 									</Box>
 
@@ -91,12 +91,16 @@ const ResultStudent = () => {
 									</Box>
 								</Box>
 								<Box className="icons">
-									<Button onClick={() => setDisplayStudents(true)}>
-										<Icon component={BallotIcon} />
-									</Button>
-									<Button onClick={() => setDisplayStudents(false)}>
-										<Icon component={AddchartIcon} />
-									</Button>
+									{students[0].juryGlobalDecision.dfsp.percentage !== "NaN%" && (
+										<>
+											<Button onClick={() => setDisplayStudents(true)}>
+												<Icon component={BallotIcon} />
+											</Button>
+											<Button onClick={() => setDisplayStudents(false)}>
+												<Icon component={AddchartIcon} />
+											</Button>
+										</>
+									)}
 								</Box>
 								{displayStudents ? (
 									<>

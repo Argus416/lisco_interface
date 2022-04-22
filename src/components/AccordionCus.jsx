@@ -56,7 +56,6 @@ const AccordionCus = ({ student, index, pdf }) => {
 						{`
                             ${student["2e ANNEE"][0].PRENOM_APPRENANT} 
                             ${student["2e ANNEE"][0].NOM_APPRENANT} 
-                            ${student["2e ANNEE"][0].CODE_APPRENANT}
                         `}
 					</Typography>
 					<Box>

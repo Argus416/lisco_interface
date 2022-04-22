@@ -70,7 +70,6 @@ const StudentsValidation = ({ nextStep }) => {
 			}
 		}
 		dispatch(updateStudents(copiedStudents));
-		console.log(students);
 		setDisplay(false);
 		nextStep();
 	};
@@ -91,7 +90,7 @@ const StudentsValidation = ({ nextStep }) => {
 					<Typography variant="h4">Renseignez les avis du conseil de classe (facultatif)</Typography>
 
 					<Typography variant="h5" className="title">
-						{trainingTitle}
+						Formation : {trainingTitle}
 					</Typography>
 				</Box>
 

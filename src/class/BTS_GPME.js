@@ -43,7 +43,6 @@ export class BTS_GPME {
 		const pdf = await this.getPdf();
 
 		const firstStudentPassedBothYears = this.getFirstStudentWhoPassedBothYears(students);
-		console.log(firstStudentPassedBothYears);
 		const allStudentPdf = [];
 
 		if (students.length) {
@@ -261,7 +260,6 @@ export class BTS_GPME {
 										//  else if (studentsFirstYear[student_index].ABREGE_MATIERE === "") {
 										// TODO
 										// const cultureEcoAppliquée = calculateAverage()
-										// console.log(studentsFirstYear[student_index].ABREGE_MATIERE);
 										// }
 										else {
 											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
@@ -570,7 +568,6 @@ const calculateAverage = (averageFirstYear, averageSecondeYear) => {
 		const firstYear = toNumber(averageFirstYear);
 		const secondYear = toNumber(averageSecondeYear);
 		result = numberExistThenGetAverage(firstYear, secondYear);
-		// console.log({ result: result, first: averageFirstYear, second: averageSecondeYear });
 
 		return result;
 	}
